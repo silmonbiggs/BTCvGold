@@ -1,6 +1,6 @@
-# Bitcoin and Gold: An Empirical Inquiry into Monetary Saturation
+# Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035
 
-Analysis code and data for the paper investigating Bitcoin's long-term price dynamics relative to gold using a saturating exponential model.
+Analysis code and data investigating Bitcoin's long-term price dynamics relative to gold using a saturating exponential model.
 
 ## Model
 
