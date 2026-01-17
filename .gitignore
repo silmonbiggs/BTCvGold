@@ -1,0 +1,47 @@
+# Temporary files
+~$*
+~WRL*
+*.tmp
+AutoRecovery*
+
+# Old versions and archives
+old/
+old2/
+old3/
+old4/
+raw/
+*.zip
+
+# Documents (keep source code and data only)
+*.pdf
+*.docx
+*.html
+*_files/
+
+# PowerShell scripts (local tooling)
+*.ps1
+
+# Claude Code working directory
+.claude/
+
+# Old figures in root (fresh ones in figures/)
+/figure_*.png
+/analysis_results.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Old test data file (superseded)
+btc_gold_test_2025.csv

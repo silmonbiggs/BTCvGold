@@ -1,0 +1,130 @@
+Bitcoin and Gold: Monetary Saturation Analysis
+======================================================================
+Analysis run: 2026-01-16 22:14:55
+
+DATA
+----------------------------------------------------------------------
+Training: 120 months (2015-01 to 2024-12)
+Test: 13 months (2025-01 to 2026-01)
+
+MODELS
+----------------------------------------------------------------------
+Saturating Exponential:
+  ln(R(t)) = C + g·t + A(1 - e^(-λt))
+
+Primary Model (g = 0.020):
+  C = -2.252333
+  A = 5.617963
+  λ = 0.283095
+  R² = 0.908874
+  RMSE = 0.478151
+
+Alternative Models:
+  Flat Model:   R² = 0.000000
+  Linear Model: R² = 0.811914
+    slope = 0.494418, intercept = -0.876418
+
+Saturating Exponential with Different g Values:
+  g = 0.015:
+    C = -2.250159, A = 5.675310, λ = 0.280291
+    R² = 0.908895, RMSE = 0.478096
+  g = 0.020:
+    C = -2.252333, A = 5.617963, λ = 0.283095
+    R² = 0.908874, RMSE = 0.478151
+  g = 0.025:
+    C = -2.254521, A = 5.561014, λ = 0.285951
+    R² = 0.908851, RMSE = 0.478211
+
+TEST SET PERFORMANCE
+----------------------------------------------------------------------
+RMSE (log scale): 0.221815
+MAE (oz gold): 5.1150
+
+Date             Actual  Predicted      Error
+------------ ---------- ---------- ----------
+2025-01           38.67      25.40     +13.27
+2025-02           29.26      25.64      +3.62
+2025-03           27.61      25.86      +1.75
+2025-04           29.29      26.10      +3.20
+2025-05           31.43      26.33      +5.10
+2025-06           32.33      26.56      +5.77
+2025-07           35.28      26.78      +8.49
+2025-08           30.97      27.01      +3.96
+2025-09           29.51      27.24      +2.27
+2025-10           26.73      27.46      -0.73
+2025-11           26.08      27.68      -1.60
+2025-12           19.95      27.89      -7.95
+2026-01           19.34      28.11      -8.77
+
+PROJECTIONS
+----------------------------------------------------------------------
+Current State (2026-01):
+  Bitcoin's Gold Price: 19.3375 oz
+
+Projections for Different g Values:
+  g        2030 (oz)    2035 (oz)    CAGR       Valid?
+  -------- ------------ ------------ ---------- ----------
+  0.015    36.3308      41.2413      8.0807%    PASS
+  0.020    37.1707      43.1540      8.5845%    PASS
+  0.025    38.0391      45.1701      9.0944%    PASS
+
+Expected Annual Returns (next decade, primary model g=0.020):
+  BTC vs Gold:          8.5845%
+  Gold real drift:      2.0000%
+  CPI inflation:        2.5000%
+  Total nominal return: 13.5251%
+
+
+RESIDUALS ANALYSIS (36-MONTH ROLLING WINDOW)
+----------------------------------------------------------------------
+Volatility by Period (std of log residuals):
+  2015-2022: 0.5162
+  2023-present: 0.2578
+
+2023-Present Analysis:
+  Sigma (2023-present): ±0.2578
+  Levene test: F(1,131) = 23.18, p = 0.0000
+  Interpretation: Variances are significantly different
+
+Trend in Absolute Residuals:
+  Slope: -0.018236 per year
+  P-value: 0.0079
+  Interpretation: Statistically significant decreasing trend
+
+Rolling Volatility Analysis (36-month window):
+  Peak volatility: 0.6063
+  Recent volatility: 0.2544
+  Reduction from peak: 58.0%
+  Linear trend R²: 0.6705
+  Linear trend p-value: 0.0000
+  Linear trend slope: -0.033488 per year
+
+Observations within ±1σ by period:
+  2015-2022: 58.3%
+  2023-present: 100.0%
+
+
+FALSIFIABLE PREDICTIONS (Using Post-2023 Volatility)
+----------------------------------------------------------------------
+Sigma used for bounds: 0.2578
+
+2030 Predictions:
+  Mean projection: 37.2 oz gold per BTC
+  68% confidence interval (±1σ): [28.7, 48.1] oz
+  95% confidence interval (±2σ): [22.2, 62.3] oz
+
+2035 Predictions:
+  Mean projection: 43.2 oz gold per BTC
+  68% confidence interval (±1σ): [33.3, 55.8] oz
+  95% confidence interval (±2σ): [25.8, 72.3] oz
+
+Hypothesis Testing Criteria:
+The combined hypothesis of saturating adoption and volatility stabilization
+should be rejected if:
+  - 2030: Bitcoin's Gold Price falls outside [22.2, 62.3] oz
+  - 2035: Bitcoin's Gold Price falls outside [25.8, 72.3] oz
+
+These bounds assume the post-2023 volatility regime persists.
+External shocks (security issues, regulatory changes) would constitute
+failures of the volatility stability hypothesis.
+
