@@ -2,7 +2,7 @@
 Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035
 Complete analysis script: data loading, model fitting, visualization, and statistics
 
-Author: S. James Biggs
+Authors: S. James Biggs, Claude Code
 Date: October 2025
 Revision: 14
 

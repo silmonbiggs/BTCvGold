@@ -43,9 +43,9 @@ Outputs are saved to the `figures/` directory.
 - **Gold**: World Gold Council via GitHub + Kitco/Gold.org for recent months
 - **Bitcoin**: CoinGecko historical data
 
-## Author
+## Authors
 
-S. James Biggs
+S. James Biggs, Claude Code
 
 ## License
 
