@@ -43,9 +43,13 @@ Outputs are saved to the `figures/` directory.
 - **Gold**: World Gold Council via GitHub + Kitco/Gold.org for recent months
 - **Bitcoin**: CoinGecko historical data
 
-## Authors
+## Author
 
-S. James Biggs, Claude Code
+S. James Biggs
+
+## Acknowledgment
+
+The author wishes to thank the creators of Claude Code, Opus 4.5, for their model's contributions to coding, data analysis, and presentation of this work, and to Anthropic Inc., for organizing their efforts into a capable investigative partner.
 
 ## License
 

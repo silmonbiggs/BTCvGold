@@ -2,9 +2,12 @@
 Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035
 Complete analysis script: data loading, model fitting, visualization, and statistics
 
-Authors: S. James Biggs, Claude Code
+Author: S. James Biggs
 Date: October 2025
 Revision: 14
+
+Acknowledgment: The author thanks Anthropic's Claude Code (Opus 4.5) for contributions
+to coding, data analysis, and presentation of this work.
 
 Data Sources:
 - Gold: World Gold Council via GitHub (https://github.com/datasets/gold-prices)
