@@ -24,7 +24,9 @@ raw/
 .claude/
 
 # Old figures in root (fresh ones in figures/)
+# Exception: figure_kelly_summary.png is tracked
 /figure_*.png
+!/figure_kelly_summary.png
 /analysis_results.txt
 
 # Python

@@ -172,7 +172,7 @@ def create_figure_usd_prices(df_train, df_test, output_path):
     # Labels and title
     ax.set_xlabel('Year')
     ax.set_ylabel('Dollars per Bitcoin or Ounce of Gold')
-    ax.set_title('Bitcoin and Gold USD Prices\n2015-2026')
+    ax.set_title('Bitcoin and Gold USD Prices\n2015-2026', fontsize=21, fontweight='bold', pad=20)
     
     # Grid
     ax.grid(True, alpha=0.3, linestyle='--', which='both')
@@ -833,7 +833,7 @@ def create_figure_residuals_qualitative(dates_all, residuals, rolling_abs_mean, 
         plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
     
     # Master title
-    plt.suptitle('Residuals, Qualitative', fontsize=24, y=1.02)
+    plt.suptitle('Residuals, Qualitative', fontsize=24, fontweight='bold', y=1.02)
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"  Saved: {output_path}")
@@ -965,7 +965,7 @@ def create_figure_residuals_quantitative(dates_all, residuals, rolling_std,
         plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
     
     # Master title
-    plt.suptitle('Residuals, Quantitative', fontsize=24, y=1.02)
+    plt.suptitle('Residuals, Quantitative', fontsize=24, fontweight='bold', y=1.02)
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"  Saved: {output_path}")
