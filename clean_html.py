@@ -73,7 +73,8 @@ def clean_mso_html(html_content):
     html_content = re.sub(r'\s*class=""', '', html_content)
 
     # Remove lang attributes (not needed, clutters markup)
-    html_content = re.sub(r'\s*lang=\w+', '', html_content)
+    # Handle unquoted values like lang=EN-US (note: \w+ doesn't match hyphen)
+    html_content = re.sub(r'\s*lang=[\w-]+', '', html_content)
     html_content = re.sub(r"\s*lang='[^']*'", '', html_content)
     html_content = re.sub(r'\s*lang="[^"]*"', '', html_content)
 
