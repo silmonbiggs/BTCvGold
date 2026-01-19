@@ -15,7 +15,6 @@ raw/
 # Documents (keep source code and data only)
 *.pdf
 *.docx
-*_files/
 
 # PowerShell scripts (local tooling)
 *.ps1
