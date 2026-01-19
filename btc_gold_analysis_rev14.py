@@ -170,8 +170,8 @@ def create_figure_usd_prices(df_train, df_test, output_path):
                 label='Gold', alpha=0.8)
     
     # Labels and title
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Dollars per Bitcoin or Ounce of Gold')
+    ax.set_xlabel('Year', fontweight='bold')
+    ax.set_ylabel('Dollars per Bitcoin or Ounce of Gold', fontweight='bold')
     ax.set_title('Bitcoin and Gold USD Prices\n2015-2026', fontsize=21, fontweight='bold', pad=20)
     
     # Grid
@@ -1131,8 +1131,8 @@ def create_figure_tight_projections(df_train, df_test, popt, g_fixed, sigma_2023
     
     ax.set_xlabel('Date', fontsize=18)
     ax.set_ylabel('Bitcoin Price (oz of Gold)', fontsize=18)
-    ax.set_title("Bitcoin's Gold Price Projections with Post-2023 Volatility Bounds\n" + 
-                 'Testing Both Trajectory and Stability Hypotheses', fontsize=21)
+    ax.set_title("Bitcoin's Gold Price Projections with Post-2023 Volatility Bounds\n" +
+                 'Testing Both Trajectory and Stability Hypotheses', fontsize=21, fontweight='bold')
     ax.grid(True, alpha=0.3, linestyle='--', which='both')
     ax.legend(loc='upper left', fontsize=15)
     
