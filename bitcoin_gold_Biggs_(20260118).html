@@ -1,0 +1,4013 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+/* Clean styles to replace MSO formatting */
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 40px;
+}
+
+h1, h2, h3, h4 {
+    color: #000;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.25em; }
+
+p {
+    margin: 1em 0;
+    text-align: justify;
+}
+
+ul, ol {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+td, th {
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+figure {
+    margin: 1.5em 0;
+    text-align: center;
+}
+
+figcaption {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 0.5em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: #0066cc;
+}
+
+blockquote, .executive-summary {
+    background: #f8f9fa;
+    border-left: 3px solid #666;
+    padding: 10px 15px;
+    margin: 1.5em 0;
+}
+
+strong, b {
+    font-weight: 600;
+}
+
+code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px 20px;
+    }
+}
+</style>
+
+<meta http-equiv=Content-Type content="text/html; charset=unicode">
+
+<title>Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035</title>
+
+<style>
+<!--
+@media (max-width: 768px) {
+    .ltx_page_main {
+        padding: 15px;
+    }
+    
+    .ltx_title_document {
+        font-size: 24px;
+    }
+    
+    .ltx_caption {
+        padding: 0 20px;
+    }
+}
+.ltx_text.ltx_font_smallcaps {
+    font-variant: small-caps;
+}
+.LTX\_FIGURE img
+	{max-width: 100%;}
+.LTX\_EQUATION .LTX\_MATH
+	{display: inline-block;}
+.LTX\_TAG\_BIBITEM
+	{display: inline-block;
+	min-width: 30px;}
+[data-theme="dark"] body {
+    background: #1a1a1a;
+    color: #e8e8e8;
+}
+[data-theme="dark"] .ltx_abstract,
+[data-theme="dark"] .ltx_bibliography {
+    border-color: #444;
+}
+[data-theme="dark"] .ltx_author_notes,
+[data-theme="dark"] .ltx_dates,
+[data-theme="dark"] .ltx_caption,
+[data-theme="dark"] .ltx_keywords {
+    color: #aaa;
+}
+[data-theme="dark"] .ltx_figure img,
+[data-theme="dark"] .ltx_tabular td,
+[data-theme="dark"] .ltx_tabular th {
+    border-color: #444;
+}
+[data-theme="dark"] .ltx_tabular th {
+    background: #2a2a2a;
+}
+.THEME-TOGGLE
+	{position: fixed;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	right:20px;
+	top:20px;}
+[data-theme="dark"] .theme-toggle {
+    background: #2a2a2a;
+    border-color: #444;
+}
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: #666;
+}
+[data-theme="dark"] .theme-toggle svg {
+    fill: #ccc;
+}
+[data-theme="dark"] .ltx_note {
+    background: #2a2a2a;
+    border-left-color: #444;
+}
+[data-theme="dark"] .ltx_para_important {
+    background: #2a2a2a;
+    border-left-color: #888;
+}
+
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
+@font-face
+	{font-family:"Segoe UI";
+	panose-1:2 11 5 2 4 2 4 2 2 3;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-469750017 -1073683329 9 0 511 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 3 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h6
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:7.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-link:"Body Text Char";
+	margin-top:9.0pt;
+	margin-right:0in;
+	margin-bottom:9.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ascii-font-family:Aptos;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Aptos;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Aptos;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+code
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	font-family:"Courier New";
+	mso-ascii-font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:"Courier New";
+	mso-bidi-font-family:"Courier New";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-noshow:yes;
+	mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{mso-style-noshow:yes;
+	mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{mso-style-noshow:yes;
+	mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{mso-style-noshow:yes;
+	mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:20.0pt;
+	mso-bidi-font-size:20.0pt;
+	font-family:"Aptos Display",sans-serif;
+	mso-ascii-font-family:"Aptos Display";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Aptos Display";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#0F4761;
+	mso-themecolor:accent1;
+	mso-themeshade:191;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:16.0pt;
+	mso-bidi-font-size:16.0pt;
+	font-family:"Aptos Display",sans-serif;
+	mso-ascii-font-family:"Aptos Display";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Aptos Display";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#0F4761;
+	mso-themecolor:accent1;
+	mso-themeshade:191;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 3";
+	mso-ansi-font-size:14.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ascii-font-family:Aptos;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Aptos;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#0F4761;
+	mso-themecolor:accent1;
+	mso-themeshade:191;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ascii-font-family:Aptos;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Aptos;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#595959;
+	mso-themecolor:text1;
+	mso-themetint:166;
+	font-style:italic;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+span.BodyTextChar
+	{mso-style-name:"Body Text Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Body Text";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ascii-font-family:Aptos;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Aptos;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Aptos;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.ltxpagemain, li.ltxpagemain, div.ltxpagemain
+	{mso-style-name:ltx_page_main;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtitledocument, li.ltxtitledocument, div.ltxtitledocument
+	{mso-style-name:ltx_title_document;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:22.5pt;
+	margin-right:0in;
+	margin-bottom:15.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:21.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxauthors, li.ltxauthors, div.ltxauthors
+	{mso-style-name:ltx_authors;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:15.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxpersonname, li.ltxpersonname, div.ltxpersonname
+	{mso-style-name:ltx_personname;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	color:black;}
+p.ltxauthornotes, li.ltxauthornotes, div.ltxauthornotes
+	{mso-style-name:ltx_author_notes;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:3.75pt;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	color:#666666;
+	font-style:italic;}
+p.ltxdates, li.ltxdates, div.ltxdates
+	{mso-style-name:ltx_dates;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:11.25pt;
+	margin-right:0in;
+	margin-bottom:22.5pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	color:#666666;}
+p.ltxabstract, li.ltxabstract, div.ltxabstract
+	{mso-style-name:ltx_abstract;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:22.5pt;
+	margin-right:0in;
+	margin-bottom:22.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-top-alt:solid #E0E0E0 .75pt;
+	mso-border-bottom-alt:solid #E0E0E0 .75pt;
+	padding:0in;
+	mso-padding-alt:15.0pt 0in 15.0pt 0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtitleabstract, li.ltxtitleabstract, div.ltxtitleabstract
+	{mso-style-name:ltx_title_abstract;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxp, li.ltxp, div.ltxp
+	{mso-style-name:ltx_p;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxkeywords, li.ltxkeywords, div.ltxkeywords
+	{mso-style-name:ltx_keywords;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:22.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtitlekeywords, li.ltxtitlekeywords, div.ltxtitlekeywords
+	{mso-style-name:ltx_title_keywords;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:3.75pt;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxsection, li.ltxsection, div.ltxsection
+	{mso-style-name:ltx_section;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:22.5pt;
+	margin-right:0in;
+	margin-bottom:22.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtitlesection, li.ltxtitlesection, div.ltxtitlesection
+	{mso-style-name:ltx_title_section;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:22.5pt;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:15.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxtagsection, li.ltxtagsection, div.ltxtagsection
+	{mso-style-name:ltx_tag_section;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:6.0pt;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxsubsection, li.ltxsubsection, div.ltxsubsection
+	{mso-style-name:ltx_subsection;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:15.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtitlesubsection, li.ltxtitlesubsection, div.ltxtitlesubsection
+	{mso-style-name:ltx_title_subsection;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxtagsubsection, li.ltxtagsubsection, div.ltxtagsubsection
+	{mso-style-name:ltx_tag_subsection;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:6.0pt;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxpara, li.ltxpara, div.ltxpara
+	{mso-style-name:ltx_para;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:11.25pt;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxitemize, li.ltxitemize, div.ltxitemize
+	{mso-style-name:ltx_itemize;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:11.25pt;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxenumerate, li.ltxenumerate, div.ltxenumerate
+	{mso-style-name:ltx_enumerate;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:11.25pt;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxitem, li.ltxitem, div.ltxitem
+	{mso-style-name:ltx_item;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:3.75pt;
+	margin-right:0in;
+	margin-bottom:3.75pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxfigure, li.ltxfigure, div.ltxfigure
+	{mso-style-name:ltx_figure;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:18.75pt;
+	margin-right:0in;
+	margin-bottom:18.75pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxcaption, li.ltxcaption, div.ltxcaption
+	{mso-style-name:ltx_caption;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:7.5pt;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtable, li.ltxtable, div.ltxtable
+	{mso-style-name:ltx_table;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:18.75pt;
+	margin-right:0in;
+	margin-bottom:18.75pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtabular, li.ltxtabular, div.ltxtabular
+	{mso-style-name:ltx_tabular;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxequation, li.ltxequation, div.ltxequation
+	{mso-style-name:ltx_equation;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:15.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-style:italic;}
+p.ltxbibliography, li.ltxbibliography, div.ltxbibliography
+	{mso-style-name:ltx_bibliography;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:30.0pt;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-top-alt:solid #E0E0E0 .75pt;
+	padding:0in;
+	mso-padding-alt:15.0pt 0in 0in 0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxbiblist, li.ltxbiblist, div.ltxbiblist
+	{mso-style-name:ltx_biblist;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxbibitem, li.ltxbibitem, div.ltxbibitem
+	{mso-style-name:ltx_bibitem;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:7.5pt;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtagbibitem, li.ltxtagbibitem, div.ltxtagbibitem
+	{mso-style-name:ltx_tag_bibitem;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:3.75pt;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.theme-toggle, li.theme-toggle, div.theme-toggle
+	{mso-style-name:theme-toggle;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#F0F0F0;
+	border:none;
+	mso-border-alt:solid #DDDDDD .75pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 0in 0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxnote, li.ltxnote, div.ltxnote
+	{mso-style-name:ltx_note;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:15.0pt;
+	margin-right:0in;
+	margin-bottom:15.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#F9F9F9;
+	border:none;
+	mso-border-left-alt:solid #DDDDDD 2.25pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 0in 11.0pt;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxparaimportant, li.ltxparaimportant, div.ltxparaimportant
+	{mso-style-name:ltx_para_important;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:22.5pt;
+	margin-right:0in;
+	margin-bottom:22.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#F8F9FA;
+	border:none;
+	mso-border-left-alt:solid #666666 3.0pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 0in 15.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtag, li.ltxtag, div.ltxtag
+	{mso-style-name:ltx_tag;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxmath, li.ltxmath, div.ltxmath
+	{mso-style-name:ltx_math;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxp1, li.ltxp1, div.ltxp1
+	{mso-style-name:ltx_p1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.ltxtag1, li.ltxtag1, div.ltxtag1
+	{mso-style-name:ltx_tag1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p.ltxmath1, li.ltxmath1, div.ltxmath1
+	{mso-style-name:ltx_math1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.Compact, li.Compact, div.Compact
+	{mso-style-name:Compact;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"Body Text";
+	margin-top:1.8pt;
+	margin-right:0in;
+	margin-bottom:1.8pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ascii-font-family:Aptos;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Aptos;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Aptos;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+span.ltxpersonname1
+	{mso-style-name:ltx_personname1;
+	mso-style-unhide:no;
+	mso-ansi-font-size:13.5pt;
+	mso-bidi-font-size:13.5pt;
+	color:black;
+	mso-hide:none;}
+span.ltxauthornotes1
+	{mso-style-name:ltx_author_notes1;
+	mso-style-unhide:no;
+	mso-ansi-font-size:10.5pt;
+	mso-bidi-font-size:10.5pt;
+	color:#666666;
+	mso-hide:none;
+	font-style:italic;}
+span.ltxtag2
+	{mso-style-name:ltx_tag2;
+	mso-style-unhide:no;}
+span.ltxcreator
+	{mso-style-name:ltxcreator;
+	mso-style-unhide:no;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:16657829;
+	mso-list-template-ids:-1348452576;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:36854555;
+	mso-list-template-ids:-795054018;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:232275473;
+	mso-list-template-ids:-1808137450;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:263345665;
+	mso-list-template-ids:1337590124;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:406000152;
+	mso-list-template-ids:-1877455768;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:428817761;
+	mso-list-type:hybrid;
+	mso-list-template-ids:120118372 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:521940404;
+	mso-list-type:hybrid;
+	mso-list-template-ids:933950180 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:642735090;
+	mso-list-template-ids:1492309758;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:704906829;
+	mso-list-template-ids:-1051529398;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:819882448;
+	mso-list-template-ids:1073242160;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l10
+	{mso-list-id:861479942;
+	mso-list-template-ids:1299891340;}
+@list l10:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l10:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l10:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11
+	{mso-list-id:876284749;
+	mso-list-template-ids:1635686060;}
+@list l11:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l11:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l12
+	{mso-list-id:914631463;
+	mso-list-template-ids:1524904318;}
+@list l12:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l12:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l12:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13
+	{mso-list-id:954947708;
+	mso-list-template-ids:-1546361474;}
+@list l13:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l13:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l13:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l13:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14
+	{mso-list-id:1046491289;
+	mso-list-template-ids:1090669778;}
+@list l14:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l14:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l14:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l14:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15
+	{mso-list-id:1064068432;
+	mso-list-template-ids:15607620;}
+@list l15:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l15:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l15:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l15:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l16
+	{mso-list-id:1466849925;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-298673222 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l16:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l16:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l16:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l16:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l16:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l16:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l16:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Segoe UI Symbol";}
+@list l16:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l16:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l17
+	{mso-list-id:1737043430;
+	mso-list-template-ids:831575864;}
+@list l17:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l17:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l17:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l17:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18
+	{mso-list-id:2097045375;
+	mso-list-template-ids:-1396795088;}
+@list l18:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Segoe UI Symbol";}
+@list l18:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l18:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l18:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
+name=viewport>
+
+<script>
+function toggleColorScheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+});
+</script>
+
+<style>
+/* ArXiv-style centered layout */
+.ltx-container {
+  max-width: 900px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 40px;
+  text-align: justify;
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  .ltx-container {
+    width: 95%;
+    padding: 15px 20px;
+  }
+}
+</style>
+</head>
+
+<body bgcolor=white-US link=blue vlink=purple style='tab-interval:.5in; word-wrap:break-word'>
+
+<div class='WordSection1 ltx-container'>
+
+<div>
+
+<h1><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035</span></h1>
+
+<div style='margin-top:15.0pt; margin-bottom:15.0pt'>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+class=ltxpersonname1><span style='font-size:13.5pt; font-family:"Segoe UI",sans-serif'>S. James Biggs</span>
+<span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif'>San Diego, California, USA</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:22.5pt'>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:#666666'>(January 2026)</span></p>
+
+</div>
+
+<div style='border-top:solid #E0E0E0 1.0pt; border-left:none; border-bottom:solid #E0E0E0 1.0pt; border-right:none; padding:15.0pt 0in 15.0pt 0in; margin-top:22.5pt; margin-bottom:
+22.5pt'>
+
+<h2><span style='font-family:"Segoe UI",sans-serif; color:black'>Abstract</span></h2>
+
+<p class=ltxp><span style='font-family:"Segoe UI",sans-serif; color:black'>We present a saturating exponential model
+that predicts Bitcoin's long-term valuation relative to gold based on their
+fundamental supply dynamics. Gold's 2% annual supply growth creates a
+persistent &quot;leak&quot; in its store-of-value function, while Bitcoin's
+capped supply approaches zero inflation. Our model, fitted to 10 years of data
+(2015-2024), achieves R² = 0.91 with only three free parameters and correctly
+predicted 2025 test data within 3%. We document a statistically significant
+volatility regime change beginning January 2023, with standard deviation
+falling from σ = 0.478 to σ = 0.258 (p &lt; 0.0001), coinciding with
+geopolitical shifts in reserve asset preferences following the 2022
+weaponization of dollar reserves. The model projects Bitcoin will reach 37 oz
+gold per Bitcoin by 2030 (95% CI: 22-62 oz) and 43 oz by 2035 (95% CI: 26-72
+oz), with expected annual outperformance of 8.6% above gold. These projections
+represent falsifiable hypotheses about both the trajectory and volatility of
+Bitcoin’s value relative to Gold.</span></p>
+
+</div>
+
+<div style='margin-top:15.0pt; margin-bottom:22.5pt'>
+
+<h2><span style='font-family:"Segoe UI",sans-serif; color:black'>Keywords</span></h2>
+
+<p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Bitcoin,
+gold, monetary economics, store of value, volatility, saturation model,
+cryptocurrency, reserve assets </span></p>
+
+</div>
+
+<div style='border:none; border-left:solid #666666 3.0pt; padding:10pt 15pt 10pt 15.0pt; margin-top:22.5pt; margin-bottom:22.5pt; background:#F8F9FA'>
+
+<h3 style='margin-top:0in; background:#F8F9FA'><span style='font-family:
+"Segoe UI",sans-serif; color:black'>Executive Summary</span></h3>
+
+<ul type=disc>
+ <li class=MsoNormal style='color:black; tab-stops:list .5in; background:#F8F9FA'><strong><span style='font-family:"Segoe UI",sans-serif'>Volatility:</span></strong><span style='font-family:"Segoe UI",sans-serif'> Bitcoin's volatility has dropped
+     by half since 2023 (p &lt; 0.0001). The wild swings of bitcoin's youth are
+     stabilizing as adoption matures.</span></li>
+ <li class=MsoNormal style='color:black; tab-stops:list .5in; background:#F8F9FA'><strong><span style='font-family:"Segoe UI",sans-serif'>Trajectory:</span></strong><span style='font-family:"Segoe UI",sans-serif'> Bitcoin's value relative to gold
+     follows a curve consistent with saturating adoption, not a speculative
+     bubble.</span></li>
+ <li class=MsoNormal style='color:black; tab-stops:list .5in; background:#F8F9FA'><strong><span style='font-family:"Segoe UI",sans-serif'>The Model:</span></strong><span style='font-family:"Segoe UI",sans-serif'> A saturating exponential with
+     just three free parameters fits 10 years of BTC/Gold ratio data with R² =
+     0.91.</span></li>
+ <li class=MsoNormal style='color:black; tab-stops:list .5in; background:#F8F9FA'><strong><span style='font-family:"Segoe UI",sans-serif'>Model Predictions:</span></strong><span style='font-family:"Segoe UI",sans-serif'> </span></li>
+</ul>
+
+<ul type=disc>
+ <ul type=circle>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>Today (mid-January 2026): 22-36 oz gold (68% CI)</span></li>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>2030 projection: 37 oz gold (95%
+      CI: 22-62 oz)</span></li>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>2035 projection: 43 oz gold (95%
+      CI: 26-72 oz)</span></li>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>Expected return: ~10.6% annually
+      (including inflation)</span></li>
+ </ul>
+</ul>
+
+<ul type=disc>
+ <li class=MsoNormal style='color:black; tab-stops:list .5in; background:#F8F9FA'><strong><span style='font-family:"Segoe UI",sans-serif'>The Investment Case:</span></strong><span style='font-family:"Segoe UI",sans-serif'> </span></li>
+</ul>
+
+<ul type=disc>
+ <ul type=circle>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>97.5% probability of matching or
+      beating gold over 10 years</span></li>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>Expected outperformance: 8.6%
+      annually above gold</span></li>
+  <li class=MsoNormal style='color:black; tab-stops:list 1.0in; background:#F8F9FA'><span style='font-family:"Segoe UI",sans-serif'>Risk: 2.5% chance of
+      underperformance vs gold over 10 years</span></li>
+ </ul>
+</ul>
+
+</div>
+
+<section class='ltx_section' id="S1">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>1.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What question are we asking? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Gold and Bitcoin both serve as scarce stores of
+value. One leaks supply while the other does not.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Can the difference in their abundance explain
+Bitcoin's long-term value trajectory relative to Gold? And, if so, what does
+that imply for real returns and global reserve composition?</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>This inquiry began without a thesis, only
+data and the curiosity to see what the data would say. The goal was to fit a
+model consistent with observable prices and simple, defensible assumptions
+about supply. The theory followed from the fit.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>What emerged was a model of the long-term
+value of Bitcoin. It suggests Bitcoin adoption isn't reaching a saturation
+point. Rather, it follows a saturation <i>curve</i>. Modeling that curve tells
+us where it's likely to be headed.</span></p>
+
+</div>
+
+</section><section class='ltx_section' id="S2">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>2.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What facts can we observe directly? </span></h2>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Monthly
+Bitcoin USD prices (January 2015 – January 2026)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Monthly
+Gold USD/oz prices (same period)</span></p>
+
+<figure class='ltx_figure'>
+
+
+
+<p align=center style='text-align:center'><span ><img width=624 height=412
+src="figures/figure_usd_prices.png"
+alt="A graph of a price&#10;&#10;AI-generated content may be incorrect."
+v:shapes="_x0000_i1034"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 1:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Gold and Bitcoin prices over time</span></p>
+
+</figure>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>From these public data one may calculate the
+ratio: Bitcoin price in ounces of Gold (Figure 2)</span></p>
+
+</div>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=412
+src="figures/figure_ratio_history.png"
+alt="A graph showing a line graph&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_2"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 2:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Bitcoin valuation in Gold terms 2015-2025</span></p>
+
+</figure>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</div>
+
+<p class=ltxp1 style='margin-top:11.25pt'><span style='font-family:
+"Segoe UI",sans-serif; color:black'>In 2017 one Bitcoin
+would buy about 1 oz of gold. In 2023 it could buy about 10 ounces. Cycles of
+boom-and-bust ride a generally upward curve. The curve rises steeply in early
+years and flattens later, hinting at saturation, not perpetual exponential growth.
+But saturation to what?</span><span class=ltxtag2></span></p>
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>3.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What are the saturation rules for each
+currency? </span><span ></span></h2>
+
+<section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Gold:</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Gold's above-ground stock increases by
+roughly 2% per year due to mining. This leak is small but persistent, making
+the total supply effectively infinite over long timescales. Gold's supply curve
+is elastic to price. If the supply declines and the price rises, mining output
+increases, reinforcing the equilibrium around 2%.</span></p>
+
+</div>
+
+</section><section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin:</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin's issuance is strictly limited by
+protocol. The reward for mining new blocks halves approximately every four
+years (&quot;the halving cycle&quot;), and the algorithm self-adjusts mining
+difficulty to maintain a steady block rate of about one block per 10 minutes.
+The total supply is capped at 21 million Bitcoins, with about 95% already mined
+as of 2025. The blockchain ensures immutability. No central authority can
+create new Bitcoins or dilute existing supply.</span></p>
+
+</div>
+
+</section><section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Accessibility and
+integrity:</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin differs from gold not only in scarcity
+but in distributional fairness. Anyone with an Internet connection can buy or
+hold Bitcoin directly, without reliance on intermediaries or claims held in
+custodial accounts. Unlike Gold, where value can be obscured by derivatives or
+bank-controlled paper claims, Bitcoin's ownership and transactions are
+transparent and globally verifiable. Moreover, it is increasingly liquid at a
+consumer level, already exchangeable for goods via networks like PayPal and
+Square.</span></p>
+
+</div>
+
+</section></section><section class='ltx_section' id="S4">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>4.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What model best describes the ratio curve? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Given Gold's 2% leak, and Bitcoin's approach
+toward zero additional supply, we model the natural logarithm of the Bitcoin’s
+gold value as a saturating exponential approaching a 2% asymptotic drift:</span></p>
+
+</div>
+
+<div style='margin-top:15.0pt; margin-bottom:15.0pt'>
+
+<p class=MsoNormal align=center style='text-align:center'><i><span
+style='color:black'>ln(R(t)) = C + g•t + A(1 - e<sup>-λt</sup>) </span></i></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>where: </span></p>
+
+<p class=ltxp1 style='margin-left:.5in; text-indent:-.25in'><i><span style='color:black'>R(t)</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'> is Bitcoin’s value in ounces of gold, </span></p>
+
+<p class=ltxp1 style='margin-left:.5in; text-indent:-.25in'><i><span style='color:black'>t</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'> is time in years since the first observation (2015-01),</span></p>
+
+<p class=ltxp1 style='margin-left:.5in; text-indent:-.25in'><i>C</i><span style='font-family:"Segoe UI",sans-serif; color:black'> is the baseline log ratio,</span></p>
+
+<p class=ltxp1 style='margin-left:.5in; text-indent:-.25in'><i><span style='color:black'>g</span></i><span
+style='font-family:"Segoe UI",sans-serif; color:black'> is
+the long-run differential in value growth (fixed to gold's supply rate, </span><i><span style='color:black'>g</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'> </span><span style='font-family:
+Symbol; color:black'><span >º</span><span style='font-family:
+"Segoe UI",sans-serif; color:black'> 0.02), </span></p>
+
+<p class=ltxp1 style='margin-left:.5in; text-indent:-.25in'><i><span style='color:black'>A</span></i><span
+style='font-family:"Segoe UI",sans-serif; color:black'> and
+</span><i><span style='font-family:"Segoe UI Symbol"'><span >l</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'> describe early adoption acceleration and its decay. </span></p>
+
+<p class=ltxp1 style='margin-left:.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Thus, the model has only three free
+parameters: (C, A, λ). The 2% leak rate (g) is an observed constant, not a tuned
+variable.</span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The best-fit parameters seem reasonable
+(Table 1). </span><span style='font-family:"Segoe UI",sans-serif; color:black'>The
+adoption rate of decay (</span><i><span style='font-family:"Segoe UI Symbol"'><span >l</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'> = 0.283 yr<sup>-1</sup>) corresponds to a half-life of
+ln(2)/0.283 ≈ 2.4 years. Thus, the adoption term dampens relatively quickly. It
+suggests most of the explosive growth has happened in the first ~5-7 years
+(2015-2022). By the year 2025 (about 4 half-lives), the adoption term is
+essentially gone, and the continued outperformance of Bitcoin relative to gold
+is due to its relative scarcity.</span><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<table align=center class=MsoNormalTable border=0 cellpadding=0 >
+ <tr style='height:.3in'>
+  <td style='padding:.75pt .75pt .75pt .75pt; height:.3in'>
+  <p class=MsoNormal style='margin-top:7.5pt; margin-right:0in; margin-bottom:
+  18.75pt; margin-left:0in; text-align:justify'><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Table 1:</span></b><span style='font-size:10.5pt; font-family:
+  "Segoe UI",sans-serif; color:black'>
+  Model comparison results</span></p>
+  </td>
+ </tr>
+ <tr style='height:.3in'>
+  <td style='padding:.75pt .75pt .75pt .75pt; height:.3in'>
+  <div align=center>
+  <table align=center class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width=440
+   style='width:330.25pt; border-collapse:collapse'>
+   <thead>
+    <tr >
+     <td style='border:solid #DDDDDD 1.0pt; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Parameter</span></b></p>
+     </td>
+     <td width=192 style='width:144.05pt; border:solid #DDDDDD 1.0pt; border-left:
+     none; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Meaning</span></b></p>
+     </td>
+     <td width=156 style='width:117.0pt; border:solid #DDDDDD 1.0pt; border-left:
+     none; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Estimate</span></b></p>
+     </td>
+    </tr>
+   </thead>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><i>g</i><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'></span></p>
+    </td>
+    <td width=192 style='width:144.05pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Asymptotic growth vs
+    gold</span></p>
+    </td>
+    <td width=156 style='width:117.0pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.020 yr⁻¹
+    (observed)</span></p>
+    </td>
+   </tr>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><i>A</i><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'></span></p>
+    </td>
+    <td width=192 valign=top style='width:144.05pt; border-top:none; border-left:
+    none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Initial adoption
+    rate</span></p>
+    </td>
+    <td width=156 style='width:117.0pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>≈ 5.62</span></p>
+    </td>
+   </tr>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><i><span style='font-family:"Segoe UI Symbol"'><span >l</span></i><span style='font-size:
+    10.5pt; font-family:"Segoe UI",sans-serif; color:black'></span></p>
+    </td>
+    <td width=192 style='width:144.05pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Decay rate of
+    adoption</span></p>
+    </td>
+    <td width=156 style='width:117.0pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>≈ 0.283 yr⁻¹</span></p>
+    </td>
+   </tr>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><i>C</i><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'></span></p>
+    </td>
+    <td width=192 style='width:144.05pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Baseline</span></p>
+    </td>
+    <td width=156 style='width:117.0pt; border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>≈ -2.25</span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  </td>
+ </tr>
+</table>
+
+</section><figure class='ltx_figure'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</figure>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=412
+src="figures/figure_model_comparison.png"
+alt="A graph with numbers and a line&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_4"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 3:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Comparison of different models</span></p>
+
+</figure>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Fit Comparison</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The saturating exponential minimizes residual
+error and correctly reproduces the slowdown post-2018. It does so better than a
+naïve assumption of &quot;just like gold&quot; (flat, one parameter) and an
+equally naive assumption of &quot;more forever&quot; (linear, two parameters).</span></p>
+
+</div>
+
+<table align=center class=MsoNormalTable border=0 cellpadding=0 >
+ <tr >
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal style='margin-top:7.5pt; margin-right:0in; margin-bottom:
+  18.75pt; margin-left:0in; text-align:justify'><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Table 2:</span></b><span style='font-size:10.5pt; font-family:
+  "Segoe UI",sans-serif; color:black'>
+  Model comparison results</span></p>
+  </td>
+ </tr>
+ <tr >
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <div align=center>
+  <table align=center class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+   style='border-collapse:collapse'>
+   <thead>
+    <tr >
+     <td style='border:solid #DDDDDD 1.0pt; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Model</span></b></p>
+     </td>
+     <td style='border:solid #DDDDDD 1.0pt; border-left:none; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Parameters</span></b></p>
+     </td>
+     <td style='border:solid #DDDDDD 1.0pt; border-left:none; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>R²</span></b></p>
+     </td>
+     <td style='border:solid #DDDDDD 1.0pt; border-left:none; background:whitesmoke; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+     <p class=MsoNormal><b><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>RMSE</span></b></p>
+     </td>
+    </tr>
+   </thead>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Flat (&quot;Just
+    Like Gold&quot;)</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>1</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.000</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>1.580</span></p>
+    </td>
+   </tr>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Linear (&quot;More
+    Forever&quot;)</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>2</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.812</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.687</span></p>
+    </td>
+   </tr>
+   <tr >
+    <td style='border:solid #DDDDDD 1.0pt; border-top:none; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>Saturating
+    Exponential</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>3</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.909</span></p>
+    </td>
+    <td style='border-top:none; border-left:none; border-bottom:solid #DDDDDD 1.0pt; border-right:solid #DDDDDD 1.0pt; padding:6.0pt 9.0pt 6.0pt 9.0pt'>
+    <p class=MsoNormal><span style='font-size:10.5pt; font-family:"Segoe UI",sans-serif; color:black'>0.478</span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  </td>
+ </tr>
+</table>
+
+</section>
+
+
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>The residuals of the saturating exponential fit yield reasonable one-sigma
+and two-sigma curves (Figure 4, dashed and dotted lines) that bracket the
+modeled values (Figure 4, orange line) and describe boom-and-bust variation
+from the central trend.<span >  </span></p>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=411
+src="figures/figure_model_fit.png"
+alt="A graph of a graph with numbers and a line&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_5"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 4:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Saturating exponential fit with error bounds</span></p>
+
+</figure>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>Our analysis spans 67%
+of Bitcoin's entire existence since 2009, capturing the transition from
+experimental technology to institutional asset; earlier data would primarily
+reflect initial discovery dynamics rather than the mature market behavior
+relevant for forward projections.</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b><span style='font-family:"Segoe UI",sans-serif; color:black'>4.1 Why This Functional
+Form?</span></b><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:0in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Alternative approaches to modeling Bitcoin's
+value include network effect models (Metcalfe's Law: value </span><span style='font-family:"Cambria Math",serif; color:black'>∝</span><span style='font-family:
+"Segoe UI",sans-serif; color:black'> users²), stock-to-flow
+models based on Bitcoin's halving cycle, and regime-switching frameworks. While
+theoretically interesting, these approaches either:</span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:.5in; text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Require additional parameters (network models
+need user adoption curves: ≥4 parameters)</span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:.5in; text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Model Bitcoin's absolute USD value rather
+than its performance relative to gold</span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:.5in; text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Lack the theoretical grounding in observable
+supply differentials</span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:0in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Our saturating exponential achieves R² = 0.91
+with only three free parameters by fixing </span><i><span
+style='color:black'>g</span></i><span style='font-family:
+"Segoe UI",sans-serif; color:black'> to gold's observed supply
+growth (0.02). This constraint, (anchoring the asymptote to physical reality
+rather than fitting it), provides both parsimony and interpretability. The
+functional form directly captures our hypothesis: Bitcoin's early explosive
+adoption (</span><i><span style='color:black'>A</span></i><span style='font-family:"Segoe UI",sans-serif; color:black'>, <i>λ</i> terms) eventually saturates, leaving persistent outperformance
+driven purely by the supply differential (</span><i><span
+style='color:black'>g</span></i><span style='font-family:
+"Segoe UI",sans-serif; color:black'> term).</span></p>
+
+<p class=ltxp1 style='margin-top:11.25pt; margin-right:0in; margin-bottom:11.25pt; margin-left:0in'><span style='font-family:"Segoe UI",sans-serif; color:black'>We prioritize simplicity over complexity. The
+question isn't &quot;what's the most sophisticated model?&quot; but rather
+&quot;what's the minimum model sufficient to explain the observed
+relationship?&quot;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; <p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>The model fits
+historical data well—R² of 0.91 over 120 months—but fitting history is the easy
+part. The real test is whether it predicts the future without overfitting. We
+withheld 2025 data during the model fitting. Here's what it predicted for those
+ten months.</span></p>
+mso-fareast-font-family:"Times New Roman";color:black'></span></p>
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>5.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>How well does the model predict test data? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The fit was made on data through 2024-12, yet
+it correctly predicts Bitcoin’s gold value for thirteen additional months through the time of this writing, mid-January 2026 (Figure 5, red squares). It is within a few percent of the value observed at
+the time of this writing (mid-January 2026, ≈ 21 oz Gold per Bitcoin). This forward accuracy
+demonstrates that the model's behavior isn't overfitted. It appears to capture
+the underlying dynamic, not coincidence.</span></p>
+
+</div>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=412
+src="figures/figure_projection.png"
+alt="A graph showing the price of a gold price&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_6"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 5:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Extrapolation to test data</span></p>
+
+</figure>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>All test points cluster near the projected
+value, well within the 2σ bands (as expected statistically), and
+(surprisingly), they all lie within the ±1σ bounds, hinting that volatility may
+be decreasing with time.</span></p>
+
+</div>
+
+</section><section class='ltx_section' id="S6">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>6.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What does the model predict going forward? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Fitting the model with different assumptions
+about the additional supply of gold added yearly from mining shows the fit is
+not sensitive to assumptions about the fixed parameter </span><i><span
+style='color:black'>g</span></i><span style='font-family:
+"Segoe UI",sans-serif; color:black'>. Choices of </span><i><span style='color:black'>g</span></i><span style='font-family:
+"Segoe UI",sans-serif; color:black'> = 1.5%, 2.0%, and 2.5%
+all yield approximately the same story a decade into the future.</span></p>
+
+</div>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Current
+ratio (mid-January 2026): ≈ 21 oz gold per BTC</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Projected
+(2030-01): ≈ 36-38 oz gold per BTC</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Projected
+(2035-01): ≈ 41-45 oz gold per BTC</span></p>
+
+<figure class='ltx_figure'>
+
+<p class=MsoNormal><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p align=center style='text-align:center'><span ><img width=624 height=397
+src="figures/figure_trailing_average.png"
+alt="A graph with numbers and lines&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_7"></span><span class=ltxtag2></span></p>
+
+<p align=center style='text-align:center'><span class=ltxtag2><span
+style='font-family:"Segoe UI",sans-serif; color:black'>Figure
+6:</span><span style='font-family:"Segoe UI",sans-serif; color:black'> Monthly data and long range model
+predictions for Bitcoin's gold value in 2030 and 2035.</span></p>
+
+</figure>
+
+<h3><span style='font-size:12.0pt; font-family:"Segoe UI",sans-serif; color:black; font-weight:normal'>The model's insensitivity
+to the precise value of </span><i><span style='font-size:12.0pt; color:black; font-weight:normal'>g</span></i><span
+style='font-size:12.0pt; font-family:"Segoe UI",sans-serif; color:black; font-weight:normal'> (tested from 1.5% to 2.5%)
+demonstrates that its predictions depend primarily on the existence of gold's supply
+growth rather than its exact magnitude, making the framework robust to
+uncertainty in mining economics.</span></h3>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Return:</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The model predicts Bitcoin's Compound Annual
+Growth Rate compared to Gold going forward averages 8.6%/yr (≈ 2.3× per
+decade). The components of Bitcoin's expected return are:</span></p>
+
+</div>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><b>BTC vs Gold ratio growth: 8.6%/yr</b>, the model's core prediction for how Bitcoin appreciates relative to Gold</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><b>Gold real drift: +2.0%/yr</b>, Gold's historical appreciation vs USD (above inflation)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><b>CPI inflation: +2.5%/yr</b>, assumed baseline inflation</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><b>Total nominal return: ≈13.1%/yr</b>, Bitcoin's expected USD appreciation</span></p>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The 8.6% BTC/Gold ratio growth is the key model output; the other components are external assumptions. Bitcoin's projected real return (above inflation) is 10.6%/yr.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Although Bitcoin's expected rate of return
+compares favorably to Gold, its volatility makes the return at any given moment
+uncertain. Projecting Bitcoin's historical volatility into the future produces
+predictions with a wide range:</span></p>
+
+</div>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Projected
+(2030-01): ≈ 37.2 oz gold per Bitcoin, (23.1 to 59.9 with 68% probability)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Projected
+(2035-01): ≈ 43.2 oz gold per Bitcoin, (26.8 to 69.6 with 68% probability)</span></p>
+
+</section></section><section class='ltx_section' id="S7">
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>These are wide ranges. A
+68% confidence interval from 23 to 60 ounces is as much “guessing” as it is
+“prediction.”<span >  </span></p>
+
+<p class=ltxitem style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>Fortunately, another aspect
+of the data changes the picture entirely: the volatility itself is collapsing.
+As Bitcoin matures along its adoption curve, the wild price swings attenuate.
+The market stabilizes. Next we examine this aspect of Bitcoin’s Gold value.</span><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</section></section><section class='ltx_section' id="S7">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>7.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>How is Bitcoin's volatility changing with time? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>To get at this question of volatility, we
+look at the residuals, the cycles of boom-and-bust superimposed on Bitcoin's
+upward arc with respect to gold. The analysis shows that the amplitude of these
+cycles is decreasing with time as Bitcoin becomes established.</span></p>
+
+</div>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=322
+src="figures/figure_residuals_qualitative.png"
+alt="A graph of different colored lines&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_8"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 7:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Residuals analysis - qualitative</span></p>
+
+</figure>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>A qualitative trend toward declining
+volatility is evident in the data, with scatter decreasing noticeably after
+2023 (Figure 7, left, post-2023 points). To get a more quantitative intuition,
+the data are transformed to log coordinates (Figure 7, right) so that doubling
+and halving get equal magnitude, and absolute values of the excursions are
+plotted so that both decreases and increases of value show as positive
+volatility. A 36-month rolling average shows the volatility trend with time
+(Figure 7, right, red line). </span></p>
+
+</section><section class='ltx_section' id="S8">
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Even when the entirety of the data series is
+fit (Figure 8, left) the trend toward decreased volatility is evident (</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'>R² = 0.6419</span><span style='font-family:"Segoe UI",sans-serif; color:black'>), and statistically significant (p&lt;0.0001). A linear fit of the
+36-month rolling average shows a decline of about 0.033 per year. The
+statistics confirm that the system is stabilizing as adoption progresses. </span></p>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=322
+src="figures/figure_residuals_quantitative.png"
+alt="A graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of a graph of&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_9"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 8:</span><span
+style='font-family:"Segoe UI",sans-serif; color:black'> Residuals analysis - quantitative</span></p>
+</figure>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Volatility declines, but to what value?
+Obviously, it does not go to zero. The model will never be perfect. To get an
+approximate value for recent volatility, we divide the data into two parts,
+pre-2023 and 2023-present (Figure 8, right). A Levene Test compares the
+variability before and after 2023, and finds the difference to be statistically
+significant:</span></p>
+
+</div>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Levene
+Test Results: </span><span style='font-family:"Segoe UI",sans-serif; color:black'>F(1,131) = 23.18, p &lt; 0.0001 (highly
+significant)</span><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Pre-2023:
+σ = 0.478</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Post-2023:
+σ = 0.254 (58% reduction)</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='text-align:justify'><span style='font-family:
+"Segoe UI",sans-serif; color:black'>Fresh +/-1σ error bounds (Figure 8, right, green dotted
+lines), are tighter than error bounds based on the training data (Figure 8,
+right, red dotted lines). Based on post-2023 data, it is reasonable to forecast
+Bitcoin’s future value in ounces of Gold (initially estimated in Figure 6), but
+with tighter post-2023 bounds. Before making that forecast, however, it is
+worth considering the causes of the reduced volatility that we see in the data.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'>The data show volatility
+really is stabilizing. The statistics are unambiguous (p &lt; 0.0001). But
+statistics don't explain causes. A 58% drop in volatility doesn't just happen.
+Something fundamental shifted in how the world treats Bitcoin. The timing points
+to a specific event.</span><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>8.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>Causes of reduced volatility - Political
+Legitimization and Monetary Realignment: 2022-2025 </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The timing of the volatility regime-change we observe
+beginning in 2023 suggests a cascade of geopolitical and regulatory shifts that
+fundamentally altered Bitcoin's institutional status.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The trigger was February 2022: Western
+governments froze $300 billion in Russian central bank reserves following the
+Ukraine invasion [11]. This unprecedented weaponization of the dollar-based
+financial system sent shockwaves through non-aligned nations. Central banks
+purchased 1,082 tons of gold in 2022, then 1,037 tons in 2023, and 1,045 tons
+in 2024, making three consecutive years exceeding 1,000 tons for the first time
+in history [12].</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin benefited from this same flight to
+sanctions-resistant assets. The January 2023 volatility breakpoint we identify
+mathematically appears consistent with lag between
+geopolitical shock and institutional response.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The 2024 U.S. election accelerated what
+geopolitics had initiated. The January 2024 approval of spot Bitcoin ETFs
+opened floodgates [13]. Following the November election, Bitcoin rose from
+$68,000 to over $100,000 without significant pullbacks. The March 2025
+Executive Order establishing a Strategic Bitcoin Reserve formalized what
+markets had already recognized: Bitcoin had become a legitimate reserve asset.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>This political legitimization catalyzed
+corporate treasury adoption. Over 80 publicly traded companies now hold
+Bitcoin, up from 58 just two years prior, a 139% increase [14]. Microsoft
+shareholders may have voted down a Bitcoin allocation, but companies
+controlling 1.3 million BTC didn't wait for permission [15]. When Trump Media
+purchased $2 billion in Bitcoin securities and the White House appointed a
+crypto czar, the reputational risk that kept Fortune 500 CFOs away evaporated.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The volatility reduction we observe
+mathematically, σ falling from 0.478 to 0.258 at the January 2023 breakpoint,
+captures this transition.</span></p>
+
+</div>
+
+</section><section class='ltx_section' id="S9">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>9.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What does decreasing variability mean for
+future returns? </span></h2>
+
+<figure class='ltx_figure'>
+
+<p align=center style='text-align:center'><span ><img width=624 height=412
+src="figures/figure_tight_projections.png"
+alt="A graph with numbers and graphs&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_10"></span><span class=ltxtag2></span></p>
+
+<p align=center style='text-align:center'><span class=ltxtag2><span
+style='font-family:"Segoe UI",sans-serif; color:black'>Figure
+9:</span><span style='font-family:"Segoe UI",sans-serif; color:black'> Bitcoin/Gold Projections with Post-2023
+Volatility Bounds</span></p>
+
+</figure>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</div>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Falsifiable Predictions</span></h3>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>For the modeler, this price projection
+(Figure 9) embodies two independent, falsifiable claims:</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Trajectory
+hypothesis:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+Bitcoin follows the saturating exponential path (mean predictions).</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Volatility
+hypothesis:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+The post-2023 low volatility regime persists (tight bounds).</span></p>
+
+<section class='ltx_subsection'>
+
+<h3><span style='font-size:12.0pt; font-family:"Segoe UI",sans-serif; color:black; font-weight:normal'>The predicted price
+targets are:</span></h3>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>2030
+Projection: Mean 37.2 oz gold per BTC, 95% CI: [22.2, 62.3] oz</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>2035
+Projection: Mean 43.2 oz gold per BTC, 95% CI: [25.8, 72.3] oz</span></p>
+
+</section>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>Actionable Investment
+Forecast</span></h3>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>For the investor interested in ten-year
+returns, buying at today's ratio (mid-January 2026, ~21 oz Gold per Bitcoin) the model
+makes actionable predictions for 2035:</span></p>
+
+</div>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>It's
+reasonable to expect Bitcoin to do much better than Gold on average (43 oz vs
+21 oz).</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>A
+Bitcoin investment today almost certainly won't do &quot;worse than Gold&quot;
+(only 2.5% chance).</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>The
+odds of Bitcoin doing &quot;better than Gold&quot; are strongly favored (97.5%
+probability).</span></p>
+
+</section><section class='ltx_section' id="S10">
+
+<p class=ltxitem><b><span style='font-family:"Segoe UI",sans-serif; color:black'></span></b></p>
+
+<p class=ltxitem><b><span style='font-family:"Segoe UI",sans-serif; color:black'>Critical limitation: </span></b><span
+style='font-family:"Segoe UI",sans-serif; color:black'>This calculation assumes our model parameters are known with
+certainty. In reality, both μ and σ are estimates from limited data. While the
+U.S. Strategic Reserve and institutional adoption suggest a regime change,
+monetary history counsels caution—the Bretton Woods system seemed permanent
+until 1971, and gold was &quot;demonetized&quot; until central banks reversed
+course. Bitcoin’s post-2023 &quot;low volatility regime&quot; spans only 2
+years and may not persist. When parameter uncertainty is high, the optimal
+Kelly fraction can be dramatically lower than the naive calculation, which is
+why practitioners commonly use Half Kelly or Quarter Kelly. Given that even
+legitimate monetary regime changes can reverse (see: Gold's 1980-2000 bear
+market), fractional Kelly isn't just conservatism. It is a hedge against the
+unknown unknows of the future.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem><b><span style='font-family:"Segoe UI",sans-serif; color:black'>Portfolio Allocation: The Reserve Asset Bucket</span></b></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin and Gold both function as reserve
+assets—pools of value investors hold as insurance against uncertainty.
+&quot;Black swan&quot; events combine low historical frequency with outsized
+impact: wars, natural disasters, pandemics, sovereign debt defaults,
+hyperinflation, technological disruptions, political coups, and financial
+panics.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Recent history provides abundant examples. The
+financial collapses of Weimar Germany (1923), the Soviet Union (1991), Argentina (2001), Zimbabwe (2008), Greece (2010-2015), and Venezuela (2016-present)
+demonstrate how quickly monetary stability can evaporate. At this writing,
+interest on US federal debt consumes 20% of federal receipts and is projected
+to reach 30% within ten years. Hyperinflation, outright default, or prolonged
+stagnation (as Japan experienced from 1991-2010) remain possible responses. The
+&quot;de-dollarization&quot; trend, which began gradually in the 1990s, has
+accelerated dramatically since 2022, calling into question the dollar's role as
+global reserve currency.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Rational investors may reasonably differ in
+their assessments of black swan probability over the coming decade.
+Accordingly, they will allocate different proportions to reserve assets. An
+investor confident that &quot;everything is fine&quot; might hold 3% in
+reserves. One who views the outlook as &quot;quite uncertain&quot; might
+reasonably hold 50%.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Whatever the bucket size, a key question
+remains: <b>Within that reserve bucket, what proportion should be Bitcoin
+versus Gold?</b></span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>The Kelly criterion (Kelly 1956) provides a
+mathematically optimal answer. Given an investment's expected return (μ) and volatility
+(σ) relative to a baseline, the optimal allocation is:</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem align=center style='text-align:center'><i><span style='font-family:"Segoe UI",sans-serif; color:black'>f* = μ / σ²</span></i><span style='font-family:
+"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Where:</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><i>f*</i> = optimal Kelly fraction (proportion to allocate to Bitcoin within the reserve bucket)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><i>μ</i> = 8.58% (Bitcoin's
+expected outperformance vs Gold)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'><i>σ</i> = 0.2544 (post-2023
+volatility of BTC/Gold ratio, log space)</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>Here we treat Gold as the baseline within the
+reserve bucket. Bitcoin is the growth option relative to that baseline.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>The full Kelly allocation yields approximately <b>100%
+Bitcoin, 0% Gold</b> (Figure 10, left column). With μ/σ² exceeding 100%, Kelly actually suggests leveraged Bitcoin exposure; within an unleveraged reserve bucket, this means maximum Bitcoin allocation. Conservative investors often use
+&quot;Half Kelly&quot; (50% Bitcoin) or &quot;Quarter Kelly&quot; (25%
+Bitcoin), reflecting different risk preferences while remaining data-informed.</span></p>
+
+<p class=ltxitem><b><span style='font-family:"Segoe UI",sans-serif; color:black'>The framework separates two independent
+decisions:</span></b><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><b><span
+style='font-family:"Segoe UI",sans-serif; color:black'>Bucket size</span></b><span style='font-family:"Segoe UI",sans-serif; color:black'> reflects the investor's
+black swan conviction</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><b><span
+style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin/Gold split</span></b><span style='font-family:"Segoe UI",sans-serif; color:black'> reflects their balance
+between mathematical optimization (full Kelly) and traditional conservatism
+(quarter Kelly)</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'>This allows investors with wildly different
+macro views to apply the same allocation framework within their chosen reserve
+position.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+<figure class='ltx_figure'>
+
+<p align=center style=text-align:center><span ><img width=624 height=414
+src="bitcoin_gold_Biggs_(20251031)_files/image030.png"
+alt="A chart with text on it&#10;&#10;AI-generated content may be incorrect."
+v:shapes="Picture_x0020_3"></span></p>
+
+<p align=center style='text-align:center'><span class=ltxtag2><!--EndFragment --><span style='font-family:"Segoe UI",sans-serif; color:black'>Figure 10:</span><span style='font-family:"Segoe UI",sans-serif; color:black'> Kelly Criterion Summary</span></p>
+
+</figure>
+
+<p class=ltxitem><b><span style='font-family:"Segoe UI",sans-serif; color:black'>Important Context</span></b><span
+style='font-family:"Segoe UI",sans-serif; color:black'>: The Kelly criterion assumes perfect model accuracy. In practice:</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Model uncertainty means
+these allocations could prove suboptimal.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>If Bitcoin were to
+significantly underperform gold when “crisis insurance” was most needed, a
+Bitcoin-heavy reserve would provide less protection than a gold-heavy
+allocation.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Due to model
+uncertainty, many practitioners use fractional Kelly allocations - often 25 to
+50% of the calculated optimal. The appropriate fraction depends on one’s
+confidence in how well the model’s parameters hold up in the future. </span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>These calculations
+optimize within the reserve bucket only, not total portfolio risk.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>The key risk is not
+devastating loss, but rather ineffective insurance - having reserves that
+insufficiently cushion the blow of a crisis.</span></p>
+
+<p class=ltxitem><span style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</section><section class='ltx_section' id="S10">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>10.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>How does this compare to prior work? </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Institutional studies—Deutsche Bank (2025),
+Fidelity (2024), WisdomTree (2025), NYDIG (2024), and academic studies (Zwick
+and Syed, 2019)—acknowledge the Bitcoin–Gold analogy but omit the quantitative
+supply-differential term.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>This analysis fills that gap by proposing a
+reasonable saturating model that links long term supply to valuation drift.
+Based on this assumption it makes quantitative predictions of future valuations
+that are consistent with past performance.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Several nations are on the cusp of
+establishing bitcoin reserves, led by the US with an executive order 2025-03.
+Basel Committee rules now allow banks to hold up to 2% of reserves in
+cryptocurrencies starting January 2025.</span></p>
+
+</div>
+
+</section><section class='ltx_section' id="S11">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>11.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>What does the evidence suggest? </span></h2>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>The
+data fit a saturating exponential, not a speculative bubble.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>The
+asymptote aligns with Gold's 2% supply growth.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin's
+expected real return ≈ 10.6% / yr.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Bitcoin's
+volatility relative to gold has decreased with time, particularly after 2023.</span></p>
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>12.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>Model Breakers </span></h2>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Future
+regulation or taxation could alter adoption rates.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Competing
+digital currencies could displace Bitcoin, decreasing adoption.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Consensus
+layer or network security risks such as quantum computing could increase the
+risk of Bitcoin, reducing or reversing adoption.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Transition
+of Bitcoin to a &quot;consumer exchange&quot; currency could increase its value
+beyond projections of this “reserve” model.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Changes
+in Gold mining such as new methods or reserves could increase the annual rate
+of increase of above-ground Gold.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><!--[if !supportLists]--><span style='font-size:10.0pt; font-family:"Segoe UI Symbol"; color:black'><span
+>•<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><!--[endif]--><span style='font-family:"Segoe UI",sans-serif; color:black'>New industrial uses could reduce the
+availability of Gold for reserve banking.</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><!--[if !supportLists]--><span style='font-size:10.0pt; font-family:"Segoe UI Symbol"; color:black'><span
+>•<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><!--[endif]--><span style='font-family:"Segoe UI",sans-serif; color:black'>AI-driven
+displacement of workers could force them to liquidate their personal Bitcoin holdings to pay for food and shelter while unemployed,
+creating sustained selling pressure and reduced price during an economic transition of
+unknown duration.</span></p>
+
+</section><section class='ltx_section' id="S13">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>13.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>Conclusions </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>From open data and minimal assumptions,
+Bitcoin's long-term valuation compared to Gold follows a measurable, saturating
+path. The model captures Bitcoin's transition from speculative investment to
+established asset.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The price of Bitcoin at the time of this
+white paper (21 oz gold per bitcoin in mid-January 2026) matches modeled
+expectations.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>Unlike many crypto predictions that claim
+false precision, we acknowledge the fundamental uncertainty in adoption
+dynamics and volatility. Our model reflects honest uncertainty while still
+making a directionally strong claim.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>With 95% of Bitcoins mined, the era of 10x
+moves is ending. The era of sustainable outperformance is beginning.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The rising value of Bitcoin is not a
+speculative mania. It reflects increasing adoption, decreasing volatility, and
+superior long-term scarcity compared to Gold. Together these effects signal a
+slow gravitational re-balancing of monetary mass from metal to bits.</span></p>
+
+</div>
+
+</section><section class='ltx_section' id="S14">
+
+<h2><span class=ltxtag2><span style='font-family:"Segoe UI",sans-serif; color:black'>14.</span><span style='font-family:"Segoe UI",sans-serif; color:black'>Supplementary Material </span></h2>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The following supplementary materials are
+available to reproduce and extend this analysis:</span></p>
+
+</div>
+
+<section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>S1. Input Data</span></h3>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Training
+Dataset:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+Gold and Bitcoin monthly prices from January 2015 through December 2024<br>
+File: </span><code><span style='font-size:10.0pt; color:black'>btc_gold_training_2015_2024.csv</span></code><span style='font-family:"Segoe UI",sans-serif; color:black'> (117 observations)</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Test
+Dataset:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+Gold and Bitcoin monthly prices from January 2025 through January 2026<br>
+File: </span><code><span style='font-size:10.0pt; color:black'>btc_gold_test_2025(&amp;26Jan).csv</span></code><span
+style='font-family:"Segoe UI",sans-serif; color:black'> (13 observations)</span></p>
+
+</section><section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>S2. Analysis Code</span></h3>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Python
+Implementation:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+Complete analysis pipeline including data processing, model fitting,
+statistical tests, and figure generation<br>
+File: </span><code><span style='font-size:10.0pt; color:black'>btc_gold_analysis_rev14.py</span></code><span
+style='font-family:"Segoe UI",sans-serif; color:black'><br>
+Requirements: numpy, pandas, scipy, matplotlib, datetime</span></p>
+
+<p class=ltxitem style='margin-left:.5in; text-indent:-.25in; tab-stops:list .5in'><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Analysis
+Output:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'>
+Numerical results, model parameters, and statistical test outcomes<br>
+File: </span><code><span style='font-size:10.0pt; color:black'>analysis_results.txt</span></code><span
+style='font-family:"Segoe UI",sans-serif; color:black'></span></p>
+
+</section><section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>S3. Methods Details</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Data Preprocessing:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'> Monthly Bitcoin and Gold prices were collected from public sources. Gold
+prices were primarily sourced from the World Gold Council's public dataset on
+GitHub (<a
+href="https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv">https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv</a>)
+for January 2015 through June 2025. The final seven months (July 2025 - January 2026)
+were supplemented with data from Yahoo Finance and Kitco (<a
+href="https://finance.yahoo.com/quote/GC=F">https://finance.yahoo.com/quote/GC=F</a>).
+Bitcoin prices were obtained from CoinGecko's historical data (<a
+href="https://www.coingecko.com/en/coins/bitcoin/historical_data">https://www.coingecko.com/en/coins/bitcoin/historical_data</a>).
+Prices were converted to a Bitcoin/gold ratio (ounces of gold per bitcoin) and
+log-transformed for modeling.</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Model Fitting:</span></strong><span
+style='font-family:"Segoe UI",sans-serif; color:black'> The
+saturating exponential model ln(R(t)) = C + g•t + A(1 - e<sup>-λt</sup>) was
+fit using nonlinear least squares (Levenberg-Marquardt algorithm) via
+scipy.optimize.curve_fit. The gold supply growth rate g was fixed at 0.02,
+leaving three free parameters (C, A, λ).</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Volatility Analysis:</span></strong><span style='font-family:"Segoe UI",sans-serif; color:black'> Residuals were split at January 2023. A Levene test compared pre- and
+post-2023 variances (p &lt; 0.0001). Rolling 36-month standard deviations
+quantified the volatility trend (-0.033/year decline rate).</span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><strong><span style='font-family:"Segoe UI",sans-serif; color:black'>Projections:</span></strong><span
+style='font-family:"Segoe UI",sans-serif; color:black'>
+Future values were projected using fitted parameters. Confidence intervals used
+the post-2023 volatility (σ = 0.258) for ±1σ and ±2σ bounds. Sensitivity
+analysis tested g = 1.5%, 2.0%, and 2.5% supply growth rates.</span></p>
+
+</div>
+
+</section><section class='ltx_subsection'>
+
+<h3><span style='font-family:"Segoe UI",sans-serif; color:black'>S4. Data and Code
+Availability</span></h3>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>All data and code necessary to reproduce the
+results in this paper are available at: <a href="https://github.com/silmonbiggs/BTCvGold">https://github.com/silmonbiggs/BTCvGold</a></span></p>
+
+</div>
+
+<div style='margin-top:11.25pt; margin-bottom:11.25pt'>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The repository includes: </span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Complete
+training and test datasets (CSV format)</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Python
+analysis code with documentation</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Generated
+figures (PNG format, 300 DPI)</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>Numerical
+results and model diagnostics</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-.25in'><span style='font-family:"Segoe UI",sans-serif; color:black'>README
+with setup and execution instructions</span></p>
+
+</div>
+
+</section></section><section class='ltx_about'>
+
+<h2><span style='font-family:"Segoe UI",sans-serif; color:black'>About</span></h2>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>I'm a Ph.D. scientist/engineer with 40+ patents and publications. I built this framework while deciding on my personal retirement allocations.</span></p>
+
+</section><section class='ltx_acknowledgments'>
+
+<h2><span style='font-family:"Segoe UI",sans-serif; color:black'>Acknowledgment</span></h2>
+
+<p class=ltxp1><span style='font-family:"Segoe UI",sans-serif; color:black'>The author wishes to thank the creators of Claude Code (powered by Claude Opus 4.5) for their contributions to coding, data analysis, and presentation of this work, and to Anthropic Inc., for organizing their efforts into a capable investigative partner.</span></p>
+
+</section><section class='ltx_bibliography'>
+
+<h2><span style='font-family:"Segoe UI",sans-serif; color:black'>References</span></h2>
+
+<table border=0 cellspacing=0 cellpadding=5 style='font-family:"Segoe UI",sans-serif; color:black'>
+<tr valign=top>
+<td style='width:40px'>[1]</td>
+<td>World Gold Council (2025)<br>
+<i>Gold Prices Monthly Dataset.</i><br>
+GitHub repository.<br>
+External Links: <a href="https://raw.githubusercontent.com/datasets/gold-prices/main/data/monthly.csv">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[2]</td>
+<td>Yahoo Finance (2025)<br>
+<i>Gold Futures Historical Data (GC=F).</i><br>
+External Links: <a href="https://finance.yahoo.com/quote/GC=F">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[3]</td>
+<td>CoinGecko (2025)<br>
+<i>Bitcoin Historical Data.</i><br>
+External Links: <a href="https://www.coingecko.com/en/coins/bitcoin/historical_data">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[4]</td>
+<td>Square (2025)<br>
+<i>Square Brings Bitcoin to Main Street with First Integrated Payments Solution.</i><br>
+External Links: <a href="https://squareup.com/us/en/press/square-bitcoin">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[5]</td>
+<td>Deutsche Bank Research (2025)<br>
+<i>Bitcoin vs Gold: The Future of Central Bank Reserves.</i><br>
+External Links: <a href="https://www.dbresearch.com/PROD/RPS_EN-PROD/PROD0000000000603643">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[6]</td>
+<td>Fidelity Digital Assets (2024)<br>
+<i>Bitcoin as an Aspirational Store of Value Revisited.</i><br>
+External Links: <a href="https://www.fidelitydigitalassets.com/research-and-insights/bitcoin-aspirational-store-value-revisited">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[7]</td>
+<td>WisdomTree (2025)<br>
+<i>Bitcoin and Gold: 3 Model Forecasts for 2030 and Beyond.</i><br>
+External Links: <a href="https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/research/whitepapers/bitcoin-and-gold-3-model-forecasts-for-2030-and-beyond.pdf">Document</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[8]</td>
+<td>Cipolaro, G. (2025)<br>
+<i>Comparing Bitcoin and Gold.</i><br>
+NYDIG.<br>
+External Links: <a href="https://www.nydig.com/research/comparing-bitcoin-and-gold">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[9]</td>
+<td>Zwick, H. and Syed, S. (2019)<br>
+<i>Bitcoin and Gold Prices: A Fledging Long-Term Relationship.</i><br>
+Theoretical Economics Letters, 9, 2516-2525.<br>
+External Links: <a href="https://www.scirp.org/journal/paperinformation?paperid=95629">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[10]</td>
+<td>Shore, M. (2025)<br>
+<i>Why Bitcoin's Relationship with Equities Has Changed.</i><br>
+CME Group.<br>
+External Links: <a href="https://www.cmegroup.com/openmarkets/economics/2025/Why-Bitcoins-Relationship-with-Equities-Has-Changed.html">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[11]</td>
+<td>CNBC (2022)<br>
+<i>U.S. and allies freeze Russian central bank assets.</i><br>
+February 28, 2022.<br>
+External Links: <a href="https://www.cnbc.com/2022/02/28/biden-administration-expands-russia-sanctions-cuts-off-us-transactions-with-central-bank.html">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[12]</td>
+<td>World Gold Council (2025)<br>
+<i>Gold Demand Trends Full Year 2024.</i><br>
+Central Banks and Other Institutions Statistics.<br>
+External Links: <a href="https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2024/central-banks">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[13]</td>
+<td>SEC (2024)<br>
+<i>Order Approving Proposed Rule Changes for Spot Bitcoin Exchange-Traded Products.</i><br>
+January 10, 2024.<br>
+External Links: <a href="https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[14]</td>
+<td>CoinDesk (2025)<br>
+<i>Corporate Bitcoin Treasuries: A Comprehensive List.</i><br>
+Accessed October 2025.<br>
+External Links: <a href="https://bitcointreasuries.net/">Link</a></td>
+</tr>
+<tr valign=top>
+<td style='width:40px'>[15]</td>
+<td>River Financial (2025)<br>
+<i>Bitcoin Ownership Report: August 2025.</i><br>
+River Intelligence.<br>
+External Links: <a href="https://blog.river.com/tag/river-research/">Link</a></td>
+</tr>
+</table>
+
+</div>
+
+</section></div>
+
+</article>
+</body>
+
+</html>
