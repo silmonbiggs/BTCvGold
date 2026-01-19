@@ -27,10 +27,10 @@ for i, (btc, gld) in enumerate(zip(bitcoin_pct, gold_pct)):
     # Gold label (in upper portion)
     ax.text(i, btc + gld/2, f'{gld}%', ha='center', va='center', fontsize=14, fontweight='bold', color='#333333')
 
-ax.set_ylabel('Allocation (%)', fontsize=12)
+ax.set_ylabel('Allocation (%)', fontsize=14, fontweight='bold')
 ax.set_title('Within-Bucket Kelly Allocations\n(Bitcoin vs Gold, Post-2023 Volatility Regime)', fontsize=21, fontweight='bold')
 ax.set_xticks(x)
-ax.set_xticklabels(labels, fontsize=11)
+ax.set_xticklabels(labels, fontsize=12, fontweight='bold')
 ax.legend(loc='upper right', fontsize=11)
 ax.set_ylim(0, 100)
 

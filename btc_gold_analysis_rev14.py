@@ -1129,8 +1129,8 @@ def create_figure_tight_projections(df_train, df_test, popt, g_fixed, sigma_2023
             verticalalignment='bottom', horizontalalignment='right', bbox=props,
             fontfamily='monospace', zorder=100)
     
-    ax.set_xlabel('Date', fontsize=18)
-    ax.set_ylabel('Bitcoin Price (oz of Gold)', fontsize=18)
+    ax.set_xlabel('Date', fontsize=18, fontweight='bold')
+    ax.set_ylabel('Bitcoin Price (oz of Gold)', fontsize=18, fontweight='bold')
     ax.set_title("Bitcoin's Gold Price Projections with Post-2023 Volatility Bounds\n" +
                  'Testing Both Trajectory and Stability Hypotheses', fontsize=21, fontweight='bold')
     ax.grid(True, alpha=0.3, linestyle='--', which='both')
