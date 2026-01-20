@@ -7,11 +7,11 @@ fig, ax = plt.subplots(figsize=(12, 7))
 # Data for three columns
 labels = ['Full Kelly\n(Rational)', 'Half Kelly\n(Conservative)', 'Quarter Kelly\n(Status-Quo-Favoring)']
 
-# Full Kelly: 25% Gold, 75% Bitcoin
-# Half Kelly: 50% of 75% Bitcoin = 37.5% Bitcoin, 62.5% Gold
-# Quarter Kelly: 25% of 75% Bitcoin = 18.75% Bitcoin, 81.25% Gold
-bitcoin_pct = [75, 37.5, 18.75]
-gold_pct = [25, 62.5, 81.25]
+# Full Kelly: 100% Bitcoin, 0% Gold
+# Half Kelly: 50% Bitcoin, 50% Gold
+# Quarter Kelly: 25% Bitcoin, 75% Gold
+bitcoin_pct = [100, 50, 25]
+gold_pct = [0, 50, 75]
 
 x = np.arange(len(labels))
 width = 0.6
@@ -43,6 +43,6 @@ plt.savefig('C:/dev/GoldvBTC/figure_kelly_summary.png', dpi=150, bbox_inches='ti
 plt.close()
 
 print("Figure 10 regenerated successfully with corrected percentages:")
-print("Full Kelly: 75% Bitcoin / 25% Gold")
-print("Half Kelly: 37.5% Bitcoin / 62.5% Gold")
-print("Quarter Kelly: 18.75% Bitcoin / 81.25% Gold")
+print("Full Kelly: 100% Bitcoin / 0% Gold")
+print("Half Kelly: 50% Bitcoin / 50% Gold")
+print("Quarter Kelly: 25% Bitcoin / 75% Gold")
