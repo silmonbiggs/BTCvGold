@@ -13,8 +13,9 @@ old4/
 raw/
 *.zip
 
-# Documents (keep source code and data only)
+# Documents (keep source code and data only, except the paper)
 *.pdf
+!bitcoin_gold_biggs.pdf
 *.docx
 
 # PowerShell scripts (local tooling)
