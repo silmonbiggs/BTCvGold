@@ -3,6 +3,7 @@
 ~WRL*
 *.tmp
 AutoRecovery*
+nul
 
 # Old versions and archives
 old/
@@ -22,11 +23,10 @@ raw/
 # Claude Code working directory
 .claude/
 
-# Old figures in root (fresh ones in figures/)
-# Exception: figure_kelly_summary.png is tracked
+# Root-level figures (canonical copies live in figures/)
 /figure_*.png
-!/figure_kelly_summary.png
 /analysis_results.txt
+/residuals_*.png
 
 # Python
 __pycache__/
@@ -37,7 +37,6 @@ venv/
 
 # IDE
 .vscode/
-.idea/
 
 # OS files
 .DS_Store
@@ -45,3 +44,27 @@ Thumbs.db
 
 # Old test data file (superseded)
 btc_gold_test_2025.csv
+
+# Local planning and construction debris
+ARXIV_SUBMISSION_PLAN.md
+*.htm
+
+# HTML versions of the paper (local only, except current)
+bitcoin_gold_Biggs_*.html
+!bitcoin_gold_Biggs_(20260127).html
+bitcoin_gold_Biggs_*_files/
+
+# Utility scripts (not part of the analysis)
+clean_html.py
+generate_kelly_figure.py
+
+# arXiv build artifacts and backups
+arxiv/*.aux
+arxiv/*.bbl
+arxiv/*.blg
+arxiv/*.log
+arxiv/*.out
+arxiv/*.pdf
+arxiv/*bkup*
+arxiv/*checkchanges*
+arxiv/.vscode/

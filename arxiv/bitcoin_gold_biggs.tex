@@ -1,0 +1,555 @@
+% Bitcoin's Gold Price - ArXiv Submission
+% S. James Biggs, January 2026
+\documentclass[11pt,letterpaper]{article}
+
+% ArXiv preprint style
+\usepackage{arxiv}
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage[numbers]{natbib}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=2pt, topsep=2pt, parsep=0pt}
+
+% Customize header
+\renewcommand{\headeright}{Preprint}
+\renewcommand{\undertitle}{}
+
+% Graphics path
+\graphicspath{{figures/}}
+
+% Title and author
+\title{Bitcoin's Gold Price:\\History, Model, and Falsifiable Predictions through 2035}
+\author{S. James Biggs\\
+\small San Diego, California, USA}
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+%------------------------------------------------------------------------------
+% ABSTRACT
+%------------------------------------------------------------------------------
+\begin{abstract}
+We present a model that predicts Bitcoin's long-term value relative to Gold based on supply dynamics and adoption saturation. Gold's 2\% annual supply growth dilutes existing holders; Bitcoin's supply is capped, with 95\% already mined and the remainder released on a four-year halving cycle. This differential implies Bitcoin should outperform Gold by approximately 2\% annually once adoption saturates. Our model captures the transition from exponential adoption to scarcity-driven growth using a saturating exponential with three free parameters. Fitted to 10 years of monthly data (2015--2024), the model achieves $R^2 = 0.91$ and correctly predicts 13 months of held-out test data (2025--2026). The leftover scatter after fitting reveals a shift in how widely prices swing after January 2023: standard deviation fell from $\sigma = 0.478$ to $\sigma = 0.258$ ($p < 0.0001$), coinciding with significant geopolitical shifts in reserve-asset markets. The model projects Bitcoin will reach 37~oz Gold by 2030 (95\% CI: 22--62~oz) and 43~oz by 2035 (95\% CI: 26--72~oz), with expected annual outperformance of 8.6\% relative to Gold. These projections constitute falsifiable hypotheses about both trajectory and volatility.
+\end{abstract}
+
+\keywords{Bitcoin \and gold \and monetary economics \and store of value \and volatility \and saturation model \and cryptocurrency \and reserve assets}
+
+%------------------------------------------------------------------------------
+% EXECUTIVE SUMMARY
+%------------------------------------------------------------------------------
+\begin{mdframed}[linewidth=1.5pt,linecolor=black!60,backgroundcolor=gray!5]
+\subsection*{Executive Summary}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Volatility:} Bitcoin's volatility has dropped by half since 2023 ($p < 0.0001$). The wide swings of Bitcoin's youth are stabilizing as adoption matures.
+    \item \textbf{Trajectory:} Bitcoin's value relative to Gold follows a curve consistent with saturating adoption, not a speculative bubble.
+    \item \textbf{The Model:} A saturating exponential with just three free parameters fits 10 years of BTC/Gold ratio data with $R^2 = 0.91$.
+    \item \textbf{Model Predictions:}
+    \begin{itemize}
+        \item 2030 projection: $\approx 37$~oz Gold (95\% CI: 22--62~oz)
+        \item 2035 projection: $\approx 43$~oz Gold (95\% CI: 26--72~oz)
+        \item Expected return: $\sim$10.6\% annually (including 2\% inflation)
+    \end{itemize}
+    \item \textbf{The Investment Case:}
+    \begin{itemize}
+        \item 97.5\% probability of matching or beating Gold over 10 years
+        \item Expected outperformance: 8.6\% annually above Gold
+        \item Risk: 2.5\% chance of underperformance vs Gold over 10 years
+    \end{itemize}
+\end{itemize}
+\end{mdframed}
+
+%------------------------------------------------------------------------------
+% SECTION 1
+%------------------------------------------------------------------------------
+\section{What question are we asking?}
+
+Gold and Bitcoin both serve as scarce stores of value. One leaks. The other doesn't.
+
+Can the difference in their abundance explain Bitcoin's long-term value trajectory relative to Gold? And, if so, what does that imply for real returns and global reserve composition?
+
+This inquiry began with data and curiosity, not a thesis. The goal was to fit a model consistent with observable prices and simple, defensible assumptions about supply. The theory followed from the fit.
+
+What emerged was a model of the long-term value of Bitcoin. Bitcoin adoption isn't reaching a saturation \emph{point}; it's following a saturation \emph{curve}. Modeling that curve tells us where it's likely to be headed.
+
+%------------------------------------------------------------------------------
+% SECTION 2
+%------------------------------------------------------------------------------
+\section{What facts can we observe directly?}
+
+The monthly prices of Bitcoin and Gold are both public information. We plot them over the last eleven years (January 2015 -- January 2026) in Figure 1. On a logarithmic scale, Bitcoin's exponential rise appears as an upward-sloping line; Gold holds roughly flat. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_usd_prices.png}
+    \caption{Gold and Bitcoin prices over time}
+    \label{fig:usd_prices}
+\end{figure}
+
+From these public data one may calculate the ratio: Bitcoin price in ounces of Gold (Figure~\ref{fig:ratio_history}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_ratio_history.png}
+    \caption{Bitcoin valuation in Gold terms 2015--2025}
+    \label{fig:ratio_history}
+\end{figure}
+
+In 2017 one Bitcoin would buy about 1~oz of Gold. In 2023 it could buy about 10 ounces. Boom-and-bust cycles ride an upward curve. The curve rises steeply in early years and flattens later, hinting at saturation, not perpetual exponential growth. But saturation to what?
+
+%------------------------------------------------------------------------------
+% SECTION 3
+%------------------------------------------------------------------------------
+\section{What are the saturation rules for each currency?}
+
+\subsection{Gold}
+
+Gold's above-ground stock increases by roughly 2\% per year due to mining. The leak is small but eternal. Wait long enough and Gold's supply becomes infinite. Gold's supply curve is elastic to price. If the supply declines and the price rises, mining output increases, reinforcing the equilibrium around 2\%.
+
+\subsection{Bitcoin}
+
+Bitcoin's issuance is strictly limited by protocol. The reward for mining new blocks halves approximately every four years (``the halving cycle''), and the algorithm self-adjusts mining difficulty to maintain a steady block rate of about one block per 10 minutes. The total supply is capped at 21 million Bitcoins, with about 95\% already mined as of 2025. No central authority can print more. The blockchain guarantees this by cryptography, not by promise.
+
+\subsection{Custody and access}
+
+Bitcoin is decentralized. No single institution controls it. Its infrastructure is spread across computers worldwide. It is becoming increasingly liquid at a consumer level, exchangeable for goods via networks like PayPal and Square~\cite{square2025}.
+
+Gold is typically held by intermediaries: banks, brokers, vaults. That means a government can freeze it with a phone call. This happened to Russia's central bank reserves in 2022~\cite{cnbc2022}. Bitcoin works differently. It can be held directly, on a device the owner controls, and transferred to anyone in the world without intermediary approval. Every transaction is recorded on a public ledger that anyone can verify. There is no phone call that freezes it. This comes with its own risks: lose the cryptographic key and the Bitcoin is gone forever, with no institution to restore access. But the structural difference matters. We return to it in Section 8.
+
+%------------------------------------------------------------------------------
+% SECTION 4
+%------------------------------------------------------------------------------
+\section{What model best describes the ratio curve?}
+
+Given Gold's 2\% leak, and Bitcoin's approach toward zero additional supply, we fit a curve that rises fast at first and then levels off, approaching a steady 2\% per year gain:
+\begin{equation}
+\ln(R(t)) = C + gt + A(1 - e^{-\lambda t})
+\label{eq:model}
+\end{equation}
+where:
+\begin{itemize}[leftmargin=2cm]
+    \item[$R(t)$] is Bitcoin's value in ounces of Gold,
+    \item[$t$] is time in years since the first observation (2015-01),
+    \item[$C$] is the baseline log ratio,
+    \item[$g$] is the long-run differential in value growth (fixed to Gold's supply rate, $g \approx 0.02$),
+    \item[$A$, $\lambda$] describe early adoption acceleration and its decay.
+\end{itemize}
+
+Thus, the model has only three free parameters: ($C$, $A$, $\lambda$). The 2\% leak rate ($g$) is an observed constant, not a tuned variable.
+
+The best-fit parameters seem reasonable (Table~\ref{tab:params}). The adoption rate of decay ($\lambda = 0.283$~yr$^{-1}$) corresponds to a half-life of $\ln(2)/0.283 \approx 2.4$ years. The adoption surge dampens quickly. It suggests most of the explosive growth happened in the first $\sim$5--7 years (2015--2022). By 2025, four half-lives later, the adoption surge is subsiding, though not quite gone, and the continued outperformance of Bitcoin relative to Gold is due to its relative scarcity.
+
+\begin{table}[H]
+\centering
+\caption{Model parameters}
+\label{tab:params}
+\begin{tabular}{@{}ll S[table-format=-1.3, table-align-uncertainty=false] l@{}}
+\toprule
+\textbf{Parameter} & \textbf{Meaning} & {\textbf{Estimate}} & \\
+\midrule
+$g$ & Asymptotic growth vs Gold & 0.020 & yr$^{-1}$ (observed) \\
+$\lambda$ & Decay rate of adoption & 0.283 & yr$^{-1}$ \\
+$A$ & Initial adoption rate & 5.62 & \\
+$C$ & Baseline & -2.25 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_model_comparison.png}
+    \caption{Comparison of different models}
+    \label{fig:model_comparison}
+\end{figure}
+
+\subsection{Fit Comparison}
+
+The saturating exponential minimizes residual error and correctly reproduces the slowdown post-2018. It outperforms both ``just like gold'' (flat) and ``more forever'' (log-linear).
+
+\begin{table}[H]
+\centering
+\caption{Model comparison results}
+\label{tab:comparison}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Model} & \textbf{Parameters} & \textbf{$R^2$} & \textbf{RMSE} \\
+\midrule
+Flat (``Just Like Gold'') & 1 & 0.000 & 1.580 \\
+Linear (``More Forever'') & 2 & 0.812 & 0.687 \\
+Saturating Exponential & 3 & 0.909 & 0.478 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The scatter around the fitted curve gives us error bands (Figure~\ref{fig:model_fit}, dashed and dotted lines) that bracket the modeled values (Figure~\ref{fig:model_fit}, orange line). Cycles of boom or bust pull the price away from the central trend. Each period of boom or bust, above or below the trend line, lasts about 1 to 2 years.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_model_fit.png}
+    \caption{Saturating exponential fit with error bounds}
+    \label{fig:model_fit}
+\end{figure}
+
+Our analysis spans 67\% of Bitcoin's entire existence since 2009, capturing the transition from experimental technology to institutional asset. We omit earlier data; it reflects discovery dynamics, not mature market behavior.
+
+\subsection{Why This Functional Form?}
+
+Alternative approaches to modeling Bitcoin's value include network effect models (Metcalfe's Law: value $\propto$ users$^2$), stock-to-flow models based on Bitcoin's halving cycle, and regime-switching frameworks. While theoretically interesting, these approaches either:
+\begin{itemize}
+    \item Require additional parameters (network models need user adoption curves: $\geq$4 parameters)
+    \item Model Bitcoin's absolute USD value rather than its performance relative to Gold
+    \item Lack the theoretical grounding in observable supply differentials
+\end{itemize}
+
+Our saturating exponential achieves $R^2 = 0.91$ with only three free parameters by fixing $g$ to Gold's observed supply growth (0.02). Fixing this number from real-world data instead of letting the computer choose it keeps the model simple and honest. The functional form directly captures our hypothesis: Bitcoin's early explosive adoption ($A$, $\lambda$ terms) eventually saturates, leaving persistent outperformance driven purely by the supply differential ($g$ term).
+
+The question isn't ``what's the most sophisticated model?'' but ``what's the simplest model that still works?''
+
+%------------------------------------------------------------------------------
+% SECTION 5
+%------------------------------------------------------------------------------
+\section{How well does the model predict test data?}
+
+The fit was made on data through 2024-12, yet it correctly predicts Bitcoin's gold value for thirteen additional months through the time of this writing, 27 January 2026 (Figure~\ref{fig:projection}, red squares). This forward accuracy shows the model captures real effects, not just pattern-matched noise.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_projection.png}
+    \caption{Extrapolation to test data}
+    \label{fig:projection}
+\end{figure}
+
+All test points fall within $\pm$1$\sigma$, tighter than expected. Volatility may be falling---a hypothesis we test in Section 7.
+
+%------------------------------------------------------------------------------
+% SECTION 6
+%------------------------------------------------------------------------------
+\section{What does the model predict going forward?}
+
+Fitting the model with different assumptions about the additional supply of Gold added yearly from mining shows the fit is not sensitive to assumptions about the fixed parameter $g$. Choices of $g = 1.5\%$, $2.0\%$, and $2.5\%$ all yield approximately the same story a decade into the future.
+
+\begin{itemize}
+    \item Projected (2030-01): $\approx 36$~oz Gold per BTC
+    \item Projected (2035-01): $\approx 42$~oz Gold per BTC
+\end{itemize}
+
+These projected future values are favorable compared to Bitcoin's gold price at the time of this writing ($\sim$17~oz Gold per BTC, 27 January 2026). The current value is about two standard deviations below the trendline, suggesting Bitcoin is currently undervalued.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_trailing_average.png}
+    \caption{Monthly data and long range model predictions for Bitcoin's gold value in 2030 and 2035.}
+    \label{fig:trailing}
+\end{figure}
+
+The model's insensitivity to the precise value of $g$ (tested from 1.5\% to 2.5\%) demonstrates that its predictions depend primarily on the existence of Gold's supply growth rather than its exact magnitude, making the framework robust to uncertainty in mining economics.
+
+\subsection{Return}
+
+The model predicts Bitcoin's Compound Annual Growth Rate compared to Gold going forward averages 8.6\%/yr ($\approx 2.3\times$ over the next decade). The components of Bitcoin's expected return are:
+
+\begin{table}[H]
+\centering
+\caption{Components of Bitcoin's expected return}
+\label{tab:returns}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}l S[table-format=+2.1] p{7cm}@{}}
+\toprule
+\textbf{Component} & {\textbf{Rate [\%/yr]}} & \textbf{Description} \\
+\midrule
+BTC vs Gold ratio growth & +8.6 & Model's core prediction for Bitcoin appreciation relative to Gold \\
+Gold real drift & +2.0 & Gold's historical appreciation vs USD (above inflation) \\
+CPI inflation & +2.5 & Assumed baseline inflation \\
+\midrule
+\textbf{Total nominal return} & {$\approx$\textbf{13.1}} & Bitcoin's expected USD appreciation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 8.6\% BTC/Gold ratio growth over the next ten years is the key model output. Some of this 8.6\% comes from Bitcoin still being adopted; the rest comes from Gold's supply growing while Bitcoin's doesn't. The other components are external assumptions. Bitcoin's projected real return (above inflation) is 10.6\%/yr.
+
+Although Bitcoin's expected rate of return compares favorably to Gold, its volatility makes the return at any given moment uncertain. Projecting Bitcoin's historical volatility into the future produces predictions with a wide range:
+
+\begin{itemize}
+    \item Projected (2030-01): $\approx 36$~oz Gold per Bitcoin, (22 to 58 with 68\% probability)
+    \item Projected (2035-01): $\approx 42$~oz Gold per Bitcoin, (26 to 68 with 68\% probability)
+\end{itemize}
+
+That's a wide range, with estimates spanning over two-fold, yet it only captures 68\% of the expected values. Calling 26-to-68 ounces a ``prediction'' is generous.
+
+But the volatility itself is collapsing. As Bitcoin matures along its adoption curve, the wide price swings attenuate. The market stabilizes. Next we examine this aspect of Bitcoin's Gold value.
+
+%------------------------------------------------------------------------------
+% SECTION 7
+%------------------------------------------------------------------------------
+\section{How is Bitcoin's volatility changing with time?}
+
+To get at this question of volatility, we look at the residuals, the cycles of boom-and-bust riding on top of Bitcoin's upward arc with respect to Gold. The analysis shows that the amplitude of these cycles is decreasing with time as Bitcoin becomes established.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_residuals_qualitative.png}
+    \caption{Residuals analysis---qualitative}
+    \label{fig:residuals_qual}
+\end{figure}
+
+A qualitative trend toward declining volatility is evident in the data, with scatter decreasing noticeably after 2023 (Figure~\ref{fig:residuals_qual}, left, post-2023 points). To get a more quantitative intuition, to treat doublings and halvings as equally important, the data are switched to a logarithmic scale (Figure~\ref{fig:residuals_qual}, right), and absolute values of the excursions are plotted so that both decreases and increases of value show as positive volatility. A 36-month rolling average shows the volatility trend with time (Figure~\ref{fig:residuals_qual}, right, red line).
+
+Even when the entirety of the data series is fit (Figure~\ref{fig:residuals_quant}, left) the trend toward decreased volatility is evident ($R^2 = 0.6419$), and statistically significant ($p<0.0001$). A linear fit of the 36-month rolling average shows a volatility decline of about 0.033 per year. The statistics confirm that the system is stabilizing as adoption progresses.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_residuals_quantitative.png}
+    \caption{Residuals analysis---quantitative}
+    \label{fig:residuals_quant}
+\end{figure}
+
+Volatility declines, but to what value? Obviously, it does not go to zero. The model will never be perfect. To get an approximate value for recent volatility, we divide the data into two parts, pre-2023 and 2023-present (Figure~\ref{fig:residuals_quant}, right). A Levene Test compares the variance before and after 2023, and finds the difference to be statistically significant:
+
+\begin{itemize}
+    \item Levene Test Results: $F(1,131) = 23.18$, $p < 0.0001$ (highly significant)
+    \item Pre-2023: $\sigma = 0.478$
+    \item Post-2023: $\sigma = 0.254$ (58\% reduction)
+\end{itemize}
+
+Fresh $\pm$1$\sigma$ error bounds (Figure~\ref{fig:residuals_quant}, right, green dotted lines), are tighter than error bounds based on the training data (Figure~\ref{fig:residuals_quant}, right, red dotted lines). Based on post-2023 data, it is reasonable to forecast Bitcoin's future value in ounces of Gold (initially estimated in Figure~\ref{fig:trailing}), but with tighter post-2023 bounds.
+
+The data show volatility is stabilizing. The statistics are unambiguous ($p < 0.0001$). But statistics don't explain causes. A 58\% drop doesn't just happen. Something shifted in how the world treats Bitcoin. The timing points to a specific event.
+
+%------------------------------------------------------------------------------
+% SECTION 8
+%------------------------------------------------------------------------------
+\section{Causes of reduced volatility---Political Legitimization and Monetary Realignment: 2022--2025}
+
+The timing of the volatility regime-change we observe beginning in 2023 suggests a cascade of geopolitical and regulatory shifts that fundamentally altered Bitcoin's institutional status~\cite{shore2025}.
+
+We argue that the trigger was February 2022: Western governments froze \$300 billion in Russian central bank reserves following the Ukraine invasion~\cite{cnbc2022}. For the first time, the dollar itself became a weapon. Non-aligned nations noticed. Central banks, which had been purchasing about 500 tons of Gold annually before this trigger approximately doubled their purchases, to  1,082 tons of Gold in 2022, then 1,037 tons in 2023, and 1,045 tons in 2024, making three consecutive years exceeding 1,000 tons for the first time in history~\cite{wgc2025demand}.
+
+Bitcoin benefited from this same flight to sanctions-resistant assets. The January 2023 shift in volatility we measured lines up with a natural delay: big institutions move slowly after a geopolitical shock.
+
+The 2024 U.S. election accelerated what geopolitics had initiated. The January 2024 approval of spot Bitcoin ETFs opened floodgates~\cite{sec2024}. Following the November election, Bitcoin rose from \$68,000 to over \$100,000 without significant pullbacks. The March 2025 Executive Order establishing a Strategic Bitcoin Reserve formalized what markets had already recognized: Bitcoin had become a legitimate reserve asset.
+
+This political legitimization catalyzed corporate treasury adoption. Over 80 publicly traded companies now hold Bitcoin, up from 58 just two years prior, a 38\% increase~\cite{coindesk2025}. Microsoft shareholders may have voted down a Bitcoin allocation, but companies controlling 1.3 million BTC didn't wait for permission~\cite{river2025}. When Trump Media purchased \$2 billion in Bitcoin securities and the White House appointed a crypto czar, the reputational risk that kept Fortune 500 CFOs away evaporated.
+
+Several nations are on the cusp of establishing Bitcoin reserves, led by the US with an executive order 2025-03. Brazil, the Czech Republic, Switzerland, Japan, and Poland have active legislative proposals~\cite{decrypt2024}. China, which already holds approximately 190,000 BTC from seizures, is rumored to be accelerating its own strategic reserve efforts~\cite{cryptobriefing2025}. Three U.S. states---New Hampshire, Arizona, and Texas---have already passed legislation establishing state-level Bitcoin reserves~\cite{proskauer2025}. Basel Committee rules now allow banks to hold up to 2\% of reserves in cryptocurrencies starting January 2025.
+
+The truth can never be known for certain; this may simply be post-hoc storytelling. But $\sigma$ falling from 0.478 to 0.258 captures something real. De-dollarization and institutional adoption are plausible drivers.
+
+%------------------------------------------------------------------------------
+% SECTION 9
+%------------------------------------------------------------------------------
+\section{What does decreasing variability mean for future returns?}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_tight_projections.png}
+    \caption{Bitcoin/Gold Projections with Post-2023 Volatility Bounds}
+    \label{fig:tight_proj}
+\end{figure}
+
+\subsection{Falsifiable Predictions}
+
+For the modeler, this price projection (Figure~\ref{fig:tight_proj}) embodies two independent, falsifiable claims:
+\begin{itemize}
+    \item \textbf{Trajectory hypothesis:} Bitcoin follows the saturating exponential path (mean predictions).
+    \item \textbf{Volatility hypothesis:} The post-2023 low volatility regime persists (tight bounds).
+\end{itemize}
+
+The predicted price targets are:
+\begin{itemize}
+    \item 2030 Projection: Mean 37~oz Gold per BTC, 95\% CI: [22, 62]~oz
+    \item 2035 Projection: Mean 43~oz Gold per BTC, 95\% CI: [26, 72]~oz
+\end{itemize}
+
+With tighter error bounds, the range is still broad (26 to 72~oz of Gold per Bitcoin), but all of it lies above today's Bitcoin Gold price (about 17~ounces at the time of this writing), and now that span captures 95\% of the expected values, not just 68\%.
+
+\subsection{Actionable Investment Forecast}
+
+For the investor interested in ten-year returns, buying at today's ratio (27 January 2026, $\sim$17~oz Gold per Bitcoin) the model makes actionable predictions for 2035:
+\begin{itemize}
+    \item It's reasonable to expect Bitcoin to do much better than Gold on average (43~oz vs 17~oz).
+    \item A Bitcoin investment today almost certainly won't do ``worse than Gold'' (only 2.5\% chance).
+    \item The odds of Bitcoin doing ``better than Gold'' are strongly favored (97.5\% probability).
+\end{itemize}
+
+\textbf{Critical Limitation:} This calculation assumes our model parameters are known with certainty. In reality, $\mu$ and $\sigma$ are educated guesses made from limited data. While the U.S. Strategic Reserve and institutional adoption suggest a regime change, monetary history counsels caution; the Bretton Woods system seemed permanent until 1971~\cite{bordo1993}, and Gold was ``demonetized'' until central banks reversed course. Bitcoin's post-2023 ``low volatility regime'' spans only 2 years and may not persist. When parameter uncertainty is high, the right bet size can be much smaller than the formula says, which is why practitioners commonly use Half Kelly or Quarter Kelly. Given that even legitimate monetary regime changes can reverse (see: Gold's 1980--2000 bear market~\cite{wgc2024prices}), fractional Kelly isn't just conservatism. It is a hedge against the unknown unknowns of the future.
+
+\subsection{Portfolio Allocation: The Reserve Asset Bucket}
+
+Bitcoin and Gold both function as reserve assets, pools of value investors hold as insurance against uncertainty. ``Black swan'' events are rare but devastating: wars, pandemics, sovereign defaults, hyperinflation, coups, financial panics.
+
+Recent history provides abundant examples. The financial collapses of Weimar Germany (1923), the Soviet Union (1991), Argentina (2001), Zimbabwe (2008), Greece (2010--2015), and Venezuela (2016--present)~\cite{reinhart2009} demonstrate how quickly monetary stability can evaporate: ``Gradually and then suddenly''~\cite{hemingway1926}. At this writing, interest on US federal debt consumes 20\% of federal receipts and is projected to reach 30\% within ten years~\cite{cbo2024}. Hyperinflation, outright default, or prolonged stagnation (as Japan experienced from 1991--2010) remain possible responses. The ``de-dollarization'' trend, which began gradually in the 1990s, has accelerated dramatically since 2022, calling into question the dollar's role as global reserve currency.
+
+Reasonable people disagree about how likely a crisis is over the coming decade. Accordingly, they will allocate different proportions to reserve assets. An investor confident that ``everything is fine'' might hold 3\% in reserves. One who views the outlook as ``quite uncertain'' might reasonably hold 50\%.
+
+Whatever the bucket size, a key question remains: \textbf{Within that reserve bucket, what proportion should be Bitcoin versus Gold?}
+
+The Kelly criterion~\cite{kelly1956} provides a mathematically optimal answer. Given an investment's expected return ($\mu$) and volatility ($\sigma$) relative to a baseline, the optimal allocation is:
+\begin{equation}
+f^* = \mu / \sigma^2
+\label{eq:kelly}
+\end{equation}
+where:
+\begin{itemize}[leftmargin=2cm]
+    \item[$f^*$] = optimal Kelly fraction (proportion to allocate to Bitcoin within the reserve bucket)
+    \item[$\mu$] = 8.58\% (Bitcoin's expected outperformance vs Gold)
+    \item[$\sigma$] = 0.2544 (post-2023 volatility of BTC/Gold ratio, log space)
+\end{itemize}
+
+\bigskip
+Here we treat Gold as the baseline within the reserve bucket. Bitcoin is the growth option relative to that baseline.
+
+The full Kelly allocation yields approximately \textbf{100\% Bitcoin, 0\% Gold}. With $\mu/\sigma^2$ exceeding 100\%, the formula says bet more than everything you have on Bitcoin; within an unleveraged reserve bucket, this means maximum Bitcoin allocation. Conservative investors often use ``Half Kelly'' (50\% Bitcoin) or ``Quarter Kelly'' (25\% Bitcoin), reflecting different risk preferences while remaining data-informed.
+
+\textbf{The framework separates two independent decisions:}
+\begin{itemize}
+    \item \textbf{Bucket size} reflects the investor's black swan conviction
+    \item \textbf{Bitcoin/Gold split} reflects their balance between mathematical optimization (full Kelly) and traditional conservatism (quarter Kelly)
+\end{itemize}
+
+This allows investors with widely different macro views to apply the same allocation framework within their chosen reserve position.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure_kelly_summary.png}
+    \caption{Kelly Criterion Summary: Full Kelly suggests 100\% Bitcoin within the reserve bucket; conservative practitioners use Half Kelly (50\%) or Quarter Kelly (25\%).}
+    \label{fig:kelly}
+\end{figure}
+
+\textbf{Important Context:} The Kelly criterion assumes perfect model accuracy. In practice:
+\begin{itemize}
+    \item Model uncertainty means these allocations could prove suboptimal.
+    \item If Bitcoin were to significantly underperform Gold when ``crisis insurance'' was most needed, a Bitcoin-heavy reserve would provide less protection than a Gold-heavy allocation.
+    \item Due to model uncertainty, many practitioners use fractional Kelly allocations, often 25 to 50\% of the calculated optimal.
+    \item These calculations optimize within the reserve bucket only, not total portfolio risk.
+    \item The key risk is not devastating loss, but rather ineffective insurance, having reserves that insufficiently cushion the blow of a crisis.
+\end{itemize}
+
+%------------------------------------------------------------------------------
+% SECTION 10
+%------------------------------------------------------------------------------
+\section{How does this compare to prior work?}
+
+Institutional studies from Deutsche Bank~\cite{deutschebank2025}, Fidelity~\cite{fidelity2024}, WisdomTree~\cite{wisdomtree2025}, NYDIG~\cite{cipolaro2025}, and academic studies~\cite{zwick2019} acknowledge the Bitcoin--Gold analogy but omit the quantitative supply-differential term, the half-life of the adoption curve, and the halving of the volatility since 2023.
+
+This analysis fills that gap by proposing a simple model that connects adoption speed and supply limits to how Bitcoin's value drifts over time. Based on these assumptions it makes quantitative predictions of future valuations that are consistent with past performance.
+
+%------------------------------------------------------------------------------
+% SECTION 11
+%------------------------------------------------------------------------------
+\section{What does the evidence suggest?}
+
+\begin{itemize}
+    \item The data fit a saturating exponential, not a speculative bubble.
+    \item The model's asymptote aligns with Gold's 2\% supply growth.
+    \item Bitcoin's expected real return $\approx$ 10.6\%/yr.
+    \item Bitcoin's volatility relative to Gold has decreased with time, particularly after 2023.
+\end{itemize}
+
+%------------------------------------------------------------------------------
+% SECTION 12
+%------------------------------------------------------------------------------
+\section{Model Breakers}
+
+\begin{itemize}
+    \item Future regulation or taxation could alter adoption rates.
+    \item Competing digital currencies could displace Bitcoin, decreasing adoption.
+    \item Consensus layer or network security risks such as quantum computing could increase the risk of Bitcoin, reducing or reversing adoption.
+    \item Transition of Bitcoin to a ``consumer exchange'' currency could increase its value beyond projections of this ``reserve'' model.
+    \item Changes in Gold mining such as new methods or reserves could increase the annual rate of increase of above-ground Gold.
+    \item New industrial uses could reduce the availability of Gold for reserve banking.
+    \item AI-driven displacement of workers could force them to liquidate their personal Bitcoin holdings to survive, creating sustained selling pressure and reduced Bitcoin price during an economic transition of unknown duration.
+    \item The saturating exponential functional form could be wrong.
+\end{itemize}
+
+%------------------------------------------------------------------------------
+% SECTION 13
+%------------------------------------------------------------------------------
+\section{Conclusions}
+
+From open data and minimal assumptions, Bitcoin's long-term valuation compared to Gold follows a measurable, saturating path. The model captures Bitcoin's transition from speculative investment to established asset.
+
+The price of Bitcoin at the time of this white paper (17~oz Gold per Bitcoin on 27 January 2026) matches modeled expectations.
+
+Unlike crypto predictions claiming false precision, we acknowledge uncertainty. We quantify it. Our model reflects honest uncertainty while still making a directionally strong claim.
+
+With 95\% of Bitcoins mined, the era of 10$\times$ moves is ending. The era of sustainable outperformance is beginning.
+
+Bitcoin's rise is not speculative mania. It's adoption, stabilization, and scarcity doing what they always do: moving stored value from metal to math.
+
+%------------------------------------------------------------------------------
+% SUPPLEMENTARY MATERIAL
+%------------------------------------------------------------------------------
+\section{Supplementary Material}
+
+The following supplementary materials are available to reproduce and extend this analysis:
+
+\subsection{S1. Input Data}
+
+\textbf{Training Dataset:} Gold and Bitcoin monthly prices from January 2015 through December 2024\\
+File: \texttt{btc\_gold\_training\_2015\_2024.csv} (117 observations)
+
+\textbf{Test Dataset:} Gold and Bitcoin monthly prices from January 2025 through January 2026\\
+File: \texttt{btc\_gold\_test\_2025(\&26Jan).csv} (13 observations)
+
+\subsection{S2. Analysis Code}
+
+\textbf{Python Implementation:} Complete analysis pipeline including data processing, model fitting, statistical tests, and figure generation\\
+File: \texttt{btc\_gold\_analysis\_rev14.py}\\
+Requirements: numpy, pandas, scipy, matplotlib, datetime
+
+\textbf{Analysis Output:} Numerical results, model parameters, and statistical test outcomes\\
+File: \texttt{analysis\_results.txt}
+
+\subsection{S3. Methods Details}
+
+\textbf{Data Preprocessing:} Monthly Bitcoin and Gold prices were collected from public sources. Gold prices were primarily sourced from the World Gold Council's public dataset on GitHub~\cite{wgc2025data} for January 2015 through June 2025. The final seven months (July 2025 -- January 2026) were supplemented with data from Yahoo Finance~\cite{yahoo2025}. Bitcoin prices were obtained from CoinGecko's historical data~\cite{coingecko2025}. Prices were converted to a Bitcoin/gold ratio (ounces of gold per Bitcoin) and log-transformed for modeling.
+
+\textbf{Model Fitting:} The saturating exponential model $\ln(R(t)) = C + gt + A(1 - e^{-\lambda t})$ was fit using nonlinear least squares (Levenberg-Marquardt algorithm) via scipy.optimize.curve\_fit. The gold supply growth rate $g$ was fixed at 0.02, leaving three free parameters ($C$, $A$, $\lambda$).
+
+\textbf{Volatility Analysis:} Residuals were split at January 2023. A Levene test compared pre- and post-2023 variances ($p < 0.0001$). Rolling 36-month standard deviations quantified the volatility trend ($-0.033$/year decline rate).
+
+\textbf{Projections:} Future values were projected using fitted parameters. Confidence intervals used the post-2023 volatility ($\sigma = 0.258$) for $\pm$1$\sigma$ and $\pm$2$\sigma$ bounds. Sensitivity analysis tested $g = 1.5\%$, $2.0\%$, and $2.5\%$ supply growth rates.
+
+\subsection{S4. Data and Code Availability}
+
+All data and code necessary to reproduce the results in this paper are available at: \url{https://github.com/silmonbiggs/BTCvGold}
+
+The repository includes:
+\begin{itemize}
+    \item Complete training and test datasets (CSV format)
+    \item Python analysis code with documentation
+    \item Generated figures (PNG format, 300 DPI)
+    \item Numerical results and model diagnostics
+    \item README with setup and execution instructions
+\end{itemize}
+
+%------------------------------------------------------------------------------
+% ABOUT & ACKNOWLEDGMENTS
+%------------------------------------------------------------------------------
+\section*{About the Author}
+
+I'm a Ph.D. scientist/engineer with 40+ patents and publications. I built this framework while deciding on my personal retirement allocations.
+
+\section*{Acknowledgments}
+
+The author wishes to thank the creators of Claude Code (powered by Claude Opus 4.5) for their contributions to coding, data analysis, and presentation of this work, and to Anthropic Inc., for organizing their efforts into a capable investigative partner.
+
+%------------------------------------------------------------------------------
+% REFERENCES
+%------------------------------------------------------------------------------
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\end{document}
