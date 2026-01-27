@@ -1,5 +1,7 @@
 # Bitcoin's Gold Price - History, Model, and Falsifiable Predictions through 2035
 
+**Paper:** [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6141729) | [PDF](bitcoin_gold_biggs.pdf) | [HTML](bitcoin_gold_Biggs_(20260127).html)
+
 Analysis code and data investigating Bitcoin's long-term price dynamics relative to gold using a saturating exponential model.
 
 ## Model
