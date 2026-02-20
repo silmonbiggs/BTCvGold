@@ -427,6 +427,33 @@ def create_figure_projection(df_train, df_test, popt_dict, output_path):
                 '-', color='#F18F01', linewidth=2.5, 
                 label=f'Model (g={g_primary:.1%})', alpha=0.9)
     
+    # Fit and plot alternative saturating forms (faint lines for sensitivity)
+    def gompertz_3(t, C_g, A_g, k):
+        return C_g + g_primary*t + A_g * np.exp(-np.exp(-k*t))
+
+    def logistic_3(t, C_l, A_l, k):
+        return C_l + g_primary*t + A_l / (1 + np.exp(-k*t))
+
+    try:
+        popt_gomp, _ = curve_fit(gompertz_3, t_train, log_ratio_train_actual,
+                                  p0=[-8, 6, 0.3], maxfev=10000)
+        log_gomp = gompertz_3(t_projection, *popt_gomp)
+        ax.semilogy(dates_projection, np.exp(log_gomp),
+                    '-', color='#999999', linewidth=1.5, alpha=0.5,
+                    label='Gompertz (3 params)')
+    except Exception:
+        pass
+
+    try:
+        popt_logis, _ = curve_fit(logistic_3, t_train, log_ratio_train_actual,
+                                   p0=[-5, 6, 0.5], maxfev=10000)
+        log_logis = logistic_3(t_projection, *popt_logis)
+        ax.semilogy(dates_projection, np.exp(log_logis),
+                    '-', color='#BBBBBB', linewidth=1.5, alpha=0.5,
+                    label='Logistic-in-log (3 params)')
+    except Exception:
+        pass
+
     # Add confidence bounds for primary model
     # 1σ bands
     log_ratio_1sigma_upper = log_ratio_projection + sigma_log
@@ -1002,8 +1029,9 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     sigma_post2023 = np.std(all_resid[idx_2023:])
 
     LAG = 15  # months (half-cycle)
+    resid_train = all_resid[:n_train]
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), height_ratios=[1, 1])
+    fig, (ax1, ax_acf, ax2) = plt.subplots(3, 1, figsize=(12, 14), height_ratios=[1, 0.8, 1])
 
     # --- Top panel: residuals over time ---
     ax1.bar(dates_all[:n_train], all_resid[:n_train], width=25,
@@ -1046,6 +1074,50 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     ax1.xaxis.set_major_locator(mdates.YearLocator(1))
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
     plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    # --- Middle panel: autocorrelation function ---
+    max_lag = min(n_train // 2, 50)  # up to 50 months or half the data
+    lags = np.arange(0, max_lag + 1)
+    acf_vals = []
+    for lag in lags:
+        if lag == 0:
+            acf_vals.append(1.0)
+        else:
+            shifted = np.roll(resid_train, lag)
+            acf_vals.append(np.corrcoef(resid_train, shifted)[0, 1])
+    acf_vals = np.array(acf_vals)
+
+    # 95% confidence band for white noise: +/- 1.96/sqrt(n)
+    conf_bound = 1.96 / np.sqrt(n_train)
+
+    ax_acf.bar(lags, acf_vals, width=0.8, color=['#2E86AB' if v >= 0 else '#E74C3C' for v in acf_vals],
+               alpha=0.7, zorder=3)
+    ax_acf.axhline(y=0, color='black', linewidth=0.8)
+    ax_acf.axhline(y=conf_bound, color='gray', linewidth=1.5, linestyle='--', alpha=0.6,
+                   label=f'95% confidence (±{conf_bound:.2f})')
+    ax_acf.axhline(y=-conf_bound, color='gray', linewidth=1.5, linestyle='--', alpha=0.6)
+    ax_acf.fill_between(lags, -conf_bound, conf_bound, color='gray', alpha=0.08, zorder=0)
+
+    # Mark the key lags
+    ax_acf.annotate(f'Lag {LAG}: r = {acf_vals[LAG]:+.2f}',
+                    xy=(LAG, acf_vals[LAG]), xytext=(3, -0.70),
+                    fontsize=12, fontweight='bold', color='#E74C3C',
+                    arrowprops=dict(arrowstyle='->', color='#E74C3C', lw=1.5))
+    if 2 * LAG <= max_lag:
+        ax_acf.annotate(f'Lag {2*LAG}: r = {acf_vals[2*LAG]:+.2f}',
+                        xy=(2*LAG, acf_vals[2*LAG]), xytext=(35, -0.50),
+                        fontsize=12, fontweight='bold', color='#2E86AB',
+                        arrowprops=dict(arrowstyle='->', color='#2E86AB', lw=1.5))
+
+    ax_acf.set_xlabel('Lag (months)', fontsize=18, fontweight='bold')
+    ax_acf.set_ylabel('Autocorrelation', fontsize=18, fontweight='bold')
+    ax_acf.set_title('Autocorrelation Function of Training Residuals\n'
+                     'Negative Peak at 15 Months Confirms ~30-Month Cycle',
+                     fontsize=21, fontweight='bold', pad=20)
+    ax_acf.set_xlim(-0.5, max_lag + 0.5)
+    ax_acf.set_ylim(-0.8, 1.05)
+    ax_acf.grid(True, alpha=0.3, linestyle='--')
+    ax_acf.legend(loc='upper right', fontsize=13)
 
     # --- Bottom panel: original vs circularly-permuted lagged residuals ---
     resid_lagged = np.roll(all_resid, LAG)

@@ -224,7 +224,7 @@ The question isn't ``what's the most sophisticated model?'' but ``what's the sim
 %------------------------------------------------------------------------------
 \section{How well does the model predict test data?}
 
-The fit was made on data through December 2024. It correctly predicts Bitcoin's Gold value for the thirteen months following, through January 27, 2026 (Figure~\ref{fig:projection}, red squares). This forward accuracy means the model captures real effects, not mere pattern-matched noise.
+The model was fit on data through December 2024. It knew nothing about what came next. Figure~\ref{fig:projection} shows what came next: thirteen months of Bitcoin's Gold value, through January 27, 2026, plotted as red squares. Every one of them falls close to the orange trend line, well within $\pm$1$\sigma$. That is tighter than you would expect from chance alone, and it suggests the model is tracking something real rather than memorizing noise. (The unusually tight scatter may signal falling volatility, a possibility tested in Section 7.)
 
 \begin{figure}[H]
     \centering
@@ -233,20 +233,47 @@ The fit was made on data through December 2024. It correctly predicts Bitcoin's 
     \label{fig:projection}
 \end{figure}
 
-All test points fall within $\pm$1$\sigma$, tighter than expected. Volatility may be falling, a hypothesis tested in Section 7. Thirteen months is short compared to a $\sim$30-month boom-bust cycle. Section 10 introduces a scorecard that accumulates evidence month by month over years.
+\subsection{Functional Form Sensitivity}
 
-Once the long-term trend is subtracted, what remains are the booms and busts. They are visible in Figure~\ref{fig:projection}: the price rides above the orange line for a while, then drops below it. The most recent boom started in early 2024 and turned to bust around October 2025. How regular is this cycle?
+Good held-out performance is encouraging, but it raises a fair question: is the saturating exponential special, or would any S-shaped curve do just as well? To find out, we fit two alternative saturating forms to the same training data, each with three free parameters and $g$ fixed at 0.02:
+\begin{itemize}
+    \item \textbf{Gompertz:} $\ln(R) = C + gt + A\exp(-\exp(-kt))$
+    \item \textbf{Logistic-in-log:} $\ln(R) = C + gt + A/(1 + \exp(-kt))$
+\end{itemize}
 
-Figure~\ref{fig:autocorrelation} answers this question with a simple trick: take the leftover at each month and compare it to the leftover 15 months earlier. If booms and busts come and go on a schedule, then what was high 15 months ago should be low now, and vice versa. That is exactly what happens ($r = -0.55$). The pattern repeats roughly every 30 months, about two and a half years from boom to boom. This matters in Section 10, where the question is how long the model has to look wrong before we give up on it. Regular cycles mean the data can wander further from the trend by accident, and the test needs to account for that.
+\begin{table}[H]
+\centering
+\caption{Model class sensitivity: training fit vs.\ held-out prediction}
+\label{tab:sensitivity}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Model} & \textbf{Params} & \textbf{$R^2$ (train)} & \textbf{RMSE (train)} & \textbf{RMSE (test)} & \textbf{Test within $1\sigma$} \\
+\midrule
+Flat & 1 & 0.000 & 1.584 & 1.785 & 2/13 \\
+Linear & 2 & 0.812 & 0.687 & 1.017 & 1/13 \\
+Saturating exponential & 3 & 0.909 & 0.478 & 0.222 & 13/13 \\
+Gompertz & 3 & 0.911 & 0.473 & 0.264 & 12/13 \\
+Logistic-in-log & 3 & 0.911 & 0.474 & 0.285 & 12/13 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Look at the training columns first. All three saturating forms are nearly identical: $R^2 \approx 0.91$, RMSE around 0.47. If you only had training data, you could not tell them apart. Now look at the test columns. The saturating exponential has the lowest test RMSE (0.222) and is the only model that puts all 13 held-out points within $1\sigma$. The Gompertz and logistic forms, which saturate more abruptly, systematically underpredict during the boom phase (Figure~\ref{fig:projection}, faint lines). Giving them a fourth free parameter makes things worse; their test RMSE rises slightly, the signature of overfitting. So the choice of functional form is not cosmetic. Among models of equal or greater complexity, the one built on the supply-differential asymptote is the one that generalizes. Thirteen months of test data is short compared to a full boom-bust cycle of roughly 30 months, so Section 10 introduces a scorecard that accumulates evidence month by month over years.
+
+\subsection{Boom-Bust Cyclicality}
+
+Once you subtract the long-term trend, the residuals tell a story of their own. Look at Figure~\ref{fig:projection}: the price rides above the orange line for a stretch, then drops below it. The most recent boom began in early 2024 and turned to bust around October 2025.
+
+How regular is this cycle? Figure~\ref{fig:autocorrelation} answers the question with a simple trick. Take the residual at each month and compare it to the residual 15 months earlier. If booms and busts arrive on a schedule, then a high residual 15 months ago should correspond to a low one now, and vice versa. That is exactly what the data show: the lag-15 circular correlation is $r = -0.55$, the deepest trough in the entire autocorrelation function. The pattern repeats roughly every 30 months, about two and a half years from peak to peak. Of 133 months, 90 show opposite-sign residuals at the 15-month lag.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{figure_autocorrelation.png}
-    \caption{Boom-bust cyclicality in model residuals. Top: log-space residuals (actual minus predicted) show alternating positive and negative runs. Bottom: residuals overlaid with a 15-month circular lag ($r = -0.55$) confirm anti-correlation at the half-cycle, consistent with a full boom-bust period of approximately 30 months. Green shading indicates months where the boom residual matched a bust fifteen months earlier, and vice versa. 90 of 133 months show this 15-month anticorrelation ($p < 0.0001$, binomial test).}
+    \caption{Boom-bust cyclicality in model residuals. Top: log-space residuals (actual minus predicted) show alternating positive and negative runs. Middle: autocorrelation function of training residuals with 95\% confidence bands; the negative peak at lag 15 ($r = -0.55$) confirms the half-cycle is not cherry-picked but is the deepest trough in the ACF. Bottom: residuals overlaid with a 15-month circular lag confirm anti-correlation at the half-cycle, consistent with a full boom-bust period of approximately 30 months. Green shading indicates months where the boom residual matched a bust fifteen months earlier, and vice versa. 90 of 133 months show this 15-month anticorrelation.}
     \label{fig:autocorrelation}
 \end{figure}
 
-These cycles carry an investment implication that the rest of the paper depends on. The model predicts a trend line, not a price on any particular date. An investor who buys at the top of a boom and is forced to sell at the bottom of the following bust, roughly 15 months later, can lose money even if the model is perfectly correct. The projections in this paper (Sections 6 and 9) assume a time horizon long enough to ride out at least one full cycle. For practical purposes, that means three to five years at minimum. Anyone who cannot wait that long is not investing on the trend; they are betting on which part of the cycle they happen to catch.
+This cyclicality matters for everything that follows. The model predicts a trend, not a price on any given Tuesday. An investor who buys at the top of a boom and is forced to sell at the bottom of the next bust, roughly 15 months later, can lose money even if the model is perfectly correct. The projections in this paper (Sections 6 and 9) assume a horizon long enough to ride out at least one full cycle: three to five years at minimum, with the ability to sit through fifteen-month stretches of underperformance. Anyone who cannot wait that long is not investing on the trend. They are betting on which part of the cycle they happen to catch.
 
 %------------------------------------------------------------------------------
 % SECTION 6
@@ -390,7 +417,7 @@ The predicted price targets are:
     \item 2035 Projection: Mean 43~oz Gold per BTC, 95\% CI: [26, 72]~oz
 \end{itemize}
 
-With tighter error bounds, the range is still broad (26 to 72~oz of Gold per Bitcoin), but all of it lies above today's Bitcoin Gold price (about 13~ounces at the time of this publication), and now that span captures 95\% of the expected values, not just 68\%.
+With tighter error bounds, the range is still broad (26 to 72~oz of Gold per Bitcoin), but all of it lies above today's Bitcoin Gold price (about 13~ounces at the time of this publication), and now that span captures 95\% of the expected values, not just 68\%. These bounds reflect the observed scatter of prices around the trend, not formal prediction intervals that propagate parameter uncertainty. They describe where the ratio has historically wandered, not where a fully specified stochastic model says it will go.
 
 \subsection{Portfolio Allocation: The Reserve Asset Bucket}
 
@@ -495,7 +522,7 @@ After 14 months (January 2025 through February 2026), the running total sits at 
 
 As of mid-February 2026, Bitcoin's Gold price has fallen to approximately 13~oz, well below the model's trendline. The model expects such dips. The boom-bust cycles documented in Section~5 produce sustained deviations in both directions, and a downturn that pushes the cumulative score back toward the baseline validates the model rather than disqualifying it.
 
-What would it take to actually reject the trajectory? At the current ratio of 13~oz, sustained flatness would need to persist for approximately 32 months (through late 2028) before the running total crossed the outer trajectory boundary. A sharper decline would trigger rejection sooner: at 8~oz, roughly 18 months; at 5~oz, roughly 12 months. We note these thresholds now, before any such excursion occurs, so that they stand as predictions rather than post-hoc rationalizations. This scorecard will be updated periodically to see if the model remains valid.
+What would it take to actually reject the trajectory? At the current ratio of 13~oz, sustained flatness would need to persist for approximately 32 months (through late 2028) before the running total crossed the outer trajectory boundary. A sharper decline would trigger rejection sooner: at 8~oz, roughly 18 months; at 5~oz, roughly 12 months. We note these thresholds now, before any such excursion occurs, so that they stand as predictions rather than post-hoc rationalizations. This scorecard will be updated periodically to see if the model remains valid. The latest results are available at: \url{https://github.com/silmonbiggs/BTCvGold/blob/master/SCORECARD.md}
 
 %------------------------------------------------------------------------------
 % SECTION 11
@@ -599,6 +626,7 @@ The repository includes:
     \item Generated figures (PNG format, 300 DPI)
     \item Numerical results and model diagnostics
     \item README with setup and execution instructions
+    \item Live model scorecard with periodic updates (\url{https://github.com/silmonbiggs/BTCvGold/blob/master/SCORECARD.md})
 \end{itemize}
 
 %------------------------------------------------------------------------------
