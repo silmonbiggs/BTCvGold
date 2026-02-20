@@ -270,7 +270,7 @@ def create_figure_model_comparison(df_train, popt, g_fixed, output_path):
     z = np.polyfit(t_years, log_ratio, 1)
     log_ratio_linear = z[0] * t_years + z[1]
     ax.plot(dates, log_ratio_linear, '-.', color='#666666', linewidth=2,
-            label='Linear Model ("More Forever")', alpha=0.7)
+            label='Linear Model ("Explosive Growth Forever")', alpha=0.7)
     
     # Calculate and display residuals
     residual_saturating = np.sum((log_ratio - log_ratio_saturating)**2)
@@ -639,7 +639,7 @@ def create_figure_trailing_average(df_train, df_test, popt_dict, output_path):
     
     ax.set_xlabel('Date', fontsize=18, fontweight='bold')
     ax.set_ylabel('Bitcoin Price (oz of Gold)', fontsize=18, fontweight='bold')
-    ax.set_title("Bitcoin's Gold Price - Monthly Data, and Long Range Model Predictions", 
+    ax.set_title("Bitcoin's Gold Price - Monthly Data, and Long-Range Model Predictions", 
                  fontsize=21, fontweight='bold', pad=20)
     ax.grid(True, alpha=0.3, linestyle='--', which='both')
     ax.legend(fontsize=15, loc='lower left')
@@ -973,6 +973,308 @@ def create_figure_residuals_quantitative(dates_all, residuals, rolling_std,
     
     # Return Levene test results (including F-statistic and df), 2023-present sigma, rolling volatility R-squared, p-value, and slope
     return levene_stat, levene_df1, levene_df2, levene_p, sigma_2023_present, rolling_volatility_r_squared, rolling_volatility_p_value, rolling_volatility_slope
+
+def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path):
+    """
+    Visualize the ~15-month boom-bust cyclicality in model residuals.
+
+    Top panel: log-space residuals over time (training + test)
+    Bottom panel: residuals overlaid with 15-month lagged copy, showing
+                  anti-correlation (peaks align with troughs when lagged)
+    """
+    # Combine all data
+    df_all = pd.concat([df_train, df_test], ignore_index=True)
+    dates_all = pd.to_datetime(df_all['Date'])
+    start_date = dates_all.iloc[0]
+    t_years = np.array([(d - start_date).days / 365.25 for d in dates_all])
+
+    C, A, lambda_param = popt
+    ln_pred = saturating_exponential(t_years, C, A, lambda_param, g_fixed)
+    ln_actual = np.log(df_all['Gold_oz_per_Bitcoin'].values)
+    all_resid = ln_actual - ln_pred
+
+    n_train = len(df_train)
+    n_total = len(all_resid)
+
+    # Post-2023 sigma for reference lines
+    cutoff_2023 = pd.to_datetime('2023-01-01')
+    idx_2023 = np.where(dates_all >= cutoff_2023)[0][0]
+    sigma_post2023 = np.std(all_resid[idx_2023:])
+
+    LAG = 15  # months (half-cycle)
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), height_ratios=[1, 1])
+
+    # --- Top panel: residuals over time ---
+    ax1.bar(dates_all[:n_train], all_resid[:n_train], width=25,
+            color=['#27AE60' if r >= 0 else '#E74C3C' for r in all_resid[:n_train]],
+            alpha=0.7, label='Training residuals')
+    ax1.bar(dates_all[n_train:], all_resid[n_train:], width=25,
+            color=['#27AE60' if r >= 0 else '#E74C3C' for r in all_resid[n_train:]],
+            alpha=0.7, edgecolor='black', linewidth=0.5)
+
+    ax1.axhline(y=0, color='black', linewidth=0.8)
+    ax1.axhline(y=sigma_post2023, color='gray', linewidth=1, linestyle='--', alpha=0.5)
+    ax1.axhline(y=-sigma_post2023, color='gray', linewidth=1, linestyle='--', alpha=0.5)
+    ax1.axhline(y=2*sigma_post2023, color='gray', linewidth=1, linestyle=':', alpha=0.4)
+    ax1.axhline(y=-2*sigma_post2023, color='gray', linewidth=1, linestyle=':', alpha=0.4)
+
+    # Mark training/test boundary
+    ax1.axvline(x=pd.to_datetime(df_train['Date'].iloc[-1]) + pd.DateOffset(days=15),
+                color='gray', linewidth=1.5, linestyle=':', alpha=0.6)
+    ax1.text(pd.to_datetime(df_train['Date'].iloc[-1]) + pd.DateOffset(months=2),
+             ax1.get_ylim()[0] if ax1.get_ylim()[0] != 0 else -0.8,
+             'Out-of-sample →', fontsize=11, color='gray', alpha=0.7,
+             va='bottom', ha='left', style='italic')
+
+    ax1.set_ylabel('Log-Space Residual', fontsize=18, fontweight='bold')
+    ax1.set_title('Model Residuals: Boom-Bust Cyclicality\n'
+                  'ln(Actual) − ln(Predicted)',
+                  fontsize=21, fontweight='bold', pad=20)
+    ax1.grid(True, alpha=0.3, linestyle='--')
+
+    # Labels for sigma bands
+    ax1.text(dates_all.iloc[0] + pd.DateOffset(months=2), sigma_post2023 + 0.02,
+             '+1σ', fontsize=11, color='gray', alpha=0.6)
+    ax1.text(dates_all.iloc[0] + pd.DateOffset(months=2), -sigma_post2023 + 0.02,
+             '−1σ', fontsize=11, color='gray', alpha=0.6)
+    ax1.text(dates_all.iloc[0] + pd.DateOffset(months=2), 2*sigma_post2023 + 0.02,
+             '+2σ', fontsize=11, color='gray', alpha=0.5)
+    ax1.text(dates_all.iloc[0] + pd.DateOffset(months=2), -2*sigma_post2023 + 0.02,
+             '−2σ', fontsize=11, color='gray', alpha=0.5)
+
+    ax1.xaxis.set_major_locator(mdates.YearLocator(1))
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    # --- Bottom panel: original vs circularly-permuted lagged residuals ---
+    resid_lagged = np.roll(all_resid, LAG)
+
+    ax2.plot(dates_all, all_resid, 'o-', color='#2E86AB', linewidth=1.5,
+             markersize=3, label='Residual at month $t$', alpha=0.8)
+    ax2.plot(dates_all, resid_lagged, 's-', color='#E74C3C', linewidth=1.5,
+             markersize=3, label=f'Residual at month $t − {LAG}$ (circular)',
+             alpha=0.6)
+
+    ax2.axhline(y=0, color='black', linewidth=0.8)
+
+    # Shade regions where they have opposite signs (anti-correlation)
+    for i in range(n_total):
+        if all_resid[i] * resid_lagged[i] < 0:
+            ax2.axvspan(dates_all.iloc[i] - pd.DateOffset(days=15),
+                        dates_all.iloc[i] + pd.DateOffset(days=15),
+                        alpha=0.08, color='green', zorder=0)
+
+    # Circular correlation statistic (using training data only)
+    resid_train = all_resid[:n_train]
+    resid_lagged_train = np.roll(resid_train, LAG)
+    corr = np.corrcoef(resid_train, resid_lagged_train)[0, 1]
+
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
+    ax2.text(0.98, 0.98,
+             f'Lag-{LAG} circular correlation: {corr:+.3f}\n'
+             f'(half-cycle ≈ {LAG} mo,\n full cycle ≈ {2*LAG} mo)',
+             transform=ax2.transAxes, fontsize=13,
+             verticalalignment='top', horizontalalignment='right',
+             bbox=props, fontfamily='monospace')
+
+    ax2.set_xlabel('Date', fontsize=18, fontweight='bold')
+    ax2.set_ylabel('Log-Space Residual', fontsize=18, fontweight='bold')
+    ax2.set_title(f'Residuals with {LAG}-Month Lag Overlay (Circular)\n'
+                  'Anti-Correlation Demonstrates ~30-Month Boom-Bust Cycle',
+                  fontsize=21, fontweight='bold', pad=20)
+    ax2.grid(True, alpha=0.3, linestyle='--')
+    ax2.legend(loc='upper left', fontsize=13)
+
+    ax2.xaxis.set_major_locator(mdates.YearLocator(1))
+    ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.setp(ax2.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"  Saved: {output_path}")
+    plt.close()
+
+
+def create_figure_cusum(df_train, df_test, popt, g_fixed, output_path):
+    """
+    CUSUM chart for sequential trajectory testing with symmetric two-sided
+    boundaries and colored rejection/safe zones.
+
+    Plots the cumulative sum of out-of-sample z-scores against two pairs of
+    rejection boundaries (±c*sqrt(n)):
+      1. iid boundary (c=2.625): assumes independent residuals
+      2. Corrected boundary (c=8.50): accounts for autocorrelation
+
+    Zones:
+      - Green:        inside iid boundaries (model strongly supported)
+      - Light green:  between iid and corrected boundaries (model supported)
+      - Light red:    outside corrected boundaries (model rejected)
+    """
+    # Constants (from Monte Carlo calibration)
+    C_IID = 2.625
+    C_CORRECTED = 8.50
+    RHO_TRAINING = 0.898
+    SIGMA_FULL = 0.4782  # full-sample residual std (2015-2024)
+    # Trajectory-only boundary: rescaled to account for using post-2023 sigma
+    # in z-scores while testing against full-sample volatility
+
+    # Compute post-2023 sigma from training data
+    dates_train_dt = pd.to_datetime(df_train['Date'])
+    start_date = dates_train_dt.iloc[0]
+    t_train = np.array([(d - start_date).days / 365.25 for d in dates_train_dt])
+    C, A, lambda_param = popt
+    ln_pred_train = saturating_exponential(t_train, C, A, lambda_param, g_fixed)
+    ln_actual_train = np.log(df_train['Gold_oz_per_Bitcoin'].values)
+    resid_train = ln_actual_train - ln_pred_train
+    cutoff_2023 = pd.to_datetime('2023-01-01')
+    idx_2023 = np.where(dates_train_dt >= cutoff_2023)[0][0]
+    sigma_post2023 = np.std(resid_train[idx_2023:])
+
+    # Compute z-scores for test (out-of-sample) data
+    dates_test_dt = pd.to_datetime(df_test['Date'])
+    t_test = np.array([(d - start_date).days / 365.25 for d in dates_test_dt])
+    ln_pred_test = saturating_exponential(t_test, C, A, lambda_param, g_fixed)
+    ln_actual_test = np.log(df_test['Gold_oz_per_Bitcoin'].values)
+    residuals_test = ln_actual_test - ln_pred_test
+    z_scores = residuals_test / sigma_post2023
+
+    dates = dates_test_dt.values
+    n_points = len(z_scores)
+
+    # Cumulative sum
+    cusum = np.cumsum(z_scores)
+
+    # Boundaries: extend forward 5 years for visual context
+    n_extend = n_points + 60
+    ns_boundary = np.arange(1, n_extend + 1)
+    boundary_iid = C_IID * np.sqrt(ns_boundary)
+    boundary_corr = C_CORRECTED * np.sqrt(ns_boundary)
+    C_TRAJECTORY = C_CORRECTED * (SIGMA_FULL / sigma_post2023)
+    boundary_traj = C_TRAJECTORY * np.sqrt(ns_boundary)
+
+    dates_boundary = pd.date_range(
+        start=dates_test_dt.iloc[0],
+        periods=n_extend,
+        freq='MS'
+    )
+
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    # Symmetric y-axis
+    y_lim = boundary_traj[n_extend - 1] + 5
+    ax.set_ylim(-y_lim, y_lim)
+
+    # --- Colored zones (background, zorder=0-2) ---
+    # Red outside trajectory boundary (both hypotheses rejected)
+    ax.fill_between(dates_boundary, boundary_traj, y_lim,
+                    color='#E74C3C', alpha=0.10, zorder=0)
+    ax.fill_between(dates_boundary, -boundary_traj, -y_lim,
+                    color='#E74C3C', alpha=0.10, zorder=0)
+
+    # Yellow between corrected and trajectory boundaries (volatility rejected, trajectory intact)
+    ax.fill_between(dates_boundary, boundary_corr, boundary_traj,
+                    color='#F39C12', alpha=0.10, zorder=1)
+    ax.fill_between(dates_boundary, -boundary_corr, -boundary_traj,
+                    color='#F39C12', alpha=0.10, zorder=1)
+
+    # Green inside corrected boundaries (both hypotheses supported)
+    ax.fill_between(dates_boundary, -boundary_corr, boundary_corr,
+                    color='#27AE60', alpha=0.10, zorder=2)
+
+    # --- Boundary lines ---
+    # iid boundary (reference only)
+    ax.plot(dates_boundary, boundary_iid, '--', color='gray', linewidth=1.5,
+            alpha=0.5, label=f'iid boundary (for reference)', zorder=5)
+    ax.plot(dates_boundary, -boundary_iid, '--', color='gray', linewidth=1.5,
+            alpha=0.5, zorder=5)
+
+    # Corrected boundary (reduced volatility hypothesis)
+    ax.plot(dates_boundary, boundary_corr, '--', color='#8E44AD', linewidth=2.0,
+            alpha=0.7,
+            label=f'Reduced volatility boundary (\u03c3={sigma_post2023:.3f}, c={C_CORRECTED})',
+            zorder=4)
+    ax.plot(dates_boundary, -boundary_corr, '--', color='#8E44AD', linewidth=2.0,
+            alpha=0.7, zorder=4)
+
+    # Trajectory boundary (trajectory hypothesis, full-sample sigma)
+    ax.plot(dates_boundary, boundary_traj, '--', color='#C0392B', linewidth=2.0,
+            alpha=0.7,
+            label=f'Trajectory boundary (\u03c3={SIGMA_FULL:.3f}, c={C_TRAJECTORY:.1f})',
+            zorder=4)
+    ax.plot(dates_boundary, -boundary_traj, '--', color='#C0392B', linewidth=2.0,
+            alpha=0.7, zorder=4)
+
+    # Zero line
+    ax.axhline(y=0, color='gray', linewidth=0.8, alpha=0.5, zorder=3)
+
+    # CUSUM line
+    ax.plot(dates, cusum, 'o-', color='#2E86AB', linewidth=2.5,
+            markersize=6, label='Cumulative z-score sum ($S_n$)',
+            zorder=10, markeredgecolor='white', markeredgewidth=0.5)
+
+    # Color individual points by z-score sign
+    for i in range(n_points):
+        color = '#27AE60' if z_scores[i] >= 0 else '#8B4513'
+        ax.plot(dates[i], cusum[i], 'o', color=color, markersize=8,
+                zorder=11, markeredgecolor='white', markeredgewidth=1.0)
+
+    # Margin annotations
+    current_S = cusum[-1]
+    bnd_iid_now = boundary_iid[n_points - 1]
+    bnd_corr_now = boundary_corr[n_points - 1]
+    bnd_traj_now = boundary_traj[n_points - 1]
+    margin_iid = bnd_iid_now - abs(current_S)
+    margin_corr = bnd_corr_now - abs(current_S)
+    margin_traj = bnd_traj_now - abs(current_S)
+
+    # Summary statistics text box
+    mean_z = z_scores.mean()
+    std_z = z_scores.std(ddof=1)
+    textstr = (
+        f'Sequential Hypothesis Test\n'
+        f'\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n'
+        f'Out-of-sample months: {n_points}\n'
+        f'Mean z-score: {mean_z:+.3f}\n'
+        f'Std of z-scores: {std_z:.3f}\n'
+        f'Cumulative sum: {current_S:+.2f}\n'
+        f'\n'
+        f'Reduced vol. margin:  {margin_corr:+.1f}\n'
+        f'Trajectory margin:  {margin_traj:+.1f}\n'
+        f'\n'
+        f'\u03c3 post-2023: {sigma_post2023:.4f}\n'
+        f'\u03c3 full-sample: {SIGMA_FULL:.4f}\n'
+        f'\u03c1 = {RHO_TRAINING} (lag-1 autocorrelation)'
+    )
+
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
+    ax.text(0.98, 0.02, textstr, transform=ax.transAxes, fontsize=13,
+            verticalalignment='bottom', horizontalalignment='right', bbox=props,
+            fontfamily='monospace', zorder=100)
+
+    # Labels and title
+    ax.set_xlabel('Date', fontsize=18, fontweight='bold')
+    ax.set_ylabel('Cumulative Z-Score Sum ($S_n = \\Sigma\\, z_i$)',
+                  fontsize=18, fontweight='bold')
+    ax.set_title(
+        'Sequential Test of Trajectory Hypothesis\n'
+        'Cumulative Z-Scores of Out-of-Sample Residuals',
+        fontsize=21, fontweight='bold', pad=20
+    )
+
+    ax.grid(True, alpha=0.3, linestyle='--')
+    ax.legend(loc='upper left', fontsize=13)
+
+    # X-axis formatting
+    ax.xaxis.set_major_locator(mdates.YearLocator(1))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"  Saved: {output_path}")
+    plt.close()
+
 
 def create_figure_tight_projections(df_train, df_test, popt, g_fixed, sigma_2023, output_path):
     """
@@ -1433,7 +1735,17 @@ def main():
         df_train, df_test, popt_dict,
         OUTPUT_PATH + 'figure_trailing_average.png'
     )
-    
+
+    create_figure_autocorrelation(
+        df_train, df_test, popt_primary, GOLD_SUPPLY_LEAK_RATE,
+        OUTPUT_PATH + 'figure_autocorrelation.png'
+    )
+
+    create_figure_cusum(
+        df_train, df_test, popt_primary, GOLD_SUPPLY_LEAK_RATE,
+        OUTPUT_PATH + 'figure_cusum_trajectory.png'
+    )
+
     # ========================================================================
     # STEP 6: Residuals Analysis - Exploring Volatility Changes
     # ========================================================================
@@ -1575,6 +1887,8 @@ def main():
     print(f"  - figure_model_fit.png")
     print(f"  - figure_projection.png")
     print(f"  - figure_trailing_average.png")
+    print(f"  - figure_autocorrelation.png")
+    print(f"  - figure_cusum_trajectory.png")
     print(f"  - figure_residuals_qualitative.png")
     print(f"  - figure_residuals_quantitative.png")
     print(f"  - figure_tight_projections.png")
