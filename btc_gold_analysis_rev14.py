@@ -1003,11 +1003,12 @@ def create_figure_residuals_quantitative(dates_all, residuals, rolling_std,
 
 def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path):
     """
-    Visualize the ~15-month boom-bust cyclicality in model residuals.
+    Visualize boom-bust cyclicality in model residuals.
 
     Top panel: log-space residuals over time (training + test)
-    Bottom panel: residuals overlaid with 15-month lagged copy, showing
-                  anti-correlation (peaks align with troughs when lagged)
+    Middle panel: autocorrelation function (positive peak = full cycle period)
+    Bottom panel: residuals overlaid with full-cycle lagged copy, showing
+                  positive correlation (booms align with booms when lagged)
     """
     # Combine all data
     df_all = pd.concat([df_train, df_test], ignore_index=True)
@@ -1028,7 +1029,7 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     idx_2023 = np.where(dates_all >= cutoff_2023)[0][0]
     sigma_post2023 = np.std(all_resid[idx_2023:])
 
-    LAG = 15  # months (half-cycle)
+    LAG = None  # will be set to actual positive ACF peak (full cycle) after computation
     resid_train = all_resid[:n_train]
 
     fig, (ax1, ax_acf, ax2) = plt.subplots(3, 1, figsize=(12, 14), height_ratios=[1, 0.8, 1])
@@ -1083,9 +1084,19 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
         if lag == 0:
             acf_vals.append(1.0)
         else:
-            shifted = np.roll(resid_train, lag)
-            acf_vals.append(np.corrcoef(resid_train, shifted)[0, 1])
+            # Non-circular ACF: correlate only the overlapping portion
+            acf_vals.append(np.corrcoef(resid_train[lag:], resid_train[:-lag])[0, 1])
     acf_vals = np.array(acf_vals)
+
+    # Find the positive peak (full cycle) — skip lag 0
+    pos_peak_lag = 10 + int(np.argmax(acf_vals[10:]))  # search from lag 10 onward
+    LAG = pos_peak_lag  # use full-cycle lag for bottom panel overlay
+    print(f"  ACF positive peak (full cycle): lag {pos_peak_lag}, r = {acf_vals[pos_peak_lag]:+.3f}")
+    neg_peak_lag = int(lags[np.argmin(acf_vals)])
+    print(f"  ACF negative trough: lag {neg_peak_lag}, r = {acf_vals[neg_peak_lag]:+.3f}")
+    for check_lag in [16, 20, 32, 38, 40, 42]:
+        if check_lag <= max_lag:
+            print(f"    lag {check_lag}: r = {acf_vals[check_lag]:+.3f}")
 
     # 95% confidence band for white noise: +/- 1.96/sqrt(n)
     conf_bound = 1.96 / np.sqrt(n_train)
@@ -1098,28 +1109,24 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     ax_acf.axhline(y=-conf_bound, color='gray', linewidth=1.5, linestyle='--', alpha=0.6)
     ax_acf.fill_between(lags, -conf_bound, conf_bound, color='gray', alpha=0.08, zorder=0)
 
-    # Mark the key lags
-    ax_acf.annotate(f'Lag {LAG}: r = {acf_vals[LAG]:+.2f}',
-                    xy=(LAG, acf_vals[LAG]), xytext=(3, -0.70),
-                    fontsize=12, fontweight='bold', color='#E74C3C',
-                    arrowprops=dict(arrowstyle='->', color='#E74C3C', lw=1.5))
-    if 2 * LAG <= max_lag:
-        ax_acf.annotate(f'Lag {2*LAG}: r = {acf_vals[2*LAG]:+.2f}',
-                        xy=(2*LAG, acf_vals[2*LAG]), xytext=(35, -0.50),
-                        fontsize=12, fontweight='bold', color='#2E86AB',
-                        arrowprops=dict(arrowstyle='->', color='#2E86AB', lw=1.5))
+    # Mark the positive peak (full cycle)
+    ax_acf.annotate(f'Lag {pos_peak_lag}: r = {acf_vals[pos_peak_lag]:+.2f}',
+                    xy=(pos_peak_lag, acf_vals[pos_peak_lag]),
+                    xytext=(pos_peak_lag - 12, 0.90),
+                    fontsize=12, fontweight='bold', color='#2E86AB',
+                    arrowprops=dict(arrowstyle='->', color='#2E86AB', lw=1.5))
 
     ax_acf.set_xlabel('Lag (months)', fontsize=18, fontweight='bold')
     ax_acf.set_ylabel('Autocorrelation', fontsize=18, fontweight='bold')
-    ax_acf.set_title('Autocorrelation Function of Training Residuals\n'
-                     'Negative Peak at 15 Months Confirms ~30-Month Cycle',
+    ax_acf.set_title(f'Autocorrelation Function of Training Residuals\n'
+                     f'Positive Peak at {pos_peak_lag} Months Identifies ~{pos_peak_lag}-Month Cycle',
                      fontsize=21, fontweight='bold', pad=20)
     ax_acf.set_xlim(-0.5, max_lag + 0.5)
     ax_acf.set_ylim(-0.8, 1.05)
     ax_acf.grid(True, alpha=0.3, linestyle='--')
     ax_acf.legend(loc='upper right', fontsize=13)
 
-    # --- Bottom panel: original vs circularly-permuted lagged residuals ---
+    # --- Bottom panel: original vs full-cycle lagged residuals ---
     resid_lagged = np.roll(all_resid, LAG)
 
     ax2.plot(dates_all, all_resid, 'o-', color='#2E86AB', linewidth=1.5,
@@ -1130,12 +1137,16 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
 
     ax2.axhline(y=0, color='black', linewidth=0.8)
 
-    # Shade regions where they have opposite signs (anti-correlation)
+    # Shade regions where they have the same sign (positive correlation)
+    same_sign_count = 0
     for i in range(n_total):
-        if all_resid[i] * resid_lagged[i] < 0:
+        if all_resid[i] * resid_lagged[i] > 0:
+            same_sign_count += 1
             ax2.axvspan(dates_all.iloc[i] - pd.DateOffset(days=15),
                         dates_all.iloc[i] + pd.DateOffset(days=15),
                         alpha=0.08, color='green', zorder=0)
+
+    print(f"  Same-sign months at lag {LAG}: {same_sign_count} of {n_total}")
 
     # Circular correlation statistic (using training data only)
     resid_train = all_resid[:n_train]
@@ -1145,7 +1156,8 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
     ax2.text(0.98, 0.98,
              f'Lag-{LAG} circular correlation: {corr:+.3f}\n'
-             f'(half-cycle ≈ {LAG} mo,\n full cycle ≈ {2*LAG} mo)',
+             f'(full cycle ≈ {LAG} months)\n'
+             f'{same_sign_count} of {n_total} months same sign',
              transform=ax2.transAxes, fontsize=13,
              verticalalignment='top', horizontalalignment='right',
              bbox=props, fontfamily='monospace')
@@ -1153,7 +1165,7 @@ def create_figure_autocorrelation(df_train, df_test, popt, g_fixed, output_path)
     ax2.set_xlabel('Date', fontsize=18, fontweight='bold')
     ax2.set_ylabel('Log-Space Residual', fontsize=18, fontweight='bold')
     ax2.set_title(f'Residuals with {LAG}-Month Lag Overlay (Circular)\n'
-                  'Anti-Correlation Demonstrates ~30-Month Boom-Bust Cycle',
+                  f'Positive Correlation Confirms ~{LAG}-Month Boom-Bust Cycle',
                   fontsize=21, fontweight='bold', pad=20)
     ax2.grid(True, alpha=0.3, linestyle='--')
     ax2.legend(loc='upper left', fontsize=13)
@@ -1652,7 +1664,45 @@ def main():
             f.write(f"    C = {C_g:.6f}, A = {A_g:.6f}, λ = {lambda_g:.6f}\n")
             f.write(f"    R² = {stats_g['r_squared']:.6f}, RMSE = {stats_g['rmse']:.6f}\n")
         f.write("\n")
-    
+
+    # Parameter sensitivity: perturb each fitted parameter by ±1 SE
+    se = np.sqrt(np.diag(pcov))
+    param_names = ['C', 'A', 'lam']
+    t_2030_sens = (pd.to_datetime('2030-01') - start_date).days / 365.25
+    t_2035_sens = (pd.to_datetime('2035-01') - start_date).days / 365.25
+
+    baseline_2030 = np.exp(saturating_exponential(t_2030_sens, C, A, lambda_param, GOLD_SUPPLY_LEAK_RATE))
+    baseline_2035 = np.exp(saturating_exponential(t_2035_sens, C, A, lambda_param, GOLD_SUPPLY_LEAK_RATE))
+
+    print(f"\nParameter Sensitivity (+/-1 SE):")
+    print(f"  {'Scenario':<12} {'C':>10} {'A':>10} {'lambda':>10} {'2030 (oz)':>10} {'2035 (oz)':>10}")
+    print(f"  {'-'*12} {'-'*10} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
+    print(f"  {'Baseline':<12} {C:>10.4f} {A:>10.4f} {lambda_param:>10.4f} {baseline_2030:>10.1f} {baseline_2035:>10.1f}")
+
+    sensitivity_rows = []
+    for i, name in enumerate(param_names):
+        for direction, sign in [('+1 SE', +1), ('-1 SE', -1)]:
+            params = [C, A, lambda_param]
+            params[i] += sign * se[i]
+            r2030 = np.exp(saturating_exponential(t_2030_sens, params[0], params[1], params[2], GOLD_SUPPLY_LEAK_RATE))
+            r2035 = np.exp(saturating_exponential(t_2035_sens, params[0], params[1], params[2], GOLD_SUPPLY_LEAK_RATE))
+            label = f"{name} {direction}"
+            sensitivity_rows.append((label, params[0], params[1], params[2], r2030, r2035))
+            print(f"  {label:<12} {params[0]:>10.4f} {params[1]:>10.4f} {params[2]:>10.4f} {r2030:>10.1f} {r2035:>10.1f}")
+
+    print(f"\n  Standard errors: C={se[0]:.4f}, A={se[1]:.4f}, lambda={se[2]:.4f}")
+
+    with open(results_file, 'a', encoding='utf-8') as f:
+        f.write("PARAMETER SENSITIVITY (±1 SE)\n")
+        f.write("-" * 70 + "\n")
+        f.write(f"Standard errors: C={se[0]:.6f}, A={se[1]:.6f}, λ={se[2]:.6f}\n\n")
+        f.write(f"  {'Scenario':<12} {'2030 (oz)':>10} {'2035 (oz)':>10}\n")
+        f.write(f"  {'-'*12} {'-'*10} {'-'*10}\n")
+        f.write(f"  {'Baseline':<12} {baseline_2030:>10.1f} {baseline_2035:>10.1f}\n")
+        for label, _, _, _, r2030, r2035 in sensitivity_rows:
+            f.write(f"  {label:<12} {r2030:>10.1f} {r2035:>10.1f}\n")
+        f.write("\n")
+
     # ========================================================================
     # STEP 3: Test Model on 2025 Data
     # ========================================================================

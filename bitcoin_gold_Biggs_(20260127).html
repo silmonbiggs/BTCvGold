@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Abstract -->
 <h2>Abstract</h2>
 <div class="abstract">
-<p>We present a model that predicts Bitcoin's long-term value relative to Gold based on supply dynamics and adoption saturation. Gold's 2% annual supply growth dilutes existing holders; Bitcoin's supply is capped, with 95% already mined and the remainder released on a four-year halving cycle. This differential implies Bitcoin should outperform Gold by approximately 2% annually once adoption saturates. Our model captures the transition from exponential adoption to scarcity-driven growth using a saturating exponential with three free parameters. Fitted to 10 years of monthly data (2015&ndash;2024), the model achieves <em>R</em><sup>2</sup> = 0.91 and correctly predicts 13 months of held-out test data (2025&ndash;2026). The leftover scatter after fitting reveals a shift in how widely prices swing after January 2023: standard deviation fell from &sigma; = 0.478 to &sigma; = 0.258 (<em>p</em> &lt; 0.0001), coinciding with significant geopolitical shifts in reserve-asset markets. The model projects Bitcoin will reach 37&nbsp;oz Gold by 2030 (95% CI: 22&ndash;62&nbsp;oz) and 43&nbsp;oz by 2035 (95% CI: 26&ndash;72&nbsp;oz), with expected annual outperformance of 8.6% relative to Gold over horizons long enough to ride out the ~30-month boom-bust cycles that ride the trend. These projections constitute falsifiable hypotheses about both trajectory and volatility.</p>
+<p>We present a model that predicts Bitcoin's long-term value relative to Gold based on supply dynamics and adoption saturation. Gold's 2% annual supply growth dilutes existing holders; Bitcoin's supply is capped, with 95% already mined and the remainder released on a four-year halving cycle. This differential implies Bitcoin should outperform Gold by approximately 2% annually once adoption saturates. Our model captures the transition from exponential adoption to scarcity-driven growth using a saturating exponential with three free parameters. Fitted to 10 years of monthly data (2015&ndash;2024), the model achieves <em>R</em><sup>2</sup> = 0.91 and correctly predicts 13 months of held-out test data (2025&ndash;2026). The leftover scatter after fitting reveals a shift in how widely prices swing after January 2023: standard deviation fell from &sigma; = 0.478 to &sigma; = 0.258 (<em>p</em> &lt; 0.0001), coinciding with significant geopolitical shifts in reserve-asset markets. The model projects Bitcoin will reach 37&nbsp;oz Gold by 2030 (95% CI: 22&ndash;62&nbsp;oz) and 43&nbsp;oz by 2035 (95% CI: 26&ndash;72&nbsp;oz), with expected annual outperformance of 8.6% relative to Gold over horizons long enough to ride out the ~40-month boom-bust cycles that ride the trend. These projections constitute falsifiable hypotheses about both trajectory and volatility.</p>
 </div>
 
 <div class="keywords"><strong>Keywords:</strong> Bitcoin, Gold, monetary economics, store of value, volatility, saturation model, cryptocurrency, reserve assets</div>
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <li>Risk: 2.5% chance of underperformance vs Gold over 10 years</li>
         </ul>
     </li>
-    <li><strong>Patience required:</strong> Boom-bust cycles last roughly 30 months. The model predicts the trend, not any particular month. An investor who buys at a peak and sells at a trough can lose money even when the model is right. These returns assume a horizon of at least 3&ndash;5 years and the ability to wait out fifteen-month periods of underperformance before selling.</li>
+    <li><strong>Patience required:</strong> Boom-bust cycles last roughly 40 months. The model predicts the trend, not any particular month. An investor who buys at a peak and sells at a trough can lose money even when the model is right. These returns assume a horizon of at least 3&ndash;5 years and the ability to wait out half-cycle busts of about 20 months before selling.</li>
 </ul>
 </div>
 
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>The model therefore has only three free parameters: (<em>C</em>, <em>A</em>, &lambda;). The 2% rate (<em>g</em>) comes from Gold's observed supply growth, not from fitting the data, a choice that keeps the model honest. This assumes the supply gap shows up as a price gap; the data say it does, but no pricing theory requires it.</p>
 
-<p>The fitted parameters are sensible (Table 1). The adoption decay rate (&lambda; = 0.283&nbsp;yr<sup>&minus;1</sup>) corresponds to a half-life of ln(2)/0.283 &approx; 2.4 years. The initial surge of adoption dampens quickly. Most of the explosive growth occurred in the first five to seven years (2015&ndash;2022). By 2025, four half-lives later, this adoption surge has largely faded. The continued outperformance of Bitcoin relative to Gold now reflects simply its relative scarcity.</p>
+<p>The fitted parameters are sensible (Table 1). The adoption decay rate (&lambda; = 0.283&nbsp;yr<sup>&minus;1</sup>) corresponds to a half-life of ln(2)/0.283 &approx; 2.4 years. The initial surge of adoption dampens quickly. Most of the explosive growth occurred in the first five to seven years (2015&ndash;2022). By 2025, four half-lives later, this adoption surge has largely faded, though a residual tail remains. The continued outperformance of Bitcoin relative to Gold going forward reflects the last of that adoption effect plus its ongoing relative scarcity.</p>
 
 <figure>
     <table>
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Section 5 -->
 <h2>5. How well does the model predict test data?</h2>
 
-<p>The model was fit on data through December 2024. It knew nothing about what came next. Figure 5 shows what came next: thirteen months of Bitcoin's Gold value, through January 27, 2026, plotted as red squares. Every one of them falls close to the orange trend line, well within &plusmn;1&sigma;. That is tighter than you would expect from chance alone, and it suggests the model is tracking something real rather than memorizing noise. (The unusually tight scatter may signal falling volatility, a possibility tested in Section 7.)</p>
+<p>The model was fit on data through December 2024. It knew nothing about what came next. Figure 5 shows what came next: thirteen months of Bitcoin's Gold value, through January 27, 2026, plotted as red squares. Every one of them falls close to the orange trend line, well within &plusmn;1&sigma;. That is tighter than expected from chance alone, and it suggests the model is tracking something real rather than memorizing noise. (The unusually tight scatter may signal falling volatility, a possibility tested in Section 7.)</p>
 
 <figure>
     <img src="figures/figure_projection.png" alt="Extrapolation to test data">
@@ -576,20 +576,44 @@ document.addEventListener('DOMContentLoaded', function() {
     </table>
 </figure>
 
-<p>Look at the training columns first. All three saturating forms are nearly identical: <em>R</em><sup>2</sup> &approx; 0.91, RMSE around 0.47. If you only had training data, you could not tell them apart. Now look at the test columns. The saturating exponential has the lowest test RMSE (0.222) and is the only model that puts all 13 held-out points within 1&sigma;. The Gompertz and logistic forms, which saturate more abruptly, systematically underpredict during the boom phase (Figure 5, faint lines). Giving them a fourth free parameter makes things worse; their test RMSE rises slightly, the signature of overfitting. So the choice of functional form is not cosmetic. Among models of equal or greater complexity, the one built on the supply-differential asymptote is the one that generalizes. Thirteen months of test data is short compared to a full boom-bust cycle of roughly 30 months, so Section 10 introduces a scorecard that accumulates evidence month by month over years.</p>
+<p>Look at the training columns first. All three saturating forms are nearly identical: <em>R</em><sup>2</sup> &approx; 0.91, RMSE around 0.47. Training data alone cannot distinguish them. Now look at the test columns. The saturating exponential has the lowest test RMSE (0.222) and is the only model that puts all 13 held-out points within 1&sigma;. The Gompertz and logistic forms, which saturate more abruptly, systematically underpredict during the boom phase (Figure 5, faint lines). Giving them a fourth free parameter makes things worse; their test RMSE rises slightly, the signature of overfitting. So the choice of functional form is not cosmetic. Among models of equal or greater complexity, the one built on the supply-differential asymptote is the one that generalizes. Thirteen months of test data is short compared to a full boom-bust cycle of roughly 40 months, so Section 10 introduces a scorecard that accumulates evidence month by month over years.</p>
 
-<h3>5.2 Boom-Bust Cyclicality</h3>
+<h3>5.2 Parameter Sensitivity</h3>
 
-<p>Once you subtract the long-term trend, the residuals tell a story of their own. Look at Figure 5: the price rides above the orange line for a stretch, then drops below it. The most recent boom began in early 2024 and turned to bust around October 2025.</p>
-
-<p>How regular is this cycle? Figure 6 answers the question with a simple trick. Take the residual at each month and compare it to the residual 15 months earlier. If booms and busts arrive on a schedule, then a high residual 15 months ago should correspond to a low one now, and vice versa. That is exactly what the data show: the lag-15 circular correlation is <em>r</em> = &minus;0.55, the deepest trough in the entire autocorrelation function. The pattern repeats roughly every 30 months, about two and a half years from peak to peak. Of 133 months, 90 show opposite-sign residuals at the 15-month lag.</p>
+<p>The model has three fitted parameters. How much do five-year and ten-year projections change if each one shifts by one standard error? Table 4 answers this by perturbing each parameter individually while holding the others fixed.</p>
 
 <figure>
-    <img src="figures/figure_autocorrelation.png" alt="Boom-bust cyclicality in model residuals with 15-month lag overlay">
-    <figcaption>Figure 6: Boom-bust cyclicality in model residuals. Top: log-space residuals (actual minus predicted) show alternating positive and negative runs. Middle: autocorrelation function of training residuals with 95% confidence bands; the negative peak at lag 15 (<em>r</em> = &minus;0.55) confirms the half-cycle is not cherry-picked but is the deepest trough in the ACF. Bottom: residuals overlaid with a 15-month circular lag confirm anti-correlation at the half-cycle, consistent with a full boom-bust period of approximately 30 months. Green shading indicates months where the boom residual matched a bust fifteen months earlier, and vice versa. 90 of 133 months show this 15-month anticorrelation.</figcaption>
+    <table>
+        <caption>Table 4: Parameter sensitivity: effect of &plusmn;1 SE perturbations on projections</caption>
+        <thead>
+            <tr><th>Scenario</th><th>Fitted value</th><th>SE</th><th>2030 (oz)</th><th>2035 (oz)</th><th>&Delta; 2030</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Baseline</td><td>&mdash;</td><td>&mdash;</td><td>36.1</td><td>42.4</td><td>&mdash;</td></tr>
+            <tr style="border-top: 1px solid #ccc;"><td><em>C</em> +1 SE</td><td>&minus;2.252</td><td>0.171</td><td>42.8</td><td>50.3</td><td>+19%</td></tr>
+            <tr><td><em>C</em> &minus;1 SE</td><td></td><td></td><td>30.4</td><td>35.7</td><td>&minus;16%</td></tr>
+            <tr style="border-top: 1px solid #ccc;"><td><em>A</em> +1 SE</td><td>5.618</td><td>0.177</td><td>42.9</td><td>50.5</td><td>+19%</td></tr>
+            <tr><td><em>A</em> &minus;1 SE</td><td></td><td></td><td>30.3</td><td>35.5</td><td>&minus;16%</td></tr>
+            <tr style="border-top: 1px solid #ccc;"><td>&lambda; +1 SE</td><td>0.283</td><td>0.028</td><td>37.1</td><td>42.7</td><td>+3%</td></tr>
+            <tr><td>&lambda; &minus;1 SE</td><td></td><td></td><td>34.6</td><td>41.7</td><td>&minus;4%</td></tr>
+        </tbody>
+    </table>
 </figure>
 
-<p>This cyclicality matters for everything that follows. The model predicts a trend, not a price on any given Tuesday. An investor who buys at the top of a boom and is forced to sell at the bottom of the next bust, roughly 15 months later, can lose money even if the model is perfectly correct. The projections in this paper (Sections 6 and 9) assume a horizon long enough to ride out at least one full cycle: three to five years at minimum, with the ability to sit through fifteen-month stretches of underperformance. Anyone who cannot wait that long is not investing on the trend. They are betting on which part of the cycle they happen to catch.</p>
+<p>The baseline (<em>C</em>) and adoption amplitude (<em>A</em>) each shift the projections by roughly &plusmn;19%, while the decay rate (&lambda;) moves them by only &plusmn;3%. This makes physical sense: <em>C</em> and <em>A</em> set the overall level of the curve, so any error in either one scales the entire projection up or down. The decay rate, by contrast, governs how quickly adoption fades; by 2030, fifteen years after the start of the data, adoption has already largely decayed regardless of whether &lambda; is 0.255 or 0.311. The projections are therefore robust to uncertainty in the speed of adoption decay, but sensitive to the level parameters&mdash;exactly the uncertainty already captured by the &plusmn;1&sigma; and &plusmn;2&sigma; confidence bands in Section&nbsp;6.</p>
+
+<h3>5.3 Boom-Bust Cyclicality</h3>
+
+<p>Subtracting the long-term trend, the residuals tell a story of their own. Look at Figure 5: the price rides above the orange line for a stretch, then drops below it. The most recent boom began in early 2024 and turned to bust around October 2025.</p>
+
+<p>How regular is this cycle? Figure 6 answers the question directly. The autocorrelation function of the training residuals peaks at lag 40 (<em>r</em> = +0.67): a boom today predicts another boom 40 months later, and likewise for busts. The cycle repeats roughly every 40 months, about three and a third years from peak to peak. Overlaying each residual with its value 40 months earlier confirms the pattern: of 133 months, 91 show same-sign residuals at the 40-month lag.</p>
+
+<figure>
+    <img src="figures/figure_autocorrelation.png" alt="Boom-bust cyclicality in model residuals with 40-month lag overlay">
+    <figcaption>Figure 6: Boom-bust cyclicality in model residuals. Top: log-space residuals (actual minus predicted) show alternating positive and negative runs. Middle: autocorrelation function of training residuals with 95% confidence bands; the positive peak at lag 40 (<em>r</em> = +0.67) identifies a ~40-month cycle. Bottom: residuals overlaid with a 40-month circular lag confirm the cycle: booms align with booms and busts with busts. Green shading indicates months where the current residual and the residual 40 months earlier share the same sign. 91 of 133 months show this alignment.</figcaption>
+</figure>
+
+<p>This cyclicality matters for everything that follows. The model predicts a trend, not a price on any given Tuesday. An investor who buys at the top of a boom and is forced to sell at the bottom of the next bust can lose money even if the model is perfectly correct. The projections in this paper (Sections 6 and 9) assume a horizon long enough to ride out at least one full cycle: three to five years at minimum, with the ability to sit through half-cycle busts of about 20 months. Anyone who cannot wait that long is not investing on the trend. They are betting on which part of the cycle they happen to catch.</p>
 
 <!-- Section 6 -->
 <h2>6. What does the model predict going forward?</h2>
@@ -746,7 +770,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>Whatever the bucket size, a key question remains: <strong>Within that reserve bucket, what proportion should be Bitcoin versus Gold?</strong></p>
 
-<p>The Kelly criterion&nbsp;<a href="#ref16">[16]</a> provides a mathematically optimal answer. In its continuous-time form, derived from Geometric Brownian Motion (GBM), the price process is modeled as <em>dS/S</em> = &mu;&thinsp;<em>dt</em> + &sigma;&thinsp;<em>dW</em>, where &mu; is the expected arithmetic return and &sigma; is the volatility of log returns. The optimal fraction to allocate is:</p>
+<p>The Kelly criterion&nbsp;<a href="#ref16">[16]</a> provides a mathematically optimal answer. In its continuous-time form, derived from Geometric Brownian Motion (GBM), the price process is modeled as <em>dS/S</em> = &mu;&thinsp;<em>dt</em> + &sigma;&thinsp;<em>dW</em>, where <em>S</em> is the asset price, <em>W</em> is a standard Wiener process, &mu; is the expected arithmetic return, and &sigma; is the volatility of log returns. The optimal fraction to allocate is:</p>
 
 <div class="equation">
     <span class="equation-number">(2)</span>
@@ -822,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>But which &sigma; belongs in the denominator? The paper advances two independent claims. The trajectory hypothesis says Bitcoin follows the saturating exponential path. The reduced volatility hypothesis says the post-2023 low-volatility regime (&sigma; = 0.258) persists. If the z-scores are computed with &sigma; = 0.258 and the running total crosses a boundary, either claim could be wrong: the trajectory (numerator too large) or the volatility assumption (denominator too small). Disentangling the two requires a second boundary computed with the full-sample scatter (&sigma; = 0.478, the model's residual standard deviation across the entire 2015&ndash;2024 training period), which tests the trajectory alone without assuming anything about the volatility regime.</p>
 
-<p>Section&nbsp;5 showed that the boom-bust cycles last about 30 months, with lag-1 autocorrelation &rho; = 0.90. A bad month tends to be followed by more bad months. This means the running total wanders further just by luck, the way a drunk who staggers in the same direction for a while covers more sideways ground than one who staggers randomly at each step. The iid boundary (<em>c</em> = 2.625), which assumes each month is a fresh coin flip, would ring false alarms too often. The autocorrelation-corrected boundaries are wider, keeping the false-alarm rate at 5% even when boom or bust conditions persist. For the reduced volatility test, <em>c</em> = 8.50 (about 3.2&times; the iid value). For the trajectory test using the full-sample &sigma;, <em>c</em> = 15.9.</p>
+<p>Section&nbsp;5 showed that the boom-bust cycles last about 40 months, with lag-1 autocorrelation &rho; = 0.90. A bad month tends to be followed by more bad months. This means the running total wanders further just by luck, the way a drunk who staggers in the same direction for a while covers more sideways ground than one who staggers randomly at each step. The iid boundary (<em>c</em> = 2.625), which assumes each month is a fresh coin flip, would ring false alarms too often. The autocorrelation-corrected boundaries are wider, keeping the false-alarm rate at 5% even when boom or bust conditions persist. For the reduced volatility test, <em>c</em> = 8.50 (about 3.2&times; the iid value). For the trajectory test using the full-sample &sigma;, <em>c</em> = 15.9.</p>
 
 <p>Figure 12 shows the result as three colored zones. Inside the purple dashed boundaries (reduced volatility boundary, &sigma; = 0.258, <em>c</em> = 8.50), both hypotheses are supported: the green zone. Between the purple and red dashed boundaries (trajectory boundary, &sigma; = 0.478, <em>c</em> = 15.9), the reduced volatility hypothesis fails but the trajectory remains intact: the yellow zone. Outside the red dashed boundaries, both hypotheses are rejected: the red zone. The gray dashed iid boundary (<em>c</em> = 2.625) is shown for reference. Green data points mark months when Bitcoin outperformed the model; brown points mark months when it underperformed. The rising green points trace the tail end of the latest boom. The brown points are the subsequent bust, pulling the running total back toward the baseline.</p>
 
