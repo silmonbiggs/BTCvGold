@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcoin's Gold Price - Live Model Scorecard</title>
+<style>
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+         line-height: 1.6; max-width: 960px; margin: 0 auto; padding: 20px;
+         color: #333; background: #fafafa; }
+  h1 { font-size: 1.6em; margin-bottom: 0.3em; }
+  h2 { font-size: 1.2em; color: #555; margin-top: 1.5em; }
+  .subtitle { color: #666; font-size: 0.95em; margin-bottom: 1.5em; }
+  table { border-collapse: collapse; margin: 1em 0; }
+  th, td { padding: 6px 14px; text-align: left; border-bottom: 1px solid #ddd; }
+  th { border-top: 2px solid #333; font-weight: 600; }
+  .status { font-weight: bold; color: #27AE60; }
+  img { max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #eee; }
+  .commentary { background: #f0f0f0; padding: 12px 16px; border-left: 3px solid #2E86AB;
+                 margin: 1em 0; font-size: 0.95em; }
+  .footer { margin-top: 2em; padding-top: 1em; border-top: 1px solid #ddd;
+             font-size: 0.85em; color: #888; }
+  a { color: #0066cc; }
+</style>
+</head>
+<body>
+
+<h1>Bitcoin's Gold Price &mdash; Live Model Scorecard</h1>
+<p class="subtitle">
+  Sequential hypothesis test from
+  <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528"><em>Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035</em></a>
+  (Biggs, 2026)
+</p>
+
+
+
+<h2>Current Status</h2>
+<table>
+  <tr><th>Metric</th><th>Value</th></tr>
+  <tr><td>Latest BTC/Gold ratio</td><td>13.4 oz (2026-02-20)</td></tr>
+  <tr><td>Out-of-sample months</td><td>14</td></tr>
+  <tr><td>Latest z-score</td><td>-2.22</td></tr>
+  <tr><td>Cumulative sum (S<sub>n</sub>)</td><td>+0.93</td></tr>
+  <tr><td>Reduced volatility margin</td><td>+30.9</td></tr>
+  <tr><td>Trajectory margin</td><td>+58.6</td></tr>
+  <tr><td>Status</td><td class="status">Green &mdash; Both hypotheses supported</td></tr>
+</table>
+
+<h2>Daily BTC/Gold Ratio vs Model</h2>
+<img src="dashboard_ratio.png" alt="Daily BTC/Gold ratio vs saturating exponential model">
+
+<h2>CUSUM Sequential Hypothesis Test</h2>
+<img src="dashboard_cusum.png" alt="CUSUM scorecard with rejection boundaries">
+
+<h2>Zone Definitions</h2>
+<table>
+  <tr><th>Zone</th><th>Meaning</th></tr>
+  <tr><td style="color:#27AE60;font-weight:bold;">Green</td>
+      <td>Both trajectory and reduced volatility hypotheses supported</td></tr>
+  <tr><td style="color:#F39C12;font-weight:bold;">Yellow</td>
+      <td>Reduced volatility hypothesis rejected; trajectory intact</td></tr>
+  <tr><td style="color:#E74C3C;font-weight:bold;">Red</td>
+      <td>Both hypotheses rejected</td></tr>
+</table>
+
+<div class="footer">
+  <p>Last updated: 2026-02-22 20:28 UTC</p>
+  <p>Data: BTC-USD and Gold futures via Yahoo Finance. Monthly z-scores computed on 1st-of-month closes.
+     Boundary constants calibrated via Monte Carlo (2M simulations, 120 monthly looks, &alpha;=0.05).</p>
+  <p><a href="https://github.com/silmonbiggs/BTCvGold">Source code</a> |
+     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">Paper (SSRN)</a></p>
+</div>
+
+</body>
+</html>

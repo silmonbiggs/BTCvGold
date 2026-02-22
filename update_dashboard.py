@@ -1,0 +1,543 @@
+"""
+Live Dashboard Generator for Bitcoin's Gold Price Model
+Fetches daily BTC and Gold prices, generates plots and HTML scorecard.
+
+Usage:
+    python update_dashboard.py
+
+Outputs:
+    docs/index.html            - Dashboard page
+    docs/dashboard_ratio.png   - Daily BTC/Gold ratio vs model
+    docs/dashboard_cusum.png   - Monthly CUSUM scorecard
+    docs/data/daily_prices.csv - Append-only daily price log
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+import os
+
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+ROOT = Path(__file__).parent
+DOCS = ROOT / 'docs'
+DATA_DIR = DOCS / 'data'
+DAILY_CSV = DATA_DIR / 'daily_prices.csv'
+
+# Training and test data (for historical context in plots)
+TRAINING_CSV = ROOT / 'btc_gold_training_2015_2024.csv'
+TEST_CSV = ROOT / 'btc_gold_test_2025(&26Jan).csv'
+UPDATE_CSV = ROOT / 'btc_gold_update.csv'
+
+# Fitted model parameters (from training on 2015-01 to 2024-12)
+MODEL_C = -2.252333
+MODEL_A = 5.617963
+MODEL_LAMBDA = 0.283095
+MODEL_G = 0.020
+START_DATE = pd.to_datetime('2015-01-01')
+
+# Residual standard deviations (log space)
+SIGMA_POST2023 = 0.2554
+SIGMA_FULL = 0.4782
+
+# Sequential testing boundary constants (alpha=0.05, K=120 looks, 2M MC sims)
+C_IID = 2.625
+C_CORRECTED = 8.50
+C_TRAJECTORY = C_CORRECTED * (SIGMA_FULL / SIGMA_POST2023)
+
+RHO_TRAINING = 0.898
+
+
+# ============================================================================
+# MODEL
+# ============================================================================
+
+def model_ln_ratio(t):
+    """Saturating exponential: ln(R(t)) = C + g*t + A(1 - e^(-lambda*t))"""
+    return MODEL_C + MODEL_G * t + MODEL_A * (1 - np.exp(-MODEL_LAMBDA * t))
+
+
+# ============================================================================
+# DATA FETCHING
+# ============================================================================
+
+def fetch_prices():
+    """Fetch recent BTC and Gold prices via yfinance. Returns DataFrame."""
+    import yfinance as yf
+
+    # Determine start date: day after last entry in daily CSV, or 2015-01-01
+    if DAILY_CSV.exists():
+        existing = pd.read_csv(DAILY_CSV)
+        existing['Date'] = pd.to_datetime(existing['Date'])
+        last_date = existing['Date'].max()
+        fetch_start = (last_date + timedelta(days=1)).strftime('%Y-%m-%d')
+    else:
+        existing = pd.DataFrame()
+        fetch_start = '2015-01-01'
+
+    today = datetime.now().strftime('%Y-%m-%d')
+    if fetch_start > today:
+        print("  Daily CSV is up to date.")
+        return existing
+
+    print(f"  Fetching prices from {fetch_start} to {today}...")
+
+    btc = yf.download('BTC-USD', start=fetch_start, end=today, progress=False)
+    gold = yf.download('GC=F', start=fetch_start, end=today, progress=False)
+
+    if btc.empty or gold.empty:
+        print("  No new data available from yfinance.")
+        return existing
+
+    # Handle MultiIndex columns from yfinance
+    if isinstance(btc.columns, pd.MultiIndex):
+        btc = btc.droplevel(level=1, axis=1)
+    if isinstance(gold.columns, pd.MultiIndex):
+        gold = gold.droplevel(level=1, axis=1)
+
+    # Align on dates where both traded
+    btc_close = btc[['Close']].rename(columns={'Close': 'USD_per_Bitcoin'})
+    gold_close = gold[['Close']].rename(columns={'Close': 'USD_per_Gold_oz'})
+    merged = btc_close.join(gold_close, how='inner').dropna()
+
+    if merged.empty:
+        print("  No overlapping trading days found.")
+        return existing
+
+    merged['Gold_oz_per_Bitcoin'] = merged['USD_per_Bitcoin'] / merged['USD_per_Gold_oz']
+    merged = merged.reset_index()
+    merged = merged.rename(columns={'index': 'Date', 'Datetime': 'Date'})
+    # Normalize date column name (yfinance may use 'Date' or 'Datetime')
+    if 'Date' not in merged.columns:
+        for col in merged.columns:
+            if 'date' in col.lower() or 'time' in col.lower():
+                merged = merged.rename(columns={col: 'Date'})
+                break
+    merged['Date'] = pd.to_datetime(merged['Date']).dt.date
+
+    new_rows = merged[['Date', 'USD_per_Gold_oz', 'USD_per_Bitcoin', 'Gold_oz_per_Bitcoin']]
+    print(f"  Fetched {len(new_rows)} new daily rows.")
+
+    if not existing.empty:
+        existing['Date'] = existing['Date'].dt.date
+        combined = pd.concat([existing, new_rows], ignore_index=True)
+        combined = combined.drop_duplicates(subset='Date', keep='last')
+        combined = combined.sort_values('Date').reset_index(drop=True)
+    else:
+        combined = new_rows.sort_values('Date').reset_index(drop=True)
+
+    # Save
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    combined.to_csv(DAILY_CSV, index=False)
+    print(f"  Saved {len(combined)} total rows to {DAILY_CSV}")
+
+    # Restore Date as datetime for downstream use
+    combined['Date'] = pd.to_datetime(combined['Date'])
+    return combined
+
+
+# ============================================================================
+# MONTHLY DATA (for CUSUM)
+# ============================================================================
+
+def load_monthly_data():
+    """Load all monthly data from training + test + update CSVs."""
+    frames = []
+    for path in [TRAINING_CSV, TEST_CSV, UPDATE_CSV]:
+        if path.exists():
+            df = pd.read_csv(path)
+            df['Date'] = pd.to_datetime(df['Date'])
+            frames.append(df)
+    if not frames:
+        return pd.DataFrame()
+    combined = pd.concat(frames, ignore_index=True)
+    combined = combined.drop_duplicates(subset='Date', keep='last')
+    combined = combined.sort_values('Date').reset_index(drop=True)
+    return combined
+
+
+def compute_oos_cusum(monthly_df):
+    """Compute z-scores and CUSUM for out-of-sample months (2025-01 onward)."""
+    oos = monthly_df[monthly_df['Date'] >= '2025-01-01'].copy()
+    if oos.empty:
+        return oos
+    t = (oos['Date'] - START_DATE).dt.days / 365.25
+    ln_actual = np.log(oos['Gold_oz_per_Bitcoin'].values)
+    ln_pred = model_ln_ratio(t.values)
+    oos['ln_actual'] = ln_actual
+    oos['ln_pred'] = ln_pred
+    oos['residual'] = ln_actual - ln_pred
+    oos['z_score'] = oos['residual'] / SIGMA_POST2023
+    oos['cusum'] = oos['z_score'].cumsum()
+    return oos
+
+
+# ============================================================================
+# PLOT 1: DAILY RATIO VS MODEL
+# ============================================================================
+
+def create_ratio_plot(daily_df, output_path):
+    """Daily BTC/Gold ratio with model curve and confidence bands."""
+    plt.rcParams.update({
+        'font.size': 12, 'axes.labelsize': 14, 'axes.titlesize': 16,
+        'xtick.labelsize': 11, 'ytick.labelsize': 11, 'legend.fontsize': 11,
+    })
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    # Model curve from 2015 to 2036
+    t_model = np.linspace(0, 21, 500)
+    dates_model = [START_DATE + timedelta(days=d*365.25) for d in t_model]
+    ln_model = model_ln_ratio(t_model)
+    ratio_model = np.exp(ln_model)
+
+    # Confidence bands (post-2023 sigma)
+    ratio_1s_upper = np.exp(ln_model + SIGMA_POST2023)
+    ratio_1s_lower = np.exp(ln_model - SIGMA_POST2023)
+    ratio_2s_upper = np.exp(ln_model + 2 * SIGMA_POST2023)
+    ratio_2s_lower = np.exp(ln_model - 2 * SIGMA_POST2023)
+
+    # Background bands
+    ax.fill_between(dates_model, ratio_1s_lower, ratio_1s_upper,
+                    color='#F18F01', alpha=0.15, label='68% band')
+    ax.fill_between(dates_model, ratio_2s_lower, ratio_2s_upper,
+                    color='#F18F01', alpha=0.07, label='95% band')
+
+    # Model line
+    ax.semilogy(dates_model, ratio_model, '-', color='#F18F01', linewidth=2,
+                label='Model prediction', zorder=5)
+
+    # Daily data
+    if not daily_df.empty:
+        dates = pd.to_datetime(daily_df['Date'])
+        ratios = daily_df['Gold_oz_per_Bitcoin'].values
+        ax.semilogy(dates, ratios, '.', color='#2E86AB', markersize=1.5,
+                    alpha=0.5, label='Daily BTC/Gold ratio', zorder=3)
+
+    # Load monthly training data for larger markers
+    if TRAINING_CSV.exists():
+        df_train = pd.read_csv(TRAINING_CSV)
+        df_train['Date'] = pd.to_datetime(df_train['Date'])
+        ax.semilogy(df_train['Date'], df_train['Gold_oz_per_Bitcoin'],
+                    'o', color='#2E86AB', markersize=3, alpha=0.7, zorder=4)
+
+    # Today marker
+    if not daily_df.empty:
+        latest = daily_df.iloc[-1]
+        ax.semilogy(pd.to_datetime(latest['Date']), latest['Gold_oz_per_Bitcoin'],
+                    'D', color='#E74C3C', markersize=8, zorder=10,
+                    label=f"Latest: {latest['Gold_oz_per_Bitcoin']:.1f} oz")
+
+    ax.set_xlabel('Date', fontweight='bold')
+    ax.set_ylabel('Bitcoin Price (oz Gold)', fontweight='bold')
+    ax.set_title("Bitcoin's Gold Price vs Saturating Exponential Model",
+                 fontweight='bold')
+    ax.set_xlim(pd.to_datetime('2015-01-01'), pd.to_datetime('2036-01-01'))
+    ax.legend(loc='upper left', fontsize=10)
+    ax.grid(True, alpha=0.3, linestyle='--')
+    ax.xaxis.set_major_locator(mdates.YearLocator(2))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved: {output_path}")
+
+
+# ============================================================================
+# PLOT 2: CUSUM SCORECARD
+# ============================================================================
+
+def create_cusum_plot(oos_df, output_path):
+    """CUSUM chart with green/yellow/red zones and boundary lines."""
+    plt.rcParams.update({
+        'font.size': 12, 'axes.labelsize': 14, 'axes.titlesize': 16,
+        'xtick.labelsize': 11, 'ytick.labelsize': 11, 'legend.fontsize': 11,
+    })
+    fig, ax = plt.subplots(figsize=(12, 7))
+
+    n_points = len(oos_df)
+    if n_points == 0:
+        ax.text(0.5, 0.5, 'No out-of-sample data yet',
+                transform=ax.transAxes, ha='center', fontsize=16)
+        plt.savefig(output_path, dpi=150, bbox_inches='tight')
+        plt.close()
+        return
+
+    dates = oos_df['Date'].values
+    z_scores = oos_df['z_score'].values
+    cusum = oos_df['cusum'].values
+
+    # Boundaries: extend forward 5 years
+    n_extend = n_points + 60
+    ns_boundary = np.arange(1, n_extend + 1)
+    boundary_iid = C_IID * np.sqrt(ns_boundary)
+    boundary_corr = C_CORRECTED * np.sqrt(ns_boundary)
+    boundary_traj = C_TRAJECTORY * np.sqrt(ns_boundary)
+
+    dates_boundary = pd.date_range(
+        start=oos_df['Date'].iloc[0], periods=n_extend, freq='MS')
+
+    y_lim = boundary_traj[n_extend - 1] + 5
+    ax.set_ylim(-y_lim, y_lim)
+
+    # Colored zones
+    ax.fill_between(dates_boundary, boundary_traj, y_lim,
+                    color='#E74C3C', alpha=0.10, zorder=0)
+    ax.fill_between(dates_boundary, -boundary_traj, -y_lim,
+                    color='#E74C3C', alpha=0.10, zorder=0)
+    ax.fill_between(dates_boundary, boundary_corr, boundary_traj,
+                    color='#F39C12', alpha=0.10, zorder=1)
+    ax.fill_between(dates_boundary, -boundary_corr, -boundary_traj,
+                    color='#F39C12', alpha=0.10, zorder=1)
+    ax.fill_between(dates_boundary, -boundary_corr, boundary_corr,
+                    color='#27AE60', alpha=0.10, zorder=2)
+
+    # Boundary lines
+    ax.plot(dates_boundary, boundary_iid, '--', color='gray', linewidth=1.5,
+            alpha=0.5, label='iid boundary (reference)', zorder=5)
+    ax.plot(dates_boundary, -boundary_iid, '--', color='gray', linewidth=1.5,
+            alpha=0.5, zorder=5)
+    ax.plot(dates_boundary, boundary_corr, '--', color='#8E44AD', linewidth=2.0,
+            alpha=0.7,
+            label=f'Reduced volatility (\u03c3={SIGMA_POST2023}, c={C_CORRECTED})',
+            zorder=4)
+    ax.plot(dates_boundary, -boundary_corr, '--', color='#8E44AD', linewidth=2.0,
+            alpha=0.7, zorder=4)
+    ax.plot(dates_boundary, boundary_traj, '--', color='#C0392B', linewidth=2.0,
+            alpha=0.7,
+            label=f'Trajectory (\u03c3={SIGMA_FULL}, c={C_TRAJECTORY:.1f})',
+            zorder=4)
+    ax.plot(dates_boundary, -boundary_traj, '--', color='#C0392B', linewidth=2.0,
+            alpha=0.7, zorder=4)
+
+    ax.axhline(y=0, color='gray', linewidth=0.8, alpha=0.5, zorder=3)
+
+    # CUSUM line
+    ax.plot(dates, cusum, 'o-', color='#2E86AB', linewidth=2.5,
+            markersize=6, label='Cumulative z-score ($S_n$)',
+            zorder=10, markeredgecolor='white', markeredgewidth=0.5)
+
+    # Color points by z-score sign
+    for i in range(n_points):
+        color = '#27AE60' if z_scores[i] >= 0 else '#8B4513'
+        ax.plot(dates[i], cusum[i], 'o', color=color, markersize=8,
+                zorder=11, markeredgecolor='white', markeredgewidth=1.0)
+
+    # Summary stats box
+    current_S = cusum[-1]
+    margin_corr = boundary_corr[n_points - 1] - abs(current_S)
+    margin_traj = boundary_traj[n_points - 1] - abs(current_S)
+    mean_z = z_scores.mean()
+    std_z = z_scores.std(ddof=1) if n_points > 1 else 0
+
+    textstr = (
+        f'Out-of-sample months: {n_points}\n'
+        f'Mean z-score: {mean_z:+.3f}\n'
+        f'Cumulative sum: {current_S:+.2f}\n'
+        f'\n'
+        f'Reduced vol. margin: {margin_corr:+.1f}\n'
+        f'Trajectory margin:   {margin_traj:+.1f}\n'
+        f'\n'
+        f'\u03c3 post-2023: {SIGMA_POST2023}\n'
+        f'\u03c3 full-sample: {SIGMA_FULL}\n'
+        f'\u03c1 = {RHO_TRAINING} (lag-1 autocorr.)'
+    )
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
+    ax.text(0.98, 0.02, textstr, transform=ax.transAxes, fontsize=11,
+            verticalalignment='bottom', horizontalalignment='right', bbox=props,
+            fontfamily='monospace', zorder=100)
+
+    ax.set_xlabel('Date', fontweight='bold')
+    ax.set_ylabel('Cumulative Z-Score Sum ($S_n$)', fontweight='bold')
+    ax.set_title('Sequential Test of Trajectory Hypothesis\n'
+                 'CUSUM of Out-of-Sample Residuals', fontweight='bold', pad=15)
+    ax.grid(True, alpha=0.3, linestyle='--')
+    ax.legend(loc='upper left', fontsize=10)
+    ax.xaxis.set_major_locator(mdates.YearLocator(1))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved: {output_path}")
+
+
+# ============================================================================
+# HTML GENERATION
+# ============================================================================
+
+def generate_html(oos_df, daily_df, output_path):
+    """Generate a minimal, clean dashboard page."""
+
+    # Compute stats for the table
+    if not oos_df.empty:
+        n_months = len(oos_df)
+        current_S = oos_df['cusum'].iloc[-1]
+        latest_z = oos_df['z_score'].iloc[-1]
+        margin_corr = C_CORRECTED * np.sqrt(n_months) - abs(current_S)
+        margin_traj = C_TRAJECTORY * np.sqrt(n_months) - abs(current_S)
+
+        if abs(current_S) < C_CORRECTED * np.sqrt(n_months):
+            status = "Green"
+            status_desc = "Both hypotheses supported"
+        elif abs(current_S) < C_TRAJECTORY * np.sqrt(n_months):
+            status = "Yellow"
+            status_desc = "Reduced volatility rejected, trajectory intact"
+        else:
+            status = "Red"
+            status_desc = "Both hypotheses rejected"
+    else:
+        n_months = 0
+        current_S = latest_z = margin_corr = margin_traj = 0
+        status = "N/A"
+        status_desc = "No out-of-sample data"
+
+    # Latest price
+    if not daily_df.empty:
+        latest = daily_df.iloc[-1]
+        latest_ratio = f"{latest['Gold_oz_per_Bitcoin']:.1f}"
+        latest_date = pd.to_datetime(latest['Date']).strftime('%Y-%m-%d')
+    else:
+        latest_ratio = "N/A"
+        latest_date = "N/A"
+
+    # Optional commentary
+    commentary_file = DOCS / 'commentary.txt'
+    commentary = ""
+    if commentary_file.exists():
+        text = commentary_file.read_text().strip()
+        if text:
+            commentary = f'<div class="commentary"><strong>Commentary:</strong> {text}</div>'
+
+    now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+
+    status_colors = {"Green": "#27AE60", "Yellow": "#F39C12", "Red": "#E74C3C"}
+    status_color = status_colors.get(status, "#666")
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcoin's Gold Price - Live Model Scorecard</title>
+<style>
+  body {{ font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+         line-height: 1.6; max-width: 960px; margin: 0 auto; padding: 20px;
+         color: #333; background: #fafafa; }}
+  h1 {{ font-size: 1.6em; margin-bottom: 0.3em; }}
+  h2 {{ font-size: 1.2em; color: #555; margin-top: 1.5em; }}
+  .subtitle {{ color: #666; font-size: 0.95em; margin-bottom: 1.5em; }}
+  table {{ border-collapse: collapse; margin: 1em 0; }}
+  th, td {{ padding: 6px 14px; text-align: left; border-bottom: 1px solid #ddd; }}
+  th {{ border-top: 2px solid #333; font-weight: 600; }}
+  .status {{ font-weight: bold; color: {status_color}; }}
+  img {{ max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #eee; }}
+  .commentary {{ background: #f0f0f0; padding: 12px 16px; border-left: 3px solid #2E86AB;
+                 margin: 1em 0; font-size: 0.95em; }}
+  .footer {{ margin-top: 2em; padding-top: 1em; border-top: 1px solid #ddd;
+             font-size: 0.85em; color: #888; }}
+  a {{ color: #0066cc; }}
+</style>
+</head>
+<body>
+
+<h1>Bitcoin's Gold Price &mdash; Live Model Scorecard</h1>
+<p class="subtitle">
+  Sequential hypothesis test from
+  <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528"><em>Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035</em></a>
+  (Biggs, 2026)
+</p>
+
+{commentary}
+
+<h2>Current Status</h2>
+<table>
+  <tr><th>Metric</th><th>Value</th></tr>
+  <tr><td>Latest BTC/Gold ratio</td><td>{latest_ratio} oz ({latest_date})</td></tr>
+  <tr><td>Out-of-sample months</td><td>{n_months}</td></tr>
+  <tr><td>Latest z-score</td><td>{latest_z:+.2f}</td></tr>
+  <tr><td>Cumulative sum (S<sub>n</sub>)</td><td>{current_S:+.2f}</td></tr>
+  <tr><td>Reduced volatility margin</td><td>{margin_corr:+.1f}</td></tr>
+  <tr><td>Trajectory margin</td><td>{margin_traj:+.1f}</td></tr>
+  <tr><td>Status</td><td class="status">{status} &mdash; {status_desc}</td></tr>
+</table>
+
+<h2>Daily BTC/Gold Ratio vs Model</h2>
+<img src="dashboard_ratio.png" alt="Daily BTC/Gold ratio vs saturating exponential model">
+
+<h2>CUSUM Sequential Hypothesis Test</h2>
+<img src="dashboard_cusum.png" alt="CUSUM scorecard with rejection boundaries">
+
+<h2>Zone Definitions</h2>
+<table>
+  <tr><th>Zone</th><th>Meaning</th></tr>
+  <tr><td style="color:#27AE60;font-weight:bold;">Green</td>
+      <td>Both trajectory and reduced volatility hypotheses supported</td></tr>
+  <tr><td style="color:#F39C12;font-weight:bold;">Yellow</td>
+      <td>Reduced volatility hypothesis rejected; trajectory intact</td></tr>
+  <tr><td style="color:#E74C3C;font-weight:bold;">Red</td>
+      <td>Both hypotheses rejected</td></tr>
+</table>
+
+<div class="footer">
+  <p>Last updated: {now}</p>
+  <p>Data: BTC-USD and Gold futures via Yahoo Finance. Monthly z-scores computed on 1st-of-month closes.
+     Boundary constants calibrated via Monte Carlo (2M simulations, 120 monthly looks, &alpha;=0.05).</p>
+  <p><a href="https://github.com/silmonbiggs/BTCvGold">Source code</a> |
+     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">Paper (SSRN)</a></p>
+</div>
+
+</body>
+</html>"""
+
+    Path(output_path).write_text(html, encoding='utf-8')
+    print(f"  Saved: {output_path}")
+
+
+# ============================================================================
+# MAIN
+# ============================================================================
+
+def main():
+    print("=" * 60)
+    print("Dashboard Update")
+    print("=" * 60)
+
+    # Ensure output dirs exist
+    DOCS.mkdir(exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 1. Fetch daily prices
+    print("\n1. Fetching daily prices...")
+    daily_df = fetch_prices()
+
+    # 2. Load monthly data and compute CUSUM
+    print("\n2. Computing CUSUM from monthly data...")
+    monthly_df = load_monthly_data()
+    oos_df = compute_oos_cusum(monthly_df)
+    if not oos_df.empty:
+        print(f"  {len(oos_df)} out-of-sample months, S_n = {oos_df['cusum'].iloc[-1]:+.2f}")
+
+    # 3. Generate plots
+    print("\n3. Generating plots...")
+    create_ratio_plot(daily_df, DOCS / 'dashboard_ratio.png')
+    create_cusum_plot(oos_df, DOCS / 'dashboard_cusum.png')
+
+    # 4. Generate HTML
+    print("\n4. Generating HTML...")
+    generate_html(oos_df, daily_df, DOCS / 'index.html')
+
+    print("\nDone.")
+
+
+if __name__ == '__main__':
+    main()
