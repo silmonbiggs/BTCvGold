@@ -6,23 +6,29 @@
 <title>Bitcoin's Gold Price</title>
 <style>
   body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-         line-height: 1.6; max-width: 960px; margin: 0 auto; padding: 20px;
-         color: #333; background: #fafafa; }
-  h1 { font-size: 1.6em; margin-bottom: 0.3em; }
-  h2 { font-size: 1.2em; color: #555; margin-top: 1.5em; }
-  .section-divider { border: none; border-top: 2px solid #ddd; margin: 2.5em 0 1.5em; }
-  table { border-collapse: collapse; margin: 1em 0; }
-  th, td { padding: 6px 14px; text-align: left; border-bottom: 1px solid #ddd; }
-  th { border-top: 2px solid #333; font-weight: 600; }
-  .price-table td { font-size: 1.05em; }
-  .price-table td:last-child { font-weight: bold; }
+         line-height: 1.5; max-width: 800px; margin: 0 auto; padding: 16px;
+         color: #333; background: #fafafa; font-size: 15px; }
+  h1 { font-size: 1.5em; margin-bottom: 0.2em; }
+  h2 { font-size: 1.15em; color: #555; margin-top: 1.5em; }
+  .section-divider { border: none; border-top: 2px solid #ddd; margin: 2em 0 1.2em; }
+  table { border-collapse: collapse; margin: 0.8em 0; width: 100%; }
+  th, td { padding: 5px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+  th { border-top: 2px solid #333; font-weight: 600; font-size: 0.9em; }
+  .price-table td { font-size: 0.95em; }
   .status { font-weight: bold; color: #27AE60; }
-  img { max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #eee; }
-  .commentary { background: #f0f0f0; padding: 12px 16px; border-left: 3px solid #2E86AB;
-                 margin: 1em 0; font-size: 0.95em; }
+  img { max-width: 100%; height: auto; margin: 0.8em 0; border: 1px solid #eee; }
+  .commentary { background: #f0f0f0; padding: 10px 14px; border-left: 3px solid #2E86AB;
+                 margin: 1em 0; font-size: 0.9em; }
   .footer { margin-top: 2em; padding-top: 1em; border-top: 1px solid #ddd;
-             font-size: 0.85em; color: #888; }
+             font-size: 0.8em; color: #888; }
   a { color: #0066cc; }
+  p { font-size: 0.93em; }
+  details { font-size: 0.93em; }
+  @media (max-width: 600px) {
+    body { padding: 10px; font-size: 14px; }
+    h1 { font-size: 1.3em; }
+    th, td { padding: 4px 6px; font-size: 0.85em; }
+  }
 </style>
 </head>
 <body>
@@ -81,7 +87,7 @@
 </details>
 
 <div class="footer">
-  <p>Last updated: 2026-02-22 21:07 UTC</p>
+  <p>Last updated: 2026-02-22 21:26 UTC</p>
   <p>Data: BTC-USD and Gold futures (closing prices) via Yahoo Finance.</p>
   <p><a href="bitcoin_gold_biggs.pdf">Paper (PDF)</a> |
      <a href="bitcoin_gold_Biggs_(20260127).html">Paper (HTML)</a> |
