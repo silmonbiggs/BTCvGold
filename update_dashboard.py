@@ -6,10 +6,10 @@ Usage:
     python update_dashboard.py
 
 Outputs:
-    docs/index.html            - Dashboard page
-    docs/dashboard_ratio.png   - Daily BTC/Gold ratio vs model
-    docs/dashboard_cusum.png   - Monthly CUSUM scorecard
-    docs/data/daily_prices.csv - Append-only daily price log
+    index.html            - Dashboard page (GitHub Pages root)
+    dashboard_ratio.png   - Daily BTC/Gold ratio vs model
+    dashboard_cusum.png   - Monthly CUSUM scorecard
+    data/daily_prices.csv - Append-only daily price log
 """
 
 import numpy as np
@@ -27,8 +27,8 @@ import os
 # ============================================================================
 
 ROOT = Path(__file__).parent
-DOCS = ROOT / 'docs'
-DATA_DIR = DOCS / 'data'
+SITE = ROOT  # GitHub Pages serves from repo root
+DATA_DIR = ROOT / 'data'
 DAILY_CSV = DATA_DIR / 'daily_prices.csv'
 
 # Training and test data (for historical context in plots)
@@ -411,7 +411,7 @@ def generate_html(oos_df, daily_df, output_path):
         latest_date = "N/A"
 
     # Optional commentary
-    commentary_file = DOCS / 'commentary.txt'
+    commentary_file = SITE / 'commentary.txt'
     commentary = ""
     if commentary_file.exists():
         text = commentary_file.read_text().strip()
@@ -492,8 +492,10 @@ def generate_html(oos_df, daily_df, output_path):
   <p>Last updated: {now}</p>
   <p>Data: BTC-USD and Gold futures via Yahoo Finance. Monthly z-scores computed on 1st-of-month closes.
      Boundary constants calibrated via Monte Carlo (2M simulations, 120 monthly looks, &alpha;=0.05).</p>
-  <p><a href="https://github.com/silmonbiggs/BTCvGold">Source code</a> |
-     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">Paper (SSRN)</a></p>
+  <p><a href="bitcoin_gold_biggs.pdf">Paper (PDF)</a> |
+     <a href="bitcoin_gold_Biggs_(20260127).html">Paper (HTML)</a> |
+     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">Paper (SSRN)</a> |
+     <a href="https://github.com/silmonbiggs/BTCvGold">Source code</a></p>
 </div>
 
 </body>
@@ -513,7 +515,6 @@ def main():
     print("=" * 60)
 
     # Ensure output dirs exist
-    DOCS.mkdir(exist_ok=True)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     # 1. Fetch daily prices
@@ -529,12 +530,12 @@ def main():
 
     # 3. Generate plots
     print("\n3. Generating plots...")
-    create_ratio_plot(daily_df, DOCS / 'dashboard_ratio.png')
-    create_cusum_plot(oos_df, DOCS / 'dashboard_cusum.png')
+    create_ratio_plot(daily_df, SITE / 'dashboard_ratio.png')
+    create_cusum_plot(oos_df, SITE / 'dashboard_cusum.png')
 
     # 4. Generate HTML
     print("\n4. Generating HTML...")
-    generate_html(oos_df, daily_df, DOCS / 'index.html')
+    generate_html(oos_df, daily_df, SITE / 'index.html')
 
     print("\nDone.")
 
