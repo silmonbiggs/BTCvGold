@@ -193,21 +193,29 @@ def create_ratio_plot(daily_df, output_path):
 
     # Model curve from 2015 to 2036
     t_model = np.linspace(0, 21, 500)
-    dates_model = [START_DATE + timedelta(days=d*365.25) for d in t_model]
+    dates_model = np.array([START_DATE + timedelta(days=d*365.25) for d in t_model])
     ln_model = model_ln_ratio(t_model)
     ratio_model = np.exp(ln_model)
 
-    # Confidence bands (post-2023 sigma)
-    ratio_1s_upper = np.exp(ln_model + SIGMA_POST2023)
-    ratio_1s_lower = np.exp(ln_model - SIGMA_POST2023)
-    ratio_2s_upper = np.exp(ln_model + 2 * SIGMA_POST2023)
-    ratio_2s_lower = np.exp(ln_model - 2 * SIGMA_POST2023)
+    # Regime change at 2023-01-01: wider bands before, tighter after
+    regime_date = pd.to_datetime('2023-01-01')
+    pre = dates_model < regime_date
+    post = ~pre
 
-    # Background bands
-    ax.fill_between(dates_model, ratio_1s_lower, ratio_1s_upper,
-                    color='#F18F01', alpha=0.15, label='68% band')
-    ax.fill_between(dates_model, ratio_2s_lower, ratio_2s_upper,
-                    color='#F18F01', alpha=0.07, label='95% band')
+    # Pre-2023 bands (full-sample sigma)
+    for k, alpha, label in [(1, 0.15, ''), (2, 0.07, ''), (3, 0.03, '')]:
+        upper = np.exp(ln_model + k * SIGMA_FULL)
+        lower = np.exp(ln_model - k * SIGMA_FULL)
+        ax.fill_between(dates_model[pre], lower[pre], upper[pre],
+                        color='#F18F01', alpha=alpha)
+
+    # Post-2023 bands (reduced volatility sigma)
+    for k, alpha, label in [(1, 0.15, '68% band'), (2, 0.07, '95% band'),
+                            (3, 0.03, '99.7% band')]:
+        upper = np.exp(ln_model + k * SIGMA_POST2023)
+        lower = np.exp(ln_model - k * SIGMA_POST2023)
+        ax.fill_between(dates_model[post], lower[post], upper[post],
+                        color='#F18F01', alpha=alpha, label=label)
 
     # Model line
     ax.semilogy(dates_model, ratio_model, '-', color='#F18F01', linewidth=2,
