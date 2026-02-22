@@ -402,13 +402,15 @@ def generate_html(oos_df, daily_df, output_path):
         status = "N/A"
         status_desc = "No out-of-sample data"
 
-    # Latest price
+    # Latest price data
     if not daily_df.empty:
         latest = daily_df.iloc[-1]
         latest_ratio = f"{latest['Gold_oz_per_Bitcoin']:.1f}"
+        latest_gold = f"${latest['USD_per_Gold_oz']:,.0f}"
+        latest_btc = f"${latest['USD_per_Bitcoin']:,.0f}"
         latest_date = pd.to_datetime(latest['Date']).strftime('%Y-%m-%d')
     else:
-        latest_ratio = "N/A"
+        latest_ratio = latest_gold = latest_btc = "N/A"
         latest_date = "N/A"
 
     # Optional commentary
@@ -429,17 +431,19 @@ def generate_html(oos_df, daily_df, output_path):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitcoin's Gold Price - Live Model Scorecard</title>
+<title>Bitcoin's Gold Price</title>
 <style>
   body {{ font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
          line-height: 1.6; max-width: 960px; margin: 0 auto; padding: 20px;
          color: #333; background: #fafafa; }}
   h1 {{ font-size: 1.6em; margin-bottom: 0.3em; }}
   h2 {{ font-size: 1.2em; color: #555; margin-top: 1.5em; }}
-  .subtitle {{ color: #666; font-size: 0.95em; margin-bottom: 1.5em; }}
+  .section-divider {{ border: none; border-top: 2px solid #ddd; margin: 2.5em 0 1.5em; }}
   table {{ border-collapse: collapse; margin: 1em 0; }}
   th, td {{ padding: 6px 14px; text-align: left; border-bottom: 1px solid #ddd; }}
   th {{ border-top: 2px solid #333; font-weight: 600; }}
+  .price-table td {{ font-size: 1.05em; }}
+  .price-table td:last-child {{ font-weight: bold; }}
   .status {{ font-weight: bold; color: {status_color}; }}
   img {{ max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #eee; }}
   .commentary {{ background: #f0f0f0; padding: 12px 16px; border-left: 3px solid #2E86AB;
@@ -451,34 +455,42 @@ def generate_html(oos_df, daily_df, output_path):
 </head>
 <body>
 
-<h1>Bitcoin's Gold Price &mdash; Live Model Scorecard</h1>
-<p class="subtitle">
-  Sequential hypothesis test from
-  <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528"><em>Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035</em></a>
-  (Biggs, 2026)
-</p>
+<h1>Bitcoin's Gold Price</h1>
+
+<img src="dashboard_ratio.png" alt="Bitcoin priced in ounces of gold">
+
+<table class="price-table">
+  <tr><th>Gold (USD/oz)</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th></tr>
+  <tr><td>{latest_gold}</td><td>{latest_btc}</td><td>{latest_ratio} oz</td><td>{latest_date}</td></tr>
+</table>
 
 {commentary}
 
-<h2>Current Status</h2>
+<hr class="section-divider">
+
+<h2>About the Trendline</h2>
+<p>The orange curve and shaded bands above are from
+  <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528"><em>Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035</em></a>
+  (Biggs, 2026), which fits a saturating exponential model to the Bitcoin/Gold ratio.
+  The model predicts Bitcoin will plateau near 40&ndash;45 oz of Gold by the mid-2030s.
+  The bands widen before 2023 (volatile early era) and tighten after (reduced volatility regime).
+  The chart below tracks whether the prediction is holding up.</p>
+
+<h2>Live Model Scorecard</h2>
 <table>
   <tr><th>Metric</th><th>Value</th></tr>
-  <tr><td>Latest BTC/Gold ratio</td><td>{latest_ratio} oz ({latest_date})</td></tr>
   <tr><td>Out-of-sample months</td><td>{n_months}</td></tr>
-  <tr><td>Latest z-score</td><td>{latest_z:+.2f}</td></tr>
+  <tr><td>Latest monthly z-score</td><td>{latest_z:+.2f}</td></tr>
   <tr><td>Cumulative sum (S<sub>n</sub>)</td><td>{current_S:+.2f}</td></tr>
   <tr><td>Reduced volatility margin</td><td>{margin_corr:+.1f}</td></tr>
   <tr><td>Trajectory margin</td><td>{margin_traj:+.1f}</td></tr>
   <tr><td>Status</td><td class="status">{status} &mdash; {status_desc}</td></tr>
 </table>
 
-<h2>Daily BTC/Gold Ratio vs Model</h2>
-<img src="dashboard_ratio.png" alt="Daily BTC/Gold ratio vs saturating exponential model">
-
-<h2>CUSUM Sequential Hypothesis Test</h2>
 <img src="dashboard_cusum.png" alt="CUSUM scorecard with rejection boundaries">
 
-<h2>Zone Definitions</h2>
+<details>
+<summary><strong>Zone definitions</strong></summary>
 <table>
   <tr><th>Zone</th><th>Meaning</th></tr>
   <tr><td style="color:#27AE60;font-weight:bold;">Green</td>
@@ -488,14 +500,20 @@ def generate_html(oos_df, daily_df, output_path):
   <tr><td style="color:#E74C3C;font-weight:bold;">Red</td>
       <td>Both hypotheses rejected</td></tr>
 </table>
+<p style="font-size:0.9em; color:#666;">
+  Each month, the model's prediction error is standardized and added to a running total.
+  If that total drifts outside a boundary, the hypothesis is rejected at &alpha;&nbsp;=&nbsp;0.05.
+  Boundaries are calibrated via Monte Carlo (2M simulations, 120 monthly looks) and account
+  for the observed boom-bust autocorrelation (&rho;&nbsp;=&nbsp;0.90).
+  See Section&nbsp;10 of the paper for full methodology.</p>
+</details>
 
 <div class="footer">
   <p>Last updated: {now}</p>
-  <p>Data: BTC-USD and Gold futures via Yahoo Finance. Monthly z-scores computed on 1st-of-month closes.
-     Boundary constants calibrated via Monte Carlo (2M simulations, 120 monthly looks, &alpha;=0.05).</p>
+  <p>Data: BTC-USD and Gold futures (closing prices) via Yahoo Finance.</p>
   <p><a href="bitcoin_gold_biggs.pdf">Paper (PDF)</a> |
      <a href="bitcoin_gold_Biggs_(20260127).html">Paper (HTML)</a> |
-     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">Paper (SSRN)</a> |
+     <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528">SSRN</a> |
      <a href="https://github.com/silmonbiggs/BTCvGold">Source code</a></p>
 </div>
 
