@@ -203,15 +203,15 @@ def create_ratio_plot(daily_df, output_path):
     post = ~pre
 
     # Pre-2023 bands (full-sample sigma)
-    for k, alpha, label in [(1, 0.15, ''), (2, 0.07, ''), (3, 0.03, '')]:
+    for k, alpha, label in [(1, 0.15, ''), (2, 0.10, ''), (3, 0.06, '')]:
         upper = np.exp(ln_model + k * SIGMA_FULL)
         lower = np.exp(ln_model - k * SIGMA_FULL)
         ax.fill_between(dates_model[pre], lower[pre], upper[pre],
                         color='#F18F01', alpha=alpha)
 
     # Post-2023 bands (reduced volatility sigma)
-    for k, alpha, label in [(1, 0.15, '68% band'), (2, 0.07, '95% band'),
-                            (3, 0.03, '99.7% band')]:
+    for k, alpha, label in [(1, 0.15, '68% band'), (2, 0.10, '95% band'),
+                            (3, 0.06, '99.7% band')]:
         upper = np.exp(ln_model + k * SIGMA_POST2023)
         lower = np.exp(ln_model - k * SIGMA_POST2023)
         ax.fill_between(dates_model[post], lower[post], upper[post],
@@ -221,25 +221,18 @@ def create_ratio_plot(daily_df, output_path):
     ax.semilogy(dates_model, ratio_model, '-', color='#F18F01', linewidth=2,
                 label='Model prediction', zorder=5)
 
-    # Daily data
+    # Daily data as solid line
     if not daily_df.empty:
         dates = pd.to_datetime(daily_df['Date'])
         ratios = daily_df['Gold_oz_per_Bitcoin'].values
-        ax.semilogy(dates, ratios, '.', color='#2E86AB', markersize=1.5,
-                    alpha=0.5, label='Daily BTC/Gold ratio', zorder=3)
+        ax.semilogy(dates, ratios, '-', color='#2E86AB', linewidth=1.0,
+                    alpha=0.7, label='Daily BTC/Gold ratio', zorder=3)
 
-    # Load monthly training data for larger markers
-    if TRAINING_CSV.exists():
-        df_train = pd.read_csv(TRAINING_CSV)
-        df_train['Date'] = pd.to_datetime(df_train['Date'])
-        ax.semilogy(df_train['Date'], df_train['Gold_oz_per_Bitcoin'],
-                    'o', color='#2E86AB', markersize=3, alpha=0.7, zorder=4)
-
-    # Today marker
-    if not daily_df.empty:
+        # Latest point
         latest = daily_df.iloc[-1]
         ax.semilogy(pd.to_datetime(latest['Date']), latest['Gold_oz_per_Bitcoin'],
-                    'D', color='#E74C3C', markersize=8, zorder=10,
+                    'o', color='#2E86AB', markersize=8, zorder=10,
+                    markeredgecolor='white', markeredgewidth=1.0,
                     label=f"Latest: {latest['Gold_oz_per_Bitcoin']:.1f} oz")
 
     ax.set_xlabel('Date', fontweight='bold')
