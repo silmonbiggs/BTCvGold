@@ -240,6 +240,7 @@ def create_ratio_plot(daily_df, output_path):
     ax.set_title("Bitcoin's Gold Price vs Saturating Exponential Model",
                  fontweight='bold')
     ax.set_xlim(pd.to_datetime('2015-01-01'), pd.to_datetime('2036-01-01'))
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:g}'))
     ax.legend(loc='upper left', fontsize=10)
     ax.grid(True, alpha=0.3, linestyle='--')
     ax.xaxis.set_major_locator(mdates.YearLocator(2))
