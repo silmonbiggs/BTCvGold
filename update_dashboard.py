@@ -83,6 +83,7 @@ def fetch_prices():
         fetch_start = '2015-01-01'
 
     # yfinance 'end' is exclusive, so use tomorrow to include today's data
+    today = datetime.now().strftime('%Y-%m-%d')
     tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
     print(f"  Fetching prices from {fetch_start} to {today}...")
 
