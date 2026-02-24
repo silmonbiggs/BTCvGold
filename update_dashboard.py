@@ -87,10 +87,12 @@ def fetch_prices():
         print("  Daily CSV is up to date.")
         return existing
 
+    # yfinance 'end' is exclusive, so use tomorrow to include today's data
+    tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
     print(f"  Fetching prices from {fetch_start} to {today}...")
 
-    btc = yf.download('BTC-USD', start=fetch_start, end=today, progress=False)
-    gold = yf.download('GC=F', start=fetch_start, end=today, progress=False)
+    btc = yf.download('BTC-USD', start=fetch_start, end=tomorrow, progress=False)
+    gold = yf.download('GC=F', start=fetch_start, end=tomorrow, progress=False)
 
     if btc.empty or gold.empty:
         print("  No new data available from yfinance.")
