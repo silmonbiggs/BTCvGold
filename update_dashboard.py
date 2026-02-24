@@ -479,7 +479,7 @@ def generate_html(oos_df, daily_df, output_path):
 <p>The orange curve and shaded bands above are from
   <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528"><em>Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035</em></a>
   (Biggs, 2026), which fits a saturating exponential model to the Bitcoin/Gold ratio.
-  The model predicts Bitcoin will plateau near 40&ndash;45 oz of Gold by the mid-2030s.
+  The model predicts Bitcoin will pass through 40&ndash;45 oz of Gold by the mid-2030s, converging toward a long-run ~2% annual outperformance of gold due to relative scarcity.
   The bands widen before 2023 (volatile early era) and tighten after (reduced volatility regime).
   The chart below tracks whether the prediction is holding up.</p>
 
