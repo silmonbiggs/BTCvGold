@@ -557,7 +557,12 @@ def main():
     # 3. Generate plots
     print("\n3. Generating plots...")
     create_ratio_plot(daily_df, SITE / 'dashboard_ratio.png')
-    create_cusum_plot(oos_df, SITE / 'dashboard_cusum.png')
+    cusum_path = SITE / 'dashboard_cusum.png'
+    if datetime.now().day == 1 or not cusum_path.exists():
+        print("  Regenerating CUSUM plot (1st of month or first run)...")
+        create_cusum_plot(oos_df, cusum_path)
+    else:
+        print("  Skipping CUSUM plot (only updates on the 1st).")
 
     # 4. Generate HTML
     print("\n4. Generating HTML...")
