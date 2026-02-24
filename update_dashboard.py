@@ -467,7 +467,7 @@ def generate_html(oos_df, daily_df, output_path):
 <img src="dashboard_ratio.png?v={cache_bust}" alt="Bitcoin priced in ounces of gold">
 
 <table class="price-table">
-  <tr><th>Gold (USD/oz)</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th><th>Updated</th></tr>
+  <tr><th>Gold (USD/oz), COMEX</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th><th>Updated</th></tr>
   <tr><td>{latest_gold}</td><td>{latest_btc}</td><td>{latest_ratio} oz</td><td>{latest_date}</td><td>{now}</td></tr>
 </table>
 
