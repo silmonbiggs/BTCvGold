@@ -424,6 +424,7 @@ def generate_html(oos_df, daily_df, output_path):
             commentary = f'<div class="commentary"><strong>Commentary:</strong> {text}</div>'
 
     now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    cache_bust = int(datetime.now(timezone.utc).timestamp())
 
     status_colors = {"Green": "#27AE60", "Yellow": "#F39C12", "Red": "#E74C3C"}
     status_color = status_colors.get(status, "#666")
@@ -465,7 +466,7 @@ def generate_html(oos_df, daily_df, output_path):
 
 <h1>Bitcoin's Gold Price</h1>
 
-<img src="dashboard_ratio.png" alt="Bitcoin priced in ounces of gold">
+<img src="dashboard_ratio.png?v={cache_bust}" alt="Bitcoin priced in ounces of gold">
 
 <table class="price-table">
   <tr><th>Gold (USD/oz)</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th></tr>
@@ -495,7 +496,7 @@ def generate_html(oos_df, daily_df, output_path):
   <tr><td>Status</td><td class="status">{status} &mdash; {status_desc}</td></tr>
 </table>
 
-<img src="dashboard_cusum.png" alt="CUSUM scorecard with rejection boundaries">
+<img src="dashboard_cusum.png?v={cache_bust}" alt="CUSUM scorecard with rejection boundaries">
 
 <details>
 <summary><strong>Zone definitions</strong></summary>
