@@ -319,7 +319,7 @@ def create_cusum_plot(oos_df, output_path):
     ax.plot(dates_boundary, -boundary_traj, '--', color='#C0392B', linewidth=2.0,
             alpha=0.7, zorder=4)
 
-    ax.axhline(y=0, color='gray', linewidth=0.8, alpha=0.5, zorder=3)
+    ax.axhline(y=0, color='#27AE60', linewidth=2.0, alpha=0.7, zorder=3)
 
     # CUSUM line
     ax.plot(dates, cusum, 'o-', color='#2E86AB', linewidth=2.5,
@@ -328,7 +328,7 @@ def create_cusum_plot(oos_df, output_path):
 
     # Color points by z-score sign
     for i in range(n_points):
-        color = '#27AE60' if z_scores[i] >= 0 else '#8B4513'
+        color = '#2255CC' if z_scores[i] >= 0 else '#8844AA'
         ax.plot(dates[i], cusum[i], 'o', color=color, markersize=8,
                 zorder=11, markeredgecolor='white', markeredgewidth=1.0)
 
@@ -358,7 +358,7 @@ def create_cusum_plot(oos_df, output_path):
 
     ax.set_xlabel('Date', fontweight='bold')
     ax.set_ylabel('Cumulative Z-Score Sum ($S_n$)', fontweight='bold')
-    ax.set_title('Sequential Test of Trajectory Hypothesis\n'
+    ax.set_title('Sequential Monthly Test of Trajectory Hypothesis\n'
                  'CUSUM of Out-of-Sample Residuals', fontweight='bold', pad=15)
     ax.grid(True, alpha=0.3, linestyle='--')
     ax.legend(loc='upper left', fontsize=10)
