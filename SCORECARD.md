@@ -1,6 +1,6 @@
 # Model Scorecard
 
-Sequential test of the trajectory and reduced volatility hypotheses from [Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5110528).
+Sequential test of the trajectory and reduced volatility hypotheses from [Bitcoin's Gold Price: History, Model, and Falsifiable Predictions through 2035](https://papers.ssrn.com/abstract=6141729).
 
 This scorecard tracks the cumulative z-score of out-of-sample monthly observations against the model's predictions. See Section 10 of the paper for methodology.
 
