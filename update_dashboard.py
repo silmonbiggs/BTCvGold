@@ -72,20 +72,15 @@ def fetch_prices():
     """Fetch recent BTC and Gold prices via yfinance. Returns DataFrame."""
     import yfinance as yf
 
-    # Determine start date: day after last entry in daily CSV, or 2015-01-01
+    # Determine start date: re-fetch from last entry date (to update intraday)
     if DAILY_CSV.exists():
         existing = pd.read_csv(DAILY_CSV)
         existing['Date'] = pd.to_datetime(existing['Date'])
         last_date = existing['Date'].max()
-        fetch_start = (last_date + timedelta(days=1)).strftime('%Y-%m-%d')
+        fetch_start = last_date.strftime('%Y-%m-%d')
     else:
         existing = pd.DataFrame()
         fetch_start = '2015-01-01'
-
-    today = datetime.now().strftime('%Y-%m-%d')
-    if fetch_start > today:
-        print("  Daily CSV is up to date.")
-        return existing
 
     # yfinance 'end' is exclusive, so use tomorrow to include today's data
     tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
@@ -471,8 +466,8 @@ def generate_html(oos_df, daily_df, output_path):
 <img src="dashboard_ratio.png?v={cache_bust}" alt="Bitcoin priced in ounces of gold">
 
 <table class="price-table">
-  <tr><th>Gold (USD/oz)</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th></tr>
-  <tr><td>{latest_gold}</td><td>{latest_btc}</td><td>{latest_ratio} oz</td><td>{latest_date}</td></tr>
+  <tr><th>Gold (USD/oz)</th><th>Bitcoin (USD)</th><th>Bitcoin's Gold Price</th><th>Date</th><th>Updated</th></tr>
+  <tr><td>{latest_gold}</td><td>{latest_btc}</td><td>{latest_ratio} oz</td><td>{latest_date}</td><td>{now}</td></tr>
 </table>
 
 {commentary}
