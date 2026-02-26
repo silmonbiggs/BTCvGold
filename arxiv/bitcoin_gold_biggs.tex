@@ -559,9 +559,23 @@ What would it take to actually reject the trajectory? At the current ratio of 13
 %------------------------------------------------------------------------------
 \section{How does this compare to prior work?}
 
-Prior work---from Deutsche Bank~\cite{deutschebank2025}, Fidelity~\cite{fidelity2024}, WisdomTree~\cite{wisdomtree2025}, NYDIG~\cite{cipolaro2025}, and academic research~\cite{zwick2019}---recognizes the Bitcoin--Gold parallel but lacks four ingredients: a mathematical treatment of the supply difference, the adoption curve's time constant, the average duration of the boom-bust cycles, and documentation of the volatility drop since 2023.
+The Bitcoin--Gold comparison has attracted attention from institutions and independent researchers alike. Deutsche Bank~\cite{deutschebank2025}, Fidelity~\cite{fidelity2024}, WisdomTree~\cite{wisdomtree2025}, and NYDIG~\cite{cipolaro2025} have published analyses recognizing the parallel, and early academic work established that a long-term relationship exists between the two assets~\cite{zwick2019}. Dyhrberg~\cite{dyhrberg2016} showed via GARCH analysis that Bitcoin exhibits volatility clustering similar to Gold's, a finding this paper's documentation of declining volatility extends.
 
-This analysis supplies those missing pieces with a simple model linking adoption speed and supply constraints to Bitcoin's value trajectory. The model makes quantitative predictions that match historical data.
+A rich tradition of power-law modeling for Bitcoin in USD terms begins with Santostasi~\cite{santostasi2024}, who fits $P \propto t^{5.8}$ to BTC/USD with $R^2 \approx 0.95$. Burger~\cite{burger2019} extended this into a ``power-law corridor'' with upper and lower bands that capture boom-bust regimes. These models describe BTC/USD, not the BTC/Gold ratio, but the ideas transfer directly. The live dashboard at B1M.io~\cite{b1m2026} applies a power law ($\beta = 5.35$, $R^2 = 0.952$) specifically to Bitcoin priced in gold ounces, with projections through 2045.
+
+The most directly relevant prior work is by Perrenod~\cite{perrenod2021,perrenod2024a,perrenod2025}, who has published extensively on Bitcoin priced in gold. His power-law fit yields $k = 5.47$ for BTC/Gold ($R^2 = 0.94$)~\cite{perrenod2024a}. More importantly, he fits a Weibull S-curve ($f = 1 - \exp[-(t/c)^k]$) to model Bitcoin \emph{displacing} Gold---a saturating functional form conceptually identical to the adoption term $A(1 - e^{-\lambda t})$ used here~\cite{perrenod2021}. He also identifies two volatility regimes (``laminar'' and ``turbulent'') using a Gaussian mixture model and Hidden Markov Model, with the turbulent regime showing $\approx$3$\times$ higher volatility and a roughly four-year cycle period~\cite{perrenod2025}. In a direct comparison, Perrenod~\cite{perrenod2024b} finds that the Weibull S-curve and power law achieve similar $R^2$ ($\approx 0.95$) and favors the power law on parsimony grounds, noting that the two models diverge only far in the future.
+
+This paper contributes four things not found in the prior work, individually or in combination:
+
+\begin{enumerate}[itemsep=2pt, topsep=4pt]
+    \item \textbf{Decomposition of the trend into supply drift and adoption transient.} Perrenod's Weibull and the pure power laws lump all growth into a single curve. The model here, $\ln R(t) = C + gt + A(1 - e^{-\lambda t})$, separates a steady-state drift $g \approx 0.02$/yr (Gold's supply dilution) from a decaying adoption surge. This decomposition has a structural consequence: the long-run annual outperformance converges to $\sim$2\%, rather than growing without bound as a power law implies.
+
+    \item \textbf{Falsifiable sequential testing.} No prior analysis publishes explicit rejection thresholds. The CUSUM scorecard (Section~10) provides autocorrelation-corrected boundaries ($c = 8.50$ and $c = 15.9$) calibrated by Monte Carlo simulation, with live tracking at \url{https://silmonbiggs.github.io/BTCvGold/}. The falsification criteria were stated before the out-of-sample period began.
+
+    \item \textbf{Quantitative boom-bust decomposition.} Perrenod observes a ``roughly four-year quasi-periodicity'' from bubble peak spacing and classifies residuals into laminar and turbulent regimes via GMM/HMM. This paper goes further: autocorrelation analysis of the model residuals yields a measured cycle period of $\sim$40 months with lag-1 persistence $\rho = 0.90$, and these values feed directly into the Monte Carlo calibration of the CUSUM boundaries. The distinction matters: regime \emph{labels} describe what happened; autocorrelation \emph{parameters} predict how the next deviation will accumulate.
+
+    \item \textbf{Post-2023 volatility regime change with geopolitical analysis.} Perrenod notes that ``overall volatility has decreased with time'' and that later residual distributions are ``less broad,'' but does not identify a transition date or test for a structural break. This paper pinpoints January 2023, applies a Levene test ($F(1,131) = 23.18$, $p < 0.0001$), measures a 58\% reduction in residual scatter ($\sigma = 0.478 \to 0.258$), documents a rolling decline of $-0.033$/yr ($R^2 = 0.67$, $p < 0.0001$), and argues for a specific causal sequence: the February 2022 freeze of Russian central-bank reserves, the subsequent surge in central-bank Gold purchases ($>$1{,}000 tonnes/yr), the January 2024 spot Bitcoin ETF approvals, and the March 2025 executive order establishing a Strategic Bitcoin Reserve (Section~8).
+\end{enumerate}
 
 %------------------------------------------------------------------------------
 % SECTION 12
@@ -589,6 +603,7 @@ This analysis supplies those missing pieces with a simple model linking adoption
     \item New industrial uses could reduce the availability of Gold for reserve banking.
     \item AI-driven displacement of workers could force them to liquidate their personal Bitcoin holdings to survive, creating sustained selling pressure and reduced Bitcoin price during an economic transition of unknown duration.
     \item As Bitcoin's block reward keeps halving, transaction fees must eventually carry the cost of mining. If fees fall short, miners leave, settlement slows, and institutional confidence could erode.
+    \item Lost or abandoned Bitcoin wallets permanently remove coins from circulation, making Bitcoin's effective supply shrink over time. This negative dilution, set against Gold's positive $\sim$2\% dilution, could push the long-run growth differential $g$ well above the 0.02/yr assumed here.
     \item The saturating exponential functional form could be wrong.
 \end{itemize}
 

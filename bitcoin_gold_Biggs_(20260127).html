@@ -864,9 +864,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Section 11 -->
 <h2>11. How does this compare to prior work?</h2>
 
-<p>Prior work&mdash;from Deutsche Bank&nbsp;<a href="#ref17">[17]</a>, Fidelity&nbsp;<a href="#ref18">[18]</a>, WisdomTree&nbsp;<a href="#ref19">[19]</a>, NYDIG&nbsp;<a href="#ref20">[20]</a>, and academic research&nbsp;<a href="#ref21">[21]</a>&mdash;recognizes the Bitcoin&ndash;Gold parallel but lacks four ingredients: a mathematical treatment of the supply difference, the adoption curve's time constant, the average duration of the boom-bust cycles, and documentation of the volatility drop since 2023.</p>
+<p>The Bitcoin&ndash;Gold comparison has attracted attention from institutions and independent researchers alike. Deutsche Bank&nbsp;<a href="#ref17">[17]</a>, Fidelity&nbsp;<a href="#ref18">[18]</a>, WisdomTree&nbsp;<a href="#ref19">[19]</a>, and NYDIG&nbsp;<a href="#ref20">[20]</a> have published analyses recognizing the parallel, and early academic work established that a long-term relationship exists between the two assets&nbsp;<a href="#ref21">[21]</a>. Dyhrberg&nbsp;<a href="#ref25">[25]</a> showed via GARCH analysis that Bitcoin exhibits volatility clustering similar to Gold&rsquo;s, a finding this paper&rsquo;s documentation of declining volatility extends.</p>
 
-<p>This analysis supplies those missing pieces with a simple model linking adoption speed and supply constraints to Bitcoin's value trajectory. The model makes quantitative predictions that match historical data.</p>
+<p>A rich tradition of power-law modeling for Bitcoin in USD terms begins with Santostasi&nbsp;<a href="#ref26">[26]</a>, who fits <em>P</em> &prop; <em>t</em><sup>5.8</sup> to BTC/USD with <em>R</em>&sup2; &approx; 0.95. Burger&nbsp;<a href="#ref27">[27]</a> extended this into a &ldquo;power-law corridor&rdquo; with upper and lower bands that capture boom-bust regimes. These models describe BTC/USD, not the BTC/Gold ratio, but the ideas transfer directly. The live dashboard at B1M.io&nbsp;<a href="#ref28">[28]</a> applies a power law (&beta; = 5.35, <em>R</em>&sup2; = 0.952) specifically to Bitcoin priced in gold ounces, with projections through 2045.</p>
+
+<p>The most directly relevant prior work is by Perrenod&nbsp;<a href="#ref29">[29]</a><a href="#ref30">[30]</a><a href="#ref31">[31]</a>, who has published extensively on Bitcoin priced in gold. His power-law fit yields <em>k</em> = 5.47 for BTC/Gold (<em>R</em>&sup2; = 0.94)&nbsp;<a href="#ref30">[30]</a>. More importantly, he fits a Weibull S-curve (<em>f</em> = 1 &minus; exp[&minus;(<em>t</em>/<em>c</em>)<sup><em>k</em></sup>]) to model Bitcoin <em>displacing</em> Gold&mdash;a saturating functional form conceptually identical to the adoption term <em>A</em>(1 &minus; <em>e</em><sup>&minus;&lambda;<em>t</em></sup>) used here&nbsp;<a href="#ref29">[29]</a>. He also identifies two volatility regimes (&ldquo;laminar&rdquo; and &ldquo;turbulent&rdquo;) using a Gaussian mixture model and Hidden Markov Model, with the turbulent regime showing &approx;3&times; higher volatility and a roughly four-year cycle period&nbsp;<a href="#ref31">[31]</a>. In a direct comparison, Perrenod&nbsp;<a href="#ref32">[32]</a> finds that the Weibull S-curve and power law achieve similar <em>R</em>&sup2; (&approx; 0.95) and favors the power law on parsimony grounds, noting that the two models diverge only far in the future.</p>
+
+<p>This paper contributes four things not found in the prior work, individually or in combination:</p>
+
+<ol>
+    <li><strong>Decomposition of the trend into supply drift and adoption transient.</strong> Perrenod&rsquo;s Weibull and the pure power laws lump all growth into a single curve. The model here, ln&thinsp;<em>R</em>(<em>t</em>) = <em>C</em> + <em>gt</em> + <em>A</em>(1 &minus; <em>e</em><sup>&minus;&lambda;<em>t</em></sup>), separates a steady-state drift <em>g</em> &approx; 0.02/yr (Gold&rsquo;s supply dilution) from a decaying adoption surge. This decomposition has a structural consequence: the long-run annual outperformance converges to &sim;2%, rather than growing without bound as a power law implies.</li>
+
+    <li><strong>Falsifiable sequential testing.</strong> No prior analysis publishes explicit rejection thresholds. The CUSUM scorecard (Section&nbsp;10) provides autocorrelation-corrected boundaries (<em>c</em> = 8.50 and <em>c</em> = 15.9) calibrated by Monte Carlo simulation, with live tracking at <a href="https://silmonbiggs.github.io/BTCvGold/">https://silmonbiggs.github.io/BTCvGold/</a>. The falsification criteria were stated before the out-of-sample period began.</li>
+
+    <li><strong>Quantitative boom-bust decomposition.</strong> Perrenod observes a &ldquo;roughly four-year quasi-periodicity&rdquo; from bubble peak spacing and classifies residuals into laminar and turbulent regimes via GMM/HMM. This paper goes further: autocorrelation analysis of the model residuals yields a measured cycle period of &sim;40 months with lag-1 persistence &rho; = 0.90, and these values feed directly into the Monte Carlo calibration of the CUSUM boundaries. The distinction matters: regime <em>labels</em> describe what happened; autocorrelation <em>parameters</em> predict how the next deviation will accumulate.</li>
+
+    <li><strong>Post-2023 volatility regime change with geopolitical analysis.</strong> Perrenod notes that &ldquo;overall volatility has decreased with time&rdquo; and that later residual distributions are &ldquo;less broad,&rdquo; but does not identify a transition date or test for a structural break. This paper pinpoints January 2023, applies a Levene test (<em>F</em>(1,131) = 23.18, <em>p</em> &lt; 0.0001), measures a 58% reduction in residual scatter (&sigma; = 0.478 &rarr; 0.258), documents a rolling decline of &minus;0.033/yr (<em>R</em>&sup2; = 0.67, <em>p</em> &lt; 0.0001), and argues for a specific causal sequence: the February 2022 freeze of Russian central-bank reserves, the subsequent surge in central-bank Gold purchases (&gt;1,000 tonnes/yr), the January 2024 spot Bitcoin ETF approvals, and the March 2025 executive order establishing a Strategic Bitcoin Reserve (Section&nbsp;8).</li>
+</ol>
 
 <!-- Section 12 -->
 <h2>12. What does the evidence suggest?</h2>
@@ -890,6 +904,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <li>New industrial uses could reduce the availability of Gold for reserve banking.</li>
     <li>AI-driven displacement of workers could force them to liquidate their personal Bitcoin holdings to survive, creating sustained selling pressure and reduced Bitcoin price during an economic transition of unknown duration.</li>
     <li>As Bitcoin's block reward keeps halving, transaction fees must eventually carry the cost of mining. If fees fall short, miners leave, settlement slows, and institutional confidence could erode.</li>
+    <li>Lost or abandoned Bitcoin wallets permanently remove coins from circulation, making Bitcoin&rsquo;s effective supply shrink over time. This negative dilution, set against Gold&rsquo;s positive &sim;2% dilution, could push the long-run growth differential <em>g</em> well above the 0.02/yr assumed here.</li>
     <li>The saturating exponential functional form could be wrong.</li>
 </ul>
 
@@ -1018,6 +1033,22 @@ File: <code>analysis_results.txt</code></p>
 <p id="ref23">[23] Yahoo Finance. Gold futures historical data (GC=F), 2025. <a href="https://finance.yahoo.com/quote/GC=F">https://finance.yahoo.com/quote/GC=F</a></p>
 
 <p id="ref24">[24] CoinGecko. Bitcoin historical data, 2025. <a href="https://www.coingecko.com/en/coins/bitcoin/historical_data">https://www.coingecko.com/en/coins/bitcoin/historical_data</a></p>
+
+<p id="ref25">[25] Anne Haubo Dyhrberg. Bitcoin, Gold and the Dollar &ndash; A GARCH volatility analysis. <em>Finance Research Letters</em>, 16:85&ndash;92, 2016. doi: <a href="https://doi.org/10.1016/j.frl.2015.10.008">10.1016/j.frl.2015.10.008</a></p>
+
+<p id="ref26">[26] Giovanni Santostasi. The Bitcoin power law theory, 2024. <a href="https://giovannisantostasi.medium.com/the-bitcoin-power-law-theory-962dfaf99ee9">https://giovannisantostasi.medium.com/the-bitcoin-power-law-theory-962dfaf99ee9</a></p>
+
+<p id="ref27">[27] Harold Christopher Burger. Bitcoin&rsquo;s natural long-term power-law corridor of growth, September 2019. <a href="https://hcburger.com/blog/powerlaw/">https://hcburger.com/blog/powerlaw/</a></p>
+
+<p id="ref28">[28] Bitcoin One Million. Bitcoin vs Gold: Power law analysis, 2026. <a href="https://b1m.io/gold">https://b1m.io/gold</a>. Live dashboard, accessed February 2026.</p>
+
+<p id="ref29">[29] Stephen Perrenod. Is Bitcoin displacing Gold?, August 2021. Substack (Money or Debt Newsletter). <a href="https://stephenperrenod.substack.com/p/is-bitcoin-displacing-gold">https://stephenperrenod.substack.com/p/is-bitcoin-displacing-gold</a></p>
+
+<p id="ref30">[30] Stephen Perrenod. Bitcoin power law vs. Gold, mid-2024, September 2024. Substack (Money or Debt Newsletter). <a href="https://stephenperrenod.substack.com/p/bitcoin-power-law-vs-gold-mid-2024">https://stephenperrenod.substack.com/p/bitcoin-power-law-vs-gold-mid-2024</a></p>
+
+<p id="ref31">[31] Stephen Perrenod. Bitcoin vs. Gold has two phases, January 2025. Substack (Money or Debt Newsletter). <a href="https://stephenperrenod.substack.com/p/bitcoin-vs-gold-has-two-phases">https://stephenperrenod.substack.com/p/bitcoin-vs-gold-has-two-phases</a></p>
+
+<p id="ref32">[32] Stephen Perrenod. Bitcoin Weibull S-curve vs. power law, September 2024. Substack (Money or Debt Newsletter). <a href="https://stephenperrenod.substack.com/p/bitcoin-weibull-s-curve-vs-power">https://stephenperrenod.substack.com/p/bitcoin-weibull-s-curve-vs-power</a></p>
 
 </div>
 
