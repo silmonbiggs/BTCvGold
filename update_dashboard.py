@@ -145,6 +145,66 @@ def fetch_prices():
 # MONTHLY DATA (for CUSUM)
 # ============================================================================
 
+def update_monthly_from_daily(daily_df):
+    """Auto-aggregate missing monthly observations from daily prices.
+
+    For each complete month not already in the monthly CSVs, take the last
+    trading day's prices and append to btc_gold_update.csv.
+    """
+    if daily_df is None or daily_df.empty:
+        return
+
+    # Load all existing monthly dates
+    existing_months = set()
+    for path in [TRAINING_CSV, TEST_CSV, UPDATE_CSV]:
+        if path.exists():
+            df = pd.read_csv(path)
+            df['Date'] = pd.to_datetime(df['Date'])
+            for d in df['Date']:
+                existing_months.add((d.year, d.month))
+
+    # Determine which months in daily data are complete (i.e. we're past them)
+    daily = daily_df.copy()
+    daily['Date'] = pd.to_datetime(daily['Date'])
+    today = datetime.now()
+
+    # Group daily data by year-month
+    daily['ym'] = daily['Date'].dt.to_period('M')
+    new_rows = []
+
+    for period, group in daily.groupby('ym'):
+        yr, mo = period.year, period.month
+        # Only process months that are complete (current month is incomplete)
+        if (yr, mo) >= (today.year, today.month):
+            continue
+        # Only process months not already in the monthly CSVs
+        if (yr, mo) in existing_months:
+            continue
+        # Take the last trading day of the month
+        last_day = group.sort_values('Date').iloc[-1]
+        new_rows.append({
+            'Date': f'{yr:04d}-{mo:02d}',
+            'USD_per_Gold_oz': round(float(last_day['USD_per_Gold_oz']), 2),
+            'USD_per_Bitcoin': round(float(last_day['USD_per_Bitcoin']), 2),
+            'Gold_oz_per_Bitcoin': round(
+                float(last_day['USD_per_Bitcoin']) / float(last_day['USD_per_Gold_oz']), 8
+            ),
+        })
+
+    if new_rows:
+        new_df = pd.DataFrame(new_rows)
+        if UPDATE_CSV.exists():
+            existing = pd.read_csv(UPDATE_CSV)
+            combined = pd.concat([existing, new_df], ignore_index=True)
+        else:
+            combined = new_df
+        combined.to_csv(UPDATE_CSV, index=False)
+        months_added = ', '.join(r['Date'] for r in new_rows)
+        print(f"  Auto-added monthly observations: {months_added}")
+    else:
+        print("  No new monthly observations to add.")
+
+
 def load_monthly_data():
     """Load all monthly data from training + test + update CSVs."""
     frames = []
@@ -547,15 +607,19 @@ def main():
     print("\n1. Fetching daily prices...")
     daily_df = fetch_prices()
 
-    # 2. Load monthly data and compute CUSUM
-    print("\n2. Computing CUSUM from monthly data...")
+    # 2. Auto-aggregate any missing monthly observations from daily data
+    print("\n2. Updating monthly data from daily prices...")
+    update_monthly_from_daily(daily_df)
+
+    # 3. Load monthly data and compute CUSUM
+    print("\n3. Computing CUSUM from monthly data...")
     monthly_df = load_monthly_data()
     oos_df = compute_oos_cusum(monthly_df)
     if not oos_df.empty:
         print(f"  {len(oos_df)} out-of-sample months, S_n = {oos_df['cusum'].iloc[-1]:+.2f}")
 
-    # 3. Generate plots
-    print("\n3. Generating plots...")
+    # 4. Generate plots
+    print("\n4. Generating plots...")
     create_ratio_plot(daily_df, SITE / 'dashboard_ratio.png')
     cusum_path = SITE / 'dashboard_cusum.png'
     if datetime.now().day == 1 or not cusum_path.exists():
@@ -564,8 +628,8 @@ def main():
     else:
         print("  Skipping CUSUM plot (only updates on the 1st).")
 
-    # 4. Generate HTML
-    print("\n4. Generating HTML...")
+    # 5. Generate HTML
+    print("\n5. Generating HTML...")
     generate_html(oos_df, daily_df, SITE / 'index.html')
 
     print("\nDone.")
